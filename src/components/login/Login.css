@@ -1,0 +1,96 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css");
+/* Colors palette
+#6528F7
+#A076F9
+#D7BBF5
+#EDE4FF
+*/
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Montserrat" ,sans-serif;
+    font-weight: 200;
+
+}
+#iUser{
+    color: black;
+    font-size: large;
+}
+.login{
+    font-weight:900;
+    height: 100vh;
+    background-image:linear-gradient(to right bottom,#EDE4FF,#6528F7), url(../../images/1552516.jpg) ;
+    font-weight:900;
+    background-size:cover;
+    position: relative;
+}
+
+
+
+#LoginForm{
+    z-index: 2;
+    width: 50%;
+    height: auto;
+    padding: 20px;
+    background-color:rgba(3, 7, 30, 0.6) ;
+    box-shadow: rgb(1, 3, 15) 9px 9px 20px;
+    backdrop-filter:blur(0.3rem);
+}
+#btn2{
+    padding: 10px;
+    width: 40%;
+    font-weight:400;
+    background-image:linear-gradient(to right top,#6528F7,#D7BBF5);
+    box-shadow: rgb(0, 0, 0) 9px 9px 18px;
+    border-radius: 40px;
+    border: none;
+    letter-spacing: 3px;
+    white-space: nowrap;
+
+}
+#btn2:hover{
+    background-image:linear-gradient(to right top,#D7BBF5,#6528F7);
+
+}
+#btn2:active{
+    box-shadow: rgb(0, 0, 0) 6px 6px 8px;
+    transform: translateY(4px);
+}
+.BTN{
+    margin-top: 19px;
+}
+h3{    letter-spacing: 3px;}
+#cantLogin{
+    padding-top: 30px;
+    font-size: small;
+    display: block;
+    margin: auto;
+    width: 50%;
+    text-align:center;
+}
+p{    font-weight:lighter;
+}
+.BTN,h3{
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+form{
+    width: 70%;
+    margin:auto;
+}
+.input{
+    background-color:rgba(3, 7, 30, 0.322) ;
+    box-shadow: rgb(1, 3, 15) 9px 9px 20px;
+}
+#inp{
+    background-color:rgba(121, 103, 103, 0) ;
+    font-family: "Montserrat" ,sans-serif;
+    font-weight: 200;
+    font-size: 16px;
+    color: #edf0f1;
+}

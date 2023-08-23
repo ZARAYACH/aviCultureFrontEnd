@@ -1,0 +1,22 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.header{
+
+    font-weight:900;
+    height: 100vh;
+    background-image:linear-gradient(to right bottom,rgba(168, 0, 0, 0.8),rgba(3, 7, 30, 0.8)), url(../../images/1552516.jpg) ;
+    background-image:linear-gradient(to right bottom,#ede4ff4b,#6628f749), url(../../images/1552516.jpg) ;
+
+    /*background-repeat: no-repeat; */   
+    background-size: cover;
+    background-color: rgb(49, 0, 0);
+    /*clip-path: polygon(0 0,100% 0,100% 75vh,0 100%);*/
+    position: relative;
+}
+.btn:focus {
+    outline: none;
+    box-shadow: none;
+  }
