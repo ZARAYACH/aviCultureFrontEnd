@@ -23,7 +23,7 @@ class NavBar extends Component {
               <Link to="/feedingManagement" id="itm">Feeding</Link>
               <Link to="/HeatingManagement" id="itm">Heating</Link>
               <Link to="/StrawManagement" id="itm">Straw</Link>
-              <Link to="/BuildingManagement" id="itm">Building</Link>
+              <Link to="/addBlock" id="itm">Building</Link>
               <Link to="/EquipmentManagement" id="itm">Equipment</Link>
               <Link to="/TransportManagement" id="itm">Transport</Link>
 

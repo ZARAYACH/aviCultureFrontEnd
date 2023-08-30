@@ -20,7 +20,7 @@
 #navBar{
     background-color: #24252A;
 
-    background-image: linear-gradient(to bottom, #EDE4FF,#6528F7);
+    background-image: linear-gradient(to bottom, #6528F7,#EDE4FF);
     box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.336);
     
 }
