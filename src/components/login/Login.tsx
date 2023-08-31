@@ -28,9 +28,12 @@ function Login() {
         password,
       });
 
-      const { access_token } = response.data;
+      const { access_token, refresh_token } = response.data;
 
-      // Saving the access_token to local storage or state for future requests
+      // Save tokens to local storage
+      localStorage.setItem('access_token', access_token);
+      localStorage.setItem('refresh_token', refresh_token);
+      
       navigate('/');
     } catch (error) {
       console.error('Error during login:', error);
