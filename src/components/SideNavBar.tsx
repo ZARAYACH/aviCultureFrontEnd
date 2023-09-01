@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
 import logo from '../images/AviLogo.png';
 function SideNavBar() {
     return (
@@ -35,6 +37,7 @@ function SideNavBar() {
                                 </a>
                             </li>
                             <li className="nav-item menu-open">
+
                                 <a href="" className="nav-link active">
                                     <i className="nav-icon fas fa-tachometer-alt" />
                                     <p>
@@ -44,10 +47,12 @@ function SideNavBar() {
                                 </a>
                                 <ul className="nav nav-treeview">
                                     <li className="nav-item">
-                                        <a href="./index.html" className="nav-link active">
-                                            <i className="far fa-circle nav-icon" />
-                                            <p>Blocks</p>
-                                        </a>
+                                        <Link className="nav-link active" to="/displayBlock">
+                                            
+                                                <i className="far fa-circle nav-icon" />
+                                                <p>Blocks</p>
+                                            
+                                        </Link>
                                     </li>
                                     <li className="nav-item">
                                         <a href="./index2.html" className="nav-link">

@@ -17,7 +17,6 @@ code {
     monospace;
 }
 
-@import '~bootstrap/dist/css/bootstrap.min.css';
 
 .global {
   font-weight: 900;

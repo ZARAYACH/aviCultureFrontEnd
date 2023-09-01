@@ -33,7 +33,7 @@ function Login() {
       // Save tokens to local storage
       localStorage.setItem('access_token', access_token);
       localStorage.setItem('refresh_token', refresh_token);
-      
+
       navigate('/');
     } catch (error) {
       console.error('Error during login:', error);
@@ -45,7 +45,7 @@ function Login() {
 
   return (
     <Fragment>
-      <div className="login">
+      <div className="login content-wrapper">
         <div className="row position-relative text-light">
           <div id="LoginForm" className="row rounded mx-auto my-5">
             <div className="position-relative pt-5 text-light">
@@ -87,6 +87,8 @@ function Login() {
               <button id="btn2" type="submit" onClick={handleLogin}>
                 Login
               </button>
+              <div>
+              </div>
               <img src={logo} alt="Logo" className='mx-5' style={{
                 width: '100px', // Adjust the width according to your preference
                 height: '100px', // Maintain aspect ratio
@@ -97,7 +99,7 @@ function Login() {
             </div>
 
             <div id="cantLogin">
-            {errorMessage && <div className="error-message bg-danger rounded-pill mb-3">{errorMessage}</div>} {/* Display error message */}
+              {errorMessage && <div className="error-message bg-danger rounded-pill mb-3">{errorMessage}</div>} {/* Display error message */}
 
               <p>
                 <a href="">Can't log in ?</a>

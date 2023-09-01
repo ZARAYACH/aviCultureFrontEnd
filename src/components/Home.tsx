@@ -573,6 +573,7 @@ function Home() {
                     </div>{/* /.container-fluid */}
                 </section>
                 {/* /.content */}
+                
             </div>
 
         </div>
