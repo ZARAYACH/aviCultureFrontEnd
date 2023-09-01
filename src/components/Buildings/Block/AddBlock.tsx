@@ -29,8 +29,8 @@ class AddBlock extends Component<{}, State> {
                 weightFirstWeek: null,
                 weightEveryFeeding: null,
                 weightByTheEnd: null,
-                foodNature: null,
-                foodQuantity: null,
+                foodNature: '',
+                foodQuantity: '',
             }
         };
     }
