@@ -3,16 +3,7 @@ import { Link } from 'react-router-dom';
 
 import axios from "axios";
 // interface for the block object
-interface Block {
-    id: number;
-    dailyMortality: number;
-    dailyGasCylinder: number;
-    weightFirstWeek: number;
-    weightEveryFeeding: number;
-    weightByTheEnd: number;
-    foodNature: string;
-    foodQuantity: number;
-}
+import Block from './Block';
 function DisplayBlock() {
     const [blocks, setBlocks] = useState<Block[]>([]); // Provide the type annotation
 
