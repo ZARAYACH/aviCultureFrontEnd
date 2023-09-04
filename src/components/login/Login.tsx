@@ -1,18 +1,18 @@
-import React, { Fragment, useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import axios from 'axios'; // axios for making API requests
+import React, { Fragment, useState } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
-
-import './Login.css';
-import logo from '../../images/logo.png';
-
+import "./Login.css";
+import logo from "../../images/logo.png";
+import { useAuth } from "../../provider/AuthProvider";
+import { useAxios } from "../../configuration/AxiosConfiguration";
 
 function Login() {
   const navigate = useNavigate();
+  const { axiosInstance } = useAxios();
   const [email, setEmail] = useState<String>(); // Explicitly set the type
   const [password, setPassword] = useState<String>(); // Explicitly set the type
-  const [errorMessage, setErrorMessage] = useState<string>(''); // State for error message
-
+  const [errorMessage, setErrorMessage] = useState<string>(""); // State for error message
+  const auth = useAuth();
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
@@ -23,25 +23,20 @@ function Login() {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://localhost:8080/login', {
+      const response = await axiosInstance.post("/login", {
         email,
         password,
       });
 
-      const { access_token, refresh_token } = response.data;
-
+      const { access_token } = response.data;
       // Save tokens to local storage
-      localStorage.setItem('access_token', access_token);
-      localStorage.setItem('refresh_token', refresh_token);
-
-      navigate('/');
+      auth?.setAccessToken(access_token);
+      navigate("/");
     } catch (error) {
-      console.error('Error during login:', error);
-      setErrorMessage('Login failed. Please check your credentials.'); // Update error message state
-
+      console.error("Error during login:", error);
+      setErrorMessage("Login failed. Please check your credentials."); // Update error message state
     }
   };
-
 
   return (
     <Fragment>
@@ -87,20 +82,28 @@ function Login() {
               <button id="btn2" type="submit" onClick={handleLogin}>
                 Login
               </button>
-              <div>
-              </div>
-              <img src={logo} alt="Logo" className='mx-5' style={{
-                width: '100px', // Adjust the width according to your preference
-                height: '100px', // Maintain aspect ratio
-                border: '1px solid #ccc', // Example border
-                borderRadius: '50%', // Make the image round
-                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', // Example shadow
-              }} />
+              <div></div>
+              <img
+                src={logo}
+                alt="Logo"
+                className="mx-5"
+                style={{
+                  width: "100px", // Adjust the width according to your preference
+                  height: "100px", // Maintain aspect ratio
+                  border: "1px solid #ccc", // Example border
+                  borderRadius: "50%", // Make the image round
+                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)", // Example shadow
+                }}
+              />
             </div>
 
             <div id="cantLogin">
-              {errorMessage && <div className="error-message bg-danger rounded-pill mb-3">{errorMessage}</div>} {/* Display error message */}
-
+              {errorMessage && (
+                <div className="error-message bg-danger rounded-pill mb-3">
+                  {errorMessage}
+                </div>
+              )}{" "}
+              {/* Display error message */}
               <p>
                 <a href="">Can't log in ?</a>
               </p>
