@@ -11,7 +11,6 @@ interface CustomAxiosResponse extends AxiosRequestConfig {
 
 export const useAxios = () => {
   const { setAccessToken } = useAuth();
-  const [isRefreshingToken, setIsRefreshingToken] = useState(false);
 
   const instance = axios.create({
     baseURL: apiUrl,
@@ -26,13 +25,8 @@ export const useAxios = () => {
     async function (error: AxiosError) {
       const originalRequest = error.config as CustomAxiosResponse;
 
-      if (!isRefreshingToken && error.response?.status === 401) {
-        await refreshAccessToken(
-          setAccessToken,
-          instance,
-          setIsRefreshingToken
-        );
-        console.log("refresssssssssss");
+      if (error.response?.status === 498) {
+        await refreshAccessToken(setAccessToken, instance);
       }
 
       if (!originalRequest.retried) {
@@ -42,5 +36,5 @@ export const useAxios = () => {
       return Promise.reject(error);
     }
   );
-  return { axiosInstance: instance, isRefreshingToken, setIsRefreshingToken };
+  return { axiosInstance: instance};
 };

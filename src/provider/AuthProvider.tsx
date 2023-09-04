@@ -64,10 +64,8 @@ const AuthProvider = ({ children }: RoutesProps): ReactElement => {
 };
 export const refreshAccessToken = async (
   setAccessToken: (newToken: string) => void,
-  axiosInstance: AxiosInstance,
-  setIsRefreshingToken: React.Dispatch<React.SetStateAction<boolean>>
+  axiosInstance: AxiosInstance
 ) => {
-  setIsRefreshingToken(true);
   await axiosInstance
     .post(process.env.REACT_APP_API_PREFIX + "/token/refresh")
     .then((value: { data: { access_token: string } }) => {
@@ -76,8 +74,7 @@ export const refreshAccessToken = async (
     .catch((reason: AxiosError) => {
       setAccessToken("");
       <Navigate to="/login" />;
-    })
-    .finally(() => setIsRefreshingToken(false));
+    });
 };
 
 export const useAuth = () => {
