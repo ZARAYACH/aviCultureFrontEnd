@@ -5,16 +5,33 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-import axios from 'axios'; 
+import axios from 'axios';
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import NotFound from "./components/NotFound";
+import Login from "./components/login/Login";
+import AuthProvider from "./provider/AuthProvider";
+import Logout from "./components/Logout";
+
 axios.defaults.withCredentials = true;
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+    document.getElementById('root') as HTMLElement
 );
+
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+    <React.StrictMode>
+        <BrowserRouter>
+            <AuthProvider>
+                <Routes>
+                    <Route path="/" element={<App/>}></Route>
+                    <Route path="/login" element={<Login/>}/>
+                    <Route path="/logout" element={<Logout />}/>
+                    <Route path="*" element={<NotFound/>}/>
+                </Routes>
+            </AuthProvider>
+        </BrowserRouter>
+    </React.StrictMode>
+    ,
 );
 
 // If you want to start measuring performance in your app, pass a function
