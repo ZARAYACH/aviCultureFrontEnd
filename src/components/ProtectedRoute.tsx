@@ -37,5 +37,5 @@ export const ProtectedRoute = ({
     return <Outlet />;
   }
 
-  return <Login />;
+  return <Navigate to={"/login"} />;
 };
