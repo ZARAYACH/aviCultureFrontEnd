@@ -47,7 +47,7 @@ const AuthProvider = ({ children }: RoutesProps): ReactElement => {
   // Memoized value of the authentication context
   const contextValue = useMemo(() => {
     let payload: CustomJwtPayload | null = null;
-    if (token != null) {
+    if (token) {
       payload = jwtDecode(token);
     }
     return {

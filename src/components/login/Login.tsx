@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { Navigate, useNavigate } from "react-router-dom"; // Import useNavigate
 
 import "./Login.css";
 import logo from "../../images/logo.png";
@@ -12,10 +12,14 @@ function Login() {
   const [email, setEmail] = useState<String>(); // Explicitly set the type
   const [password, setPassword] = useState<String>(); // Explicitly set the type
   const [errorMessage, setErrorMessage] = useState<string>(""); // State for error message
-  const auth = useAuth();
+  const { payload, setAccessToken } = useAuth();
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
+
+  if (payload && payload.sub && payload.roles.length) {
+    return <Navigate to="/" />;
+  }
 
   const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
@@ -30,7 +34,7 @@ function Login() {
 
       const { access_token } = response.data;
       // Save tokens to local storage
-      auth?.setAccessToken(access_token);
+      setAccessToken(access_token);
       navigate("/");
     } catch (error) {
       console.error("Error during login:", error);
@@ -103,7 +107,6 @@ function Login() {
                   {errorMessage}
                 </div>
               )}{" "}
-              {/* Display error message */}
               <p>
                 <a href="">Can't log in ?</a>
               </p>
