@@ -13,14 +13,10 @@ export const ProtectedRoute = ({
   requiredRoles,
 }: ProtectedRouteProps): React.ReactElement => {
   const { payload, setAccessToken } = useAuth();
-  const { axiosInstance, isRefreshingToken, setIsRefreshingToken } = useAxios();
+  const { axiosInstance } = useAxios();
 
   if (!payload || !payload?.exp || payload.exp > Date.now()) {
-    refreshAccessToken(
-      setAccessToken,
-      axiosInstance,
-      setIsRefreshingToken
-    ).then(() => {
+    refreshAccessToken(setAccessToken, axiosInstance).then(() => {
       if (
         payload &&
         payload?.exp &&
