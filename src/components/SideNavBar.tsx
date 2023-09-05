@@ -1,9 +1,11 @@
 import React from "react";
 
-import { Link, useNavigate } from "react-router-dom";
+import {Link, Route, Routes, useNavigate} from "react-router-dom";
 import logo from "../images/AviLogo.png";
 import { useAuth } from "../provider/AuthProvider";
 import { useAxios } from "../configuration/AxiosConfiguration";
+import displayBlock from "./Buildings/Block/Blocks";
+import Blocks from "./Buildings/Block/Blocks";
 
 const SideNavBar = () => {
   const navigate = useNavigate();
@@ -15,7 +17,7 @@ const SideNavBar = () => {
       await axiosInstance
         .post("/logout")
         .then((value) => auth.setAccessToken(""))
-        .then((value) => navigate("/login"));
+        .then((value) => navigate("/logout"));
     } catch (error) {
       console.error("Error during logout:", error);
     }
@@ -77,8 +79,6 @@ const SideNavBar = () => {
               role="menu"
               data-accordion="false"
             >
-              {/* Add icons to the links using the .nav-icon class
-         with font-awesome or any other icon font library */}
               <li className="nav-item">
                 <a href="/" className="nav-link">
                   <i className="nav-icon fas fa-columns" />
@@ -89,28 +89,29 @@ const SideNavBar = () => {
                 <a href="" className="nav-link active">
                   <i className="nav-icon fas fa-tachometer-alt" />
                   <p>
-                    Breedings
+                    Breeding
                     <i className="right fas fa-angle-left" />
                   </p>
                 </a>
                 <ul className="nav nav-treeview">
                   <li className="nav-item">
-                    <Link className="nav-link active" to="/displayBlock">
+                    <Link className="nav-link active" to="centers">
                       <i className="far fa-circle nav-icon" />
-                      <p>Blocks</p>
+                      <p>Centers</p>
+                    </Link>
+
+                  </li>
+                  <li className="nav-item">
+                    <Link to={"buildings"} className="nav-link">
+                      <i className="far fa-circle nav-icon" />
+                      <p>Buildings</p>
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <a href="./index2.html" className="nav-link">
+                    <Link to={"/blocks"}  className="nav-link">
                       <i className="far fa-circle nav-icon" />
-                      <p>Buildings</p>
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a href="./index3.html" className="nav-link">
-                      <i className="far fa-circle nav-icon" />
-                      <p>Materials</p>
-                    </a>
+                      <p>Blocks</p>
+                    </Link>
                   </li>
                 </ul>
               </li>

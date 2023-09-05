@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {Fragment} from 'react';
+import {Link} from "react-router-dom";
 
 function Header() {
     return (
-        <div>
+        <Fragment>
             {/* Navbar */}
             <nav className="main-header navbar navbar-expand navbar-white navbar-light">
                 {/* Left navbar links */}
@@ -11,10 +12,7 @@ function Header() {
                         <a className="nav-link" data-widget="pushmenu" href="#" role="button"><i className="fas fa-bars" /></a>
                     </li>
                     <li className="nav-item d-none d-sm-inline-block">
-                        <a href="index3.html" className="nav-link">Home</a>
-                    </li>
-                    <li className="nav-item d-none d-sm-inline-block">
-                        <a href="#" className="nav-link">Contact</a>
+                        <Link to={"/dashboard"}>Dashboard</Link>
                     </li>
                 </ul>
                 {/* Right navbar links */}
@@ -54,8 +52,7 @@ function Header() {
                 </ul>
             </nav>
             {/* /.navbar */}
-
-        </div>
+        </Fragment>
     );
 }
 

@@ -1,14 +1,13 @@
-import React, { Component, FormEvent, useEffect, useState } from 'react';
-import axios from 'axios';
+import React, {Component, FormEvent, useEffect, useState} from 'react';
 import Block from './Block';
-import Building from './Buildings';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faWeightScale, faWheatAwnCircleExclamation, faSkullCrossbones, faOilCan, faBuilding } from '@fortawesome/free-solid-svg-icons'
-
+import Building from './Building';
+import {useAxios} from "../../../configuration/AxiosConfiguration";
+import {useNavigate} from "react-router-dom";
 
 const AddBlock: React.FC = () => {
     const [buildings, setBuildings] = useState<Building[]>([]);
+    const {axiosInstance} = useAxios();
+    const navigate = useNavigate();
     const [block, setNewBlock] = useState<Block>({
         id: 0,
         dailyMortality: 0,
@@ -23,8 +22,8 @@ const AddBlock: React.FC = () => {
 
     // Fetch blocks data when the component mounts
     useEffect(() => {
-        axios
-            .get("http://localhost:8080/api/v1/breeding-buildings")
+        axiosInstance
+            .get(process.env.REACT_APP_API_PREFIX + "/breeding-buildings")
             .then((response) => {
                 setBuildings(response.data);
                 console.log(response.data);
@@ -35,9 +34,8 @@ const AddBlock: React.FC = () => {
     }, []);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-        const { name, value, type } = e.target;
+        const {name, value, type} = e.target;
 
-        console.log(value);
         setNewBlock((prevBlock) => ({
             ...prevBlock,
             [name]: type === 'number' ? (value !== '' ? parseFloat(value) : null) : value,
@@ -50,13 +48,13 @@ const AddBlock: React.FC = () => {
         e.preventDefault();
 
         // Make a POST request to your API using Axios
-        axios
-            .post('http://localhost:8080/api/v1/breeding-blocks/add', block)
+        axiosInstance
+            .post(process.env.REACT_APP_API_PREFIX + '/breeding-blocks/add', block)
             .then((response) => {
                 // Handle a successful response
                 console.log('Block added successfully', response.data);
                 // You can also reset the form or navigate to another page here
-            })
+            }).then(value =>navigate("blocks") )
             .catch((error) => {
                 console.error('µµµµµµµµµµµµ block :', block);
                 // Handle errors
@@ -65,105 +63,118 @@ const AddBlock: React.FC = () => {
     };
 
     return (
-        <div className="global content-wrapper">
+        <div className=" content-wrapper">
             {/* Hire Us */}
             <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
-                <div className="max-w-xl mx-auto">
+                <div className=" mx-auto">
                     <div className="text-center">
                         <h1 className="text-3xl font-bold text-gray-800 sm:text-4xl dark:text-white">
                             Add new Block
                         </h1>
                     </div>
                     <div className="mt-12">
-                        {/* Form */}
-                        <form>
+                        <div className="w-full">
                             <div className="grid gap-4 lg:gap-6">
-                                {/* Grid */}
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
                                     <div>
-                                        <label htmlFor="hs-firstname-hire-us-2" className="block text-sm text-gray-700 font-medium dark:text-white">Daily Mortality</label>
+                                        <label htmlFor="hs-firstname-hire-us-2"
+                                               className="block text-sm text-gray-700 font-medium dark:text-white">Daily
+                                            Mortality</label>
                                         <input placeholder="Enter daily Mortality"
-                                            name="dailyMortality"
-                                            value={block.dailyMortality !== null ? block.dailyMortality : ''}
-                                            onChange={handleChange}
-                                            type="number"
-                                            id="hs-firstname-hire-us-2"
-                                            className="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400" />
+                                               name="dailyMortality"
+                                               value={block.dailyMortality !== null ? block.dailyMortality : ''}
+                                               onChange={handleChange}
+                                               type="number"
+                                               id="hs-firstname-hire-us-2"
+                                               className="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"/>
                                     </div>
                                     <div>
-                                        <label htmlFor="hs-lastname-hire-us-2" className="block text-sm text-gray-700 font-medium dark:text-white">Daily Gas Cylinder</label>
+                                        <label htmlFor="hs-lastname-hire-us-2"
+                                               className="block text-sm text-gray-700 font-medium dark:text-white">Daily
+                                            Gas Cylinder</label>
                                         <input placeholder="Enter daily Gas Cylinder"
-                                            name="dailyGasCylinder"
-                                            value={block.dailyGasCylinder !== null ? block.dailyGasCylinder : ''}
-                                            onChange={handleChange}
-                                            type="number"
-                                            id="hs-lastname-hire-us-2"
-                                            className="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400" />
+                                               name="dailyGasCylinder"
+                                               value={block.dailyGasCylinder !== null ? block.dailyGasCylinder : ''}
+                                               onChange={handleChange}
+                                               type="number"
+                                               id="hs-lastname-hire-us-2"
+                                               className="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"/>
                                     </div>
                                 </div>
                                 {/* End Grid */}
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
                                     <div>
-                                        <label htmlFor="hs-firstname-hire-us-2" className="block text-sm text-gray-700 font-medium dark:text-white">Weight First Week</label>
+                                        <label htmlFor="hs-firstname-hire-us-2"
+                                               className="block text-sm text-gray-700 font-medium dark:text-white">Weight
+                                            First Week</label>
                                         <input placeholder="Enter daily Mortality"
-                                            name="weightFirstWeek"
-                                            value={block.weightFirstWeek !== null ? block.weightFirstWeek : ''}
-                                            onChange={handleChange}
-                                            type="number"
-                                            id="hs-firstname-hire-us-2"
-                                            className="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400" />
+                                               name="weightFirstWeek"
+                                               value={block.weightFirstWeek !== null ? block.weightFirstWeek : ''}
+                                               onChange={handleChange}
+                                               type="number"
+                                               id="hs-firstname-hire-us-2"
+                                               className="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"/>
                                     </div>
                                     <div>
-                                        <label htmlFor="hs-lastname-hire-us-2" className="block text-sm text-gray-700 font-medium dark:text-white">Weight Every Feeding</label>
+                                        <label htmlFor="hs-lastname-hire-us-2"
+                                               className="block text-sm text-gray-700 font-medium dark:text-white">Weight
+                                            Every Feeding</label>
                                         <input placeholder="Enter daily Gas Cylinder"
-                                            name="weightEveryFeeding"
-                                            value={block.weightEveryFeeding !== null ? block.weightEveryFeeding : ''}
-                                            onChange={handleChange}
-                                            type="number"
-                                            id="hs-lastname-hire-us-2"
-                                            className="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400" />
+                                               name="weightEveryFeeding"
+                                               value={block.weightEveryFeeding !== null ? block.weightEveryFeeding : ''}
+                                               onChange={handleChange}
+                                               type="number"
+                                               id="hs-lastname-hire-us-2"
+                                               className="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"/>
                                     </div>
                                 </div>
                                 {/* Grid */}
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
                                     <div>
-                                        <label htmlFor="hs-firstname-hire-us-2" className="block text-sm text-gray-700 font-medium dark:text-white">Weight By The End</label>
+                                        <label htmlFor="hs-firstname-hire-us-2"
+                                               className="block text-sm text-gray-700 font-medium dark:text-white">Weight
+                                            By The End</label>
                                         <input placeholder="Enter the Weight By The End"
-                                            name="weightByTheEnd"
-                                            value={block.weightByTheEnd !== null ? block.weightByTheEnd : ''}
-                                            onChange={handleChange}
-                                            type="number"
-                                            id="hs-firstname-hire-us-2"
-                                            className="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400" />
+                                               name="weightByTheEnd"
+                                               value={block.weightByTheEnd !== null ? block.weightByTheEnd : ''}
+                                               onChange={handleChange}
+                                               type="number"
+                                               id="hs-firstname-hire-us-2"
+                                               className="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"/>
                                     </div>
                                     <div>
-                                        <label htmlFor="hs-lastname-hire-us-2" className="block text-sm text-gray-700 font-medium dark:text-white">Food Nature</label>
+                                        <label htmlFor="hs-lastname-hire-us-2"
+                                               className="block text-sm text-gray-700 font-medium dark:text-white">Food
+                                            Nature</label>
                                         <input placeholder="Enter the food Nature"
-                                            name="foodNature"
-                                            value={block.foodNature}
-                                            onChange={handleChange}
-                                            type="text"
-                                            id="hs-lastname-hire-us-2"
-                                            className="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400" />
+                                               name="foodNature"
+                                               value={block.foodNature}
+                                               onChange={handleChange}
+                                               type="text"
+                                               id="hs-lastname-hire-us-2"
+                                               className="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"/>
                                     </div>
                                 </div>
                                 {/* End Grid */}
                                 {/* Grid */}
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
                                     <div>
-                                        <label htmlFor="hs-firstname-hire-us-2" className="block text-sm text-gray-700 font-medium dark:text-white">Food Quantity</label>
+                                        <label htmlFor="hs-firstname-hire-us-2"
+                                               className="block text-sm text-gray-700 font-medium dark:text-white">Food
+                                            Quantity</label>
                                         <input placeholder="Enter the food Quantity"
-                                            name="foodQuantity"
-                                            value={block.foodQuantity}
-                                            onChange={handleChange}
-                                            type="number"
-                                            id="hs-firstname-hire-us-2"
-                                            className="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400" />
+                                               name="foodQuantity"
+                                               value={block.foodQuantity}
+                                               onChange={handleChange}
+                                               type="number"
+                                               id="hs-firstname-hire-us-2"
+                                               className="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"/>
                                     </div>
                                     <div>
-                                        <label htmlFor="hs-lastname-hire-us-2" className="block text-sm text-gray-700 font-medium dark:text-white">Buildings</label>
+                                        <label htmlFor="hs-lastname-hire-us-2"
+                                               className="block text-sm text-gray-700 font-medium dark:text-white">Buildings</label>
                                         <select
-                                        name="buildingId"
+                                            name="buildingId"
                                             value={block.buildingId !== null ? block.buildingId : ''}
                                             onChange={handleChange}
                                             className="py-3 px-4 pr-9 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400">
@@ -171,9 +182,6 @@ const AddBlock: React.FC = () => {
                                             {buildings.map((building) => (
                                                 <option key={building.id} value={building.id}>{building.name}</option>
                                             ))}
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
                                         </select>
                                     </div>
                                 </div>
@@ -181,9 +189,11 @@ const AddBlock: React.FC = () => {
                             </div>
                             {/* End Grid */}
                             <div className="mt-6 grid">
-                                <button onClick={handleSubmit} type="submit" className="inline-flex justify-center items-center gap-x-3 text-center bg-blue-600 hover:bg-blue-700 border border-transparent text-sm lg:text-base text-white font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white transition py-3 px-4 dark:focus:ring-offset-gray-800">Add</button>
+                                <button onClick={handleSubmit} type="submit"
+                                        className="inline-flex justify-center items-center gap-x-3 text-center bg-blue-600 hover:bg-blue-700 border border-transparent text-sm lg:text-base text-white font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white transition py-3 px-4 dark:focus:ring-offset-gray-800">Add
+                                </button>
                             </div>
-                        </form>
+                        </div>
                         {/* End Form */}
                     </div>
                 </div>

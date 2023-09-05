@@ -16,15 +16,3 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
-
-.global {
-  font-weight: 900;
-  height: auto;
-  background-image: linear-gradient(to right bottom, #ede4ff4b, #6628f749), url(./images/1552516.jpg);
-  /*background-repeat: no-repeat; */
-  background-size: cover;
-  background-color: rgb(49, 0, 0);
-  /*clip-path: polygon(0 0,100% 0,100% 75vh,0 100%);*/
-  position: relative;
-}

@@ -7,11 +7,10 @@ function Footer() {
                 <footer className="main-footer">
                     <strong>Copyright © 2023 Aviculture.</strong>
                     All rights reserved.
-                    <div className="float-right d-none d-sm-inline-block">
+                    <div className=" d-none d-sm-inline-block">
                         <b>PFE</b> 2023
                     </div>
                 </footer>
-                {/* Control Sidebar */}
                 <aside className="control-sidebar control-sidebar-dark">
                 </aside>
             </div>
