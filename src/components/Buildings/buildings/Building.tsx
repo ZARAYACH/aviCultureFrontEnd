@@ -1,9 +1,10 @@
 export default interface Block {
-    id: number;
-    name: string;
-    nature : string;
-    surface : number;
-    temperature: number;
-    state: string;
-    breedingCenterId: number;
+    id: number | undefined;
+    name: string | undefined;
+    nature : string | undefined;
+    surface : number | undefined;
+    temperature: number | undefined ;
+    state: string | undefined;
+    breedingCenterId: number | undefined;
+    humidityRate: number | undefined
 }

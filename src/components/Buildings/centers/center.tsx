@@ -1,5 +1,5 @@
 export default interface Center {
-    id: number;
-    name: string;
-    address: string;
+    id: number | undefined;
+    name: string | undefined;
+    address: string | undefined;
 }

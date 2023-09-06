@@ -2,11 +2,15 @@ import React, {Fragment, useEffect, useState} from "react";
 import { Link } from "react-router-dom";
 import {useAxios} from "../../../configuration/AxiosConfiguration";
 import Center from "./center";
+import AddCenterModal from "./AddCenterModal";
 
 const Centers = () => {
     const [centers, setCenters] = useState<Center[]>([]); // Provide the type annotation
     const {axiosInstance} = useAxios();
-
+    const [isAddCenterModalOpen, setIsAddCenterModalOpen] = useState(false);
+    const toggleAddBuildingModal = () => {
+        setIsAddCenterModalOpen(!isAddCenterModalOpen);
+    };
     useEffect(() => {
         axiosInstance
             .get(process.env.REACT_APP_API_PREFIX + "/breeding-centers")
@@ -28,9 +32,10 @@ const Centers = () => {
                 console.error("Error fetching data :", error);
             });
     }
-    // @ts-ignore
     return (
         <Fragment>
+            {(isAddCenterModalOpen && <AddCenterModal toggleModal={toggleAddBuildingModal} setCenters={setCenters}/>)}
+
             <div className="content-wrapper">
                 {/* Table Section */}
                 <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
@@ -40,7 +45,6 @@ const Centers = () => {
                             <div className="p-1.5 min-w-full inline-block align-middle">
                                 <div
                                     className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden dark:bg-slate-900 dark:border-gray-700">
-                                    {/* Header */}
                                     <div
                                         className="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-b border-gray-200 dark:border-gray-700">
                                         <div>
@@ -54,9 +58,8 @@ const Centers = () => {
                                                    href="#">
                                                     View all
                                                 </a>
-                                                <Link
+                                                <button onClick={toggleAddBuildingModal}
                                                     className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                                                    to="add"
                                                 >
                                                     <svg
                                                         className="w-3 h-3"
@@ -74,12 +77,10 @@ const Centers = () => {
                                                         />
                                                     </svg>
                                                     Create
-                                                </Link>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
-                                    {/* End Header */}
-                                    {/* Table */}
                                     <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                         <thead>
                                         <tr>
@@ -212,7 +213,7 @@ const Centers = () => {
                                                                     </a>
                                                                 </div>
                                                                 <div className="py-2 first:pt-0 last:pb-0">
-                                                                    <a onClick={() => deleteCenter(center.id)}
+                                                                    <a onClick={() =>(center.id && deleteCenter(center.id))}
                                                                        className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-red-600 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-red-500 dark:hover:bg-gray-700"
                                                                     >
                                                                         Delete
@@ -226,8 +227,6 @@ const Centers = () => {
                                         ))}
                                         </tbody>
                                     </table>
-                                    {/* End Table */}
-                                    {/* Footer */}
                                     <div
                                         className="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-t border-gray-200 dark:border-gray-700">
                                         <div>

@@ -108,7 +108,7 @@ const SideNavBar = () => {
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link to={"/blocks"}  className="nav-link">
+                    <Link to={"blocks"}  className="nav-link">
                       <i className="far fa-circle nav-icon" />
                       <p>Blocks</p>
                     </Link>

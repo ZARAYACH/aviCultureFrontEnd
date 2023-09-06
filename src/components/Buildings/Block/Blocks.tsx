@@ -5,16 +5,21 @@ import axios from "axios";
 // interface for the block object
 import Block from './Block';
 import {useAxios} from "../../../configuration/AxiosConfiguration";
+import AddBlockModal from "./AddBlockModal";
 
 function Blocks() {
     const [blocks, setBlocks] = useState<Block[]>([]); // Provide the type annotation
     const {axiosInstance} = useAxios();
+    const [isAddBlockModalOpen, setIsAddBlockModalOpen] = useState(false);
+    const toggleAddBlockModal = () => {
+        setIsAddBlockModalOpen(!isAddBlockModalOpen);
+    };
+
     useEffect(() => {
         axiosInstance
             .get(process.env.REACT_APP_API_PREFIX + "/breeding-blocks")
             .then((response) => {
                 setBlocks(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error("Error fetching data :", error);
@@ -25,7 +30,7 @@ function Blocks() {
         axiosInstance
             .delete(process.env.REACT_APP_API_PREFIX + "/breeding-blocks/" + blockId + "/delete")
             .then((response) => {
-                setBlocks(blocks.filter( (block, index) => block.id != blockId ))
+                setBlocks(blocks.filter((block, index) => block.id != blockId))
             })
             .catch((error) => {
                 console.error("Error fetching data :", error);
@@ -34,6 +39,7 @@ function Blocks() {
     // @ts-ignore
     return (
         <Fragment>
+            {(isAddBlockModalOpen && <AddBlockModal toggleModal={toggleAddBlockModal} setBlocks={setBlocks}/>)}
             <div className="content-wrapper">
                 {/* Table Section */}
                 <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
@@ -43,7 +49,6 @@ function Blocks() {
                             <div className="p-1.5 min-w-full inline-block align-middle">
                                 <div
                                     className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden dark:bg-slate-900 dark:border-gray-700">
-                                    {/* Header */}
                                     <div
                                         className="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-b border-gray-200 dark:border-gray-700">
                                         <div>
@@ -57,10 +62,9 @@ function Blocks() {
                                                    href="#">
                                                     View all
                                                 </a>
-                                                <Link
+                                                <button
                                                     className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                                                    to="add"
-                                                >
+                                                    onClick={toggleAddBlockModal}>
                                                     <svg
                                                         className="w-3 h-3"
                                                         xmlns="http://www.w3.org/2000/svg"
@@ -77,12 +81,10 @@ function Blocks() {
                                                         />
                                                     </svg>
                                                     Create
-                                                </Link>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
-                                    {/* End Header */}
-                                    {/* Table */}
                                     <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                         <thead>
                                         <tr>
@@ -324,7 +326,7 @@ function Blocks() {
                                                                     </a>
                                                                 </div>
                                                                 <div className="py-2 first:pt-0 last:pb-0">
-                                                                    <a onClick={() => deleteBlock(block.id)}
+                                                                    <a onClick={() => (block.id && deleteBlock(block.id))}
                                                                        className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-red-600 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-red-500 dark:hover:bg-gray-700"
                                                                     >
                                                                         Delete

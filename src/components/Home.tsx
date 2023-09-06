@@ -1,8 +1,6 @@
 import React, {Fragment} from 'react';
 import {useAuth} from "../provider/AuthProvider";
-import Footer from "./Footer";
-import Header from "./Header";
-import SideNavBar from "./SideNavBar";
+import {Navigate} from "react-router-dom";
 
 function Home() {
     const auth = useAuth();

@@ -1,18 +1,18 @@
 import React, {Fragment, isValidElement, ReactNode, useEffect, useState} from "react";
-import {Link} from "react-router-dom";
 import {useAxios} from "../../../configuration/AxiosConfiguration";
 import Building from "../Block/Building";
-import {Simulate} from "react-dom/test-utils";
-import load = Simulate.load;
-import Center from "../centers/center";
+import AddBuildingModal from "./AddBuildingModal";
 
 const Buildings = () => {
     const [buildings, setBuildings] = useState<Building[]>([]); // Provide the type annotation
     const {axiosInstance} = useAxios();
-
+    const [isAddBuildingModalOpen, setIsAddBuildingModalOpen] = useState(false);
+    const toggleAddBuildingModal = () => {
+        setIsAddBuildingModalOpen(!isAddBuildingModalOpen);
+    };
     useEffect(() => {
         axiosInstance
-            .get(process.env.REACT_APP_API_PREFIX + "/breeding-building")
+            .get(process.env.REACT_APP_API_PREFIX + "/breeding-buildings")
             .then((response) => {
                 setBuildings(response.data);
             })
@@ -23,7 +23,7 @@ const Buildings = () => {
 
     const deleteBuilding = (buildingId: number) => {
         axiosInstance
-            .delete(process.env.REACT_APP_API_PREFIX + "/breeding-building/" + buildingId + "/delete")
+            .delete(process.env.REACT_APP_API_PREFIX + "/breeding-buildings/" + buildingId + "/delete")
             .then((response) => {
                 setBuildings(buildings.filter((building, index) => building.id != buildingId))
             })
@@ -35,6 +35,9 @@ const Buildings = () => {
     // @ts-ignore
     return (
         <Fragment>
+            {(isAddBuildingModalOpen &&
+                <AddBuildingModal toggleModal={toggleAddBuildingModal} setBuildings={setBuildings}/>)}
+
             <div className="content-wrapper">
                 {/* Table Section */}
                 <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
@@ -58,10 +61,8 @@ const Buildings = () => {
                                                    href="#">
                                                     View all
                                                 </a>
-                                                <Link
-                                                    className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                                                    to="add"
-                                                >
+                                                <button onClick={toggleAddBuildingModal}
+                                                        className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
                                                     <svg
                                                         className="w-3 h-3"
                                                         xmlns="http://www.w3.org/2000/svg"
@@ -78,7 +79,7 @@ const Buildings = () => {
                                                         />
                                                     </svg>
                                                     Create
-                                                </Link>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -316,7 +317,7 @@ const Buildings = () => {
                                                                     </a>
                                                                 </div>
                                                                 <div className="py-2 first:pt-0 last:pb-0">
-                                                                    <a onClick={() => deleteBuilding(building.id)}
+                                                                    <a onClick={() => (building.id && deleteBuilding(building.id))}
                                                                        className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-red-600 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-red-500 dark:hover:bg-gray-700"
                                                                     >
                                                                         Delete
