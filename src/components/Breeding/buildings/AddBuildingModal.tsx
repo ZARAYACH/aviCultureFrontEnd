@@ -2,7 +2,7 @@ import React, {Fragment, useEffect, useState} from 'react';
 import {useAxios} from "../../../configuration/AxiosConfiguration";
 import {useNavigate} from "react-router-dom";
 import Center from "../centers/center";
-import Building from "../Block/Building";
+import Building from "./Building";
 
 interface AddBuildingModalProps {
     toggleModal: () => void,

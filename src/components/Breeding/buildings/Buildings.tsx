@@ -1,40 +1,42 @@
-import React, {Fragment, useEffect, useState} from "react";
-import { Link } from "react-router-dom";
+import React, {Fragment, isValidElement, ReactNode, useEffect, useState} from "react";
 import {useAxios} from "../../../configuration/AxiosConfiguration";
-import Center from "./center";
-import AddCenterModal from "./AddCenterModal";
+import Building from "./Building";
+import AddBuildingModal from "./AddBuildingModal";
 
-const Centers = () => {
-    const [centers, setCenters] = useState<Center[]>([]); // Provide the type annotation
+const Buildings = () => {
+    const [buildings, setBuildings] = useState<Building[]>([]); // Provide the type annotation
     const {axiosInstance} = useAxios();
-    const [isAddCenterModalOpen, setIsAddCenterModalOpen] = useState(false);
+    const [isAddBuildingModalOpen, setIsAddBuildingModalOpen] = useState(false);
     const toggleAddBuildingModal = () => {
-        setIsAddCenterModalOpen(!isAddCenterModalOpen);
+        setIsAddBuildingModalOpen(!isAddBuildingModalOpen);
     };
     useEffect(() => {
         axiosInstance
-            .get(process.env.REACT_APP_API_PREFIX + "/breeding-centers")
+            .get(process.env.REACT_APP_API_PREFIX + "/breeding-buildings")
             .then((response) => {
-                setCenters(response.data);
+                setBuildings(response.data);
             })
             .catch((error) => {
                 console.error("Error fetching data :", error);
             });
     }, []);
 
-    const deleteCenter = (blockId: number) => {
+    const deleteBuilding = (buildingId: number) => {
         axiosInstance
-            .delete(process.env.REACT_APP_API_PREFIX + "/breeding-centers/" + blockId + "/delete")
+            .delete(process.env.REACT_APP_API_PREFIX + "/breeding-buildings/" + buildingId + "/delete")
             .then((response) => {
-                setCenters(centers.filter( (center, index) => center.id != blockId ))
+                setBuildings(buildings.filter((building, index) => building.id != buildingId))
             })
             .catch((error) => {
                 console.error("Error fetching data :", error);
             });
     }
+
+    // @ts-ignore
     return (
         <Fragment>
-            {(isAddCenterModalOpen && <AddCenterModal toggleModal={toggleAddBuildingModal} setCenters={setCenters}/>)}
+            {(isAddBuildingModalOpen &&
+                <AddBuildingModal toggleModal={toggleAddBuildingModal} setBuildings={setBuildings}/>)}
 
             <div className="content-wrapper">
                 {/* Table Section */}
@@ -45,11 +47,12 @@ const Centers = () => {
                             <div className="p-1.5 min-w-full inline-block align-middle">
                                 <div
                                     className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden dark:bg-slate-900 dark:border-gray-700">
+                                    {/* Header */}
                                     <div
                                         className="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-b border-gray-200 dark:border-gray-700">
                                         <div>
                                             <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
-                                                Breeding centers
+                                                Breeding Buildings
                                             </h2>
                                         </div>
                                         <div>
@@ -59,8 +62,7 @@ const Centers = () => {
                                                     View all
                                                 </a>
                                                 <button onClick={toggleAddBuildingModal}
-                                                    className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                                                >
+                                                        className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
                                                     <svg
                                                         className="w-3 h-3"
                                                         xmlns="http://www.w3.org/2000/svg"
@@ -81,6 +83,8 @@ const Centers = () => {
                                             </div>
                                         </div>
                                     </div>
+                                    {/* End Header */}
+                                    {/* Table */}
                                     <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                         <thead>
                                         <tr>
@@ -117,7 +121,47 @@ const Centers = () => {
                                                 <div className="flex items-center gap-x-2">
                                                     <span
                                                         className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                                                        Address
+                                                        Nature
+                                                    </span>
+                                                </div>
+                                            </th>
+                                            <th scope="col" className="px-6 py-3 text-left">
+                                                <div className="flex items-center gap-x-2">
+                                                    <span
+                                                        className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
+                                                        Humidity Rate
+                                                    </span>
+                                                </div>
+                                            </th>
+                                            <th scope="col" className="px-6 py-3 text-left">
+                                                <div className="flex items-center gap-x-2">
+                                                    <span
+                                                        className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
+                                                        Surface
+                                                    </span>
+                                                </div>
+                                            </th>
+                                            <th scope="col" className="px-6 py-3 text-left">
+                                                <div className="flex items-center gap-x-2">
+                                                    <span
+                                                        className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
+                                                        temperature
+                                                    </span>
+                                                </div>
+                                            </th>
+                                            <th scope="col" className="px-6 py-3 text-left">
+                                                <div className="flex items-center gap-x-2">
+                                                    <span
+                                                        className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
+                                                        state
+                                                    </span>
+                                                </div>
+                                            </th>
+                                            <th scope="col" className="px-6 py-3 text-left">
+                                                <div className="flex items-center gap-x-2">
+                                                    <span
+                                                        className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
+                                                        Breeding Center
                                                     </span>
                                                 </div>
                                             </th>
@@ -125,18 +169,16 @@ const Centers = () => {
                                         </tr>
                                         </thead>
                                         <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                                        {centers.map(( center) => (
-                                            <tr key={center.id}>
+                                        {buildings.map((building) => (
+                                            <tr key={building.id}>
                                                 <td className="h-px w-px whitespace-nowrap">
                                                     <div className="pl-6 py-3">
-                                                        <label
-                                                            htmlFor="hs-at-with-checkboxes-1"
-                                                            className="flex"
-                                                        >
+                                                        <label htmlFor={"checkbox-" + building.id}
+                                                            className="flex">
                                                             <input
                                                                 type="checkbox"
                                                                 className="shrink-0 border-gray-200 rounded text-blue-600 pointer-events-none focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-                                                                id="hs-at-with-checkboxes-1"
+                                                                id={"checkbox-" + building.id}
                                                             />
                                                             <span className="sr-only">Checkbox</span>
                                                         </label>
@@ -145,7 +187,7 @@ const Centers = () => {
                                                 <td className="h-px w-px whitespace-nowrap">
                                                     <div className="px-6 py-3">
                                                         <span className="text-sm text-gray-600 dark:text-gray-400">
-                                                            {center.id}
+                                                            {building.id}
                                                         </span>
                                                     </div>
                                                 </td>
@@ -155,7 +197,7 @@ const Centers = () => {
                                                             <div className="grow">
                                                                 <span
                                                                     className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {center.name}
+                                                                    {building.name}
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -167,7 +209,67 @@ const Centers = () => {
                                                             <div className="grow">
                                                                 <span
                                                                     className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {center.address}
+                                                                    {building.nature}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td className="h-px w-px whitespace-nowrap">
+                                                    <div className="px-6 py-3">
+                                                        <div className="flex items-center gap-x-2">
+                                                            <div className="grow">
+                                                                <span
+                                                                    className="text-sm text-gray-600 dark:text-gray-400">
+                                                                    {building.humidityRate}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td className="h-px w-px whitespace-nowrap">
+                                                    <div className="px-6 py-3">
+                                                        <div className="flex items-center gap-x-2">
+                                                            <div className="grow">
+                                                                <span
+                                                                    className="text-sm text-gray-600 dark:text-gray-400">
+                                                                    {building.surface}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td className="h-px w-px whitespace-nowrap">
+                                                    <div className="px-6 py-3">
+                                                        <div className="flex items-center gap-x-2">
+                                                            <div className="grow">
+                                                                <span
+                                                                    className="text-sm text-gray-600 dark:text-gray-400">
+                                                                    {building.temperature}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td className="h-px w-px whitespace-nowrap">
+                                                    <div className="px-6 py-3">
+                                                        <div className="flex items-center gap-x-2">
+                                                            <div className="grow">
+                                                                <span
+                                                                    className="text-sm text-gray-600 dark:text-gray-400">
+                                                                    {building.state}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td className="h-px w-px whitespace-nowrap">
+                                                    <div className="px-6 py-3">
+                                                        <div className="flex items-center gap-x-2">
+                                                            <div className="grow">
+                                                                <span
+                                                                    className="text-sm text-gray-600 dark:text-gray-400">
+                                                                    {building.breedingCenterId}
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -213,7 +315,7 @@ const Centers = () => {
                                                                     </a>
                                                                 </div>
                                                                 <div className="py-2 first:pt-0 last:pb-0">
-                                                                    <a onClick={() =>(center.id && deleteCenter(center.id))}
+                                                                    <a onClick={() => (building.id && deleteBuilding(building.id))}
                                                                        className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-red-600 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-red-500 dark:hover:bg-gray-700"
                                                                     >
                                                                         Delete
@@ -227,12 +329,14 @@ const Centers = () => {
                                         ))}
                                         </tbody>
                                     </table>
+                                    {/* End Table */}
+                                    {/* Footer */}
                                     <div
                                         className="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-t border-gray-200 dark:border-gray-700">
                                         <div>
                                             <p className="text-sm text-gray-600 dark:text-gray-400">
                                             <span className="font-semibold text-gray-800 dark:text-gray-200">
-                                                {centers.length}
+                                                {buildings.length}
                                             </span>{" "}
                                                 results
                                             </p>
@@ -290,4 +394,4 @@ const Centers = () => {
     );
 }
 
-export default Centers;
+export default Buildings;

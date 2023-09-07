@@ -4,8 +4,8 @@ import {Link, Route, Routes, useNavigate} from "react-router-dom";
 import logo from "../images/AviLogo.png";
 import { useAuth } from "../provider/AuthProvider";
 import { useAxios } from "../configuration/AxiosConfiguration";
-import displayBlock from "./Buildings/Block/Blocks";
-import Blocks from "./Buildings/Block/Blocks";
+import displayBlock from "./Breeding/Block/Blocks";
+import Blocks from "./Breeding/Block/Blocks";
 
 const SideNavBar = () => {
   const navigate = useNavigate();
@@ -55,9 +55,7 @@ const SideNavBar = () => {
                         className="nav-icon img-circle m-0"
                         alt="User Image"
                       />
-                      <a href="#" className="d-block ml-2">
                         Alexander Pierce
-                      </a>
                       <i className="right fas fa-angle-left" />
                     </a>
                     <ul className="nav nav-treeview">
@@ -80,10 +78,10 @@ const SideNavBar = () => {
               data-accordion="false"
             >
               <li className="nav-item">
-                <a href="/" className="nav-link">
+                <Link to="/dashboard" className="nav-link">
                   <i className="nav-icon fas fa-columns" />
                   <p>Dashboard</p>
-                </a>
+                </Link>
               </li>
               <li className="nav-item menu-open">
                 <a href="" className="nav-link active">
@@ -125,19 +123,18 @@ const SideNavBar = () => {
                 </a>
                 <ul className="nav nav-treeview">
                   <li className="nav-item">
-                    <a href="pages/layout/top-nav.html" className="nav-link">
+                    <Link to="Medicines" className="nav-link">
                       <i className="far fa-circle nav-icon" />
-                      <p>Top Navigation</p>
-                    </a>
+                      <p>Medicine</p>
+                    </Link>
                   </li>
                   <li className="nav-item">
-                    <a
-                      href="pages/layout/top-nav-sidebar.html"
+                    <Link to="pages/layout/top-nav-sidebar.html"
                       className="nav-link"
                     >
                       <i className="far fa-circle nav-icon" />
                       <p>Top Navigation + Sidebar</p>
-                    </a>
+                    </Link>
                   </li>
                   <li className="nav-item">
                     <a href="pages/layout/boxed.html" className="nav-link">

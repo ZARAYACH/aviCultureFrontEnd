@@ -1,43 +1,45 @@
-import React, {Fragment, isValidElement, ReactNode, useEffect, useState} from "react";
-import {useAxios} from "../../../configuration/AxiosConfiguration";
-import Building from "../Block/Building";
-import AddBuildingModal from "./AddBuildingModal";
+import React, {useState, useEffect, Fragment} from "react";
+import {Link} from 'react-router-dom';
 
-const Buildings = () => {
-    const [buildings, setBuildings] = useState<Building[]>([]); // Provide the type annotation
+import axios from "axios";
+// interface for the block object
+import Block from './Block';
+import {useAxios} from "../../../configuration/AxiosConfiguration";
+import AddBlockModal from "./AddBlockModal";
+
+function Blocks() {
+    const [blocks, setBlocks] = useState<Block[]>([]); // Provide the type annotation
     const {axiosInstance} = useAxios();
-    const [isAddBuildingModalOpen, setIsAddBuildingModalOpen] = useState(false);
-    const toggleAddBuildingModal = () => {
-        setIsAddBuildingModalOpen(!isAddBuildingModalOpen);
+    const [isAddBlockModalOpen, setIsAddBlockModalOpen] = useState(false);
+    const toggleAddBlockModal = () => {
+        setIsAddBlockModalOpen(!isAddBlockModalOpen);
     };
+
     useEffect(() => {
         axiosInstance
-            .get(process.env.REACT_APP_API_PREFIX + "/breeding-buildings")
+            .get(process.env.REACT_APP_API_PREFIX + "/breeding-blocks")
             .then((response) => {
-                setBuildings(response.data);
+                setBlocks(response.data);
             })
             .catch((error) => {
                 console.error("Error fetching data :", error);
             });
     }, []);
 
-    const deleteBuilding = (buildingId: number) => {
+    const deleteBlock = (blockId: number) => {
         axiosInstance
-            .delete(process.env.REACT_APP_API_PREFIX + "/breeding-buildings/" + buildingId + "/delete")
+            .delete(process.env.REACT_APP_API_PREFIX + "/breeding-blocks/" + blockId + "/delete")
             .then((response) => {
-                setBuildings(buildings.filter((building, index) => building.id != buildingId))
+                setBlocks(blocks.filter((block, index) => block.id != blockId))
             })
             .catch((error) => {
                 console.error("Error fetching data :", error);
             });
     }
-
     // @ts-ignore
     return (
         <Fragment>
-            {(isAddBuildingModalOpen &&
-                <AddBuildingModal toggleModal={toggleAddBuildingModal} setBuildings={setBuildings}/>)}
-
+            {(isAddBlockModalOpen && <AddBlockModal toggleModal={toggleAddBlockModal} setBlocks={setBlocks}/>)}
             <div className="content-wrapper">
                 {/* Table Section */}
                 <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
@@ -47,12 +49,11 @@ const Buildings = () => {
                             <div className="p-1.5 min-w-full inline-block align-middle">
                                 <div
                                     className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden dark:bg-slate-900 dark:border-gray-700">
-                                    {/* Header */}
                                     <div
                                         className="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-b border-gray-200 dark:border-gray-700">
                                         <div>
                                             <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
-                                                Breeding Buildings
+                                                Blocks
                                             </h2>
                                         </div>
                                         <div>
@@ -61,8 +62,9 @@ const Buildings = () => {
                                                    href="#">
                                                     View all
                                                 </a>
-                                                <button onClick={toggleAddBuildingModal}
-                                                        className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
+                                                <button
+                                                    className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                                                    onClick={toggleAddBlockModal}>
                                                     <svg
                                                         className="w-3 h-3"
                                                         xmlns="http://www.w3.org/2000/svg"
@@ -83,8 +85,6 @@ const Buildings = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    {/* End Header */}
-                                    {/* Table */}
                                     <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                         <thead>
                                         <tr>
@@ -113,7 +113,7 @@ const Buildings = () => {
                                                 <div className="flex items-center gap-x-2">
                                                     <span
                                                         className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                                                        Name
+                                                        dailyMortality
                                                     </span>
                                                 </div>
                                             </th>
@@ -121,7 +121,7 @@ const Buildings = () => {
                                                 <div className="flex items-center gap-x-2">
                                                     <span
                                                         className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                                                        Nature
+                                                        dailyGasCylinder
                                                     </span>
                                                 </div>
                                             </th>
@@ -129,7 +129,7 @@ const Buildings = () => {
                                                 <div className="flex items-center gap-x-2">
                                                     <span
                                                         className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                                                        Humidity Rate
+                                                        weightFirstWeek
                                                     </span>
                                                 </div>
                                             </th>
@@ -137,7 +137,7 @@ const Buildings = () => {
                                                 <div className="flex items-center gap-x-2">
                                                     <span
                                                         className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                                                        Surface
+                                                        weightEveryFeeding
                                                     </span>
                                                 </div>
                                             </th>
@@ -145,7 +145,7 @@ const Buildings = () => {
                                                 <div className="flex items-center gap-x-2">
                                                     <span
                                                         className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                                                        temperature
+                                                        weightByTheEnd
                                                     </span>
                                                 </div>
                                             </th>
@@ -153,7 +153,7 @@ const Buildings = () => {
                                                 <div className="flex items-center gap-x-2">
                                                     <span
                                                         className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                                                        state
+                                                        foodNature
                                                     </span>
                                                 </div>
                                             </th>
@@ -161,27 +161,32 @@ const Buildings = () => {
                                                 <div className="flex items-center gap-x-2">
                                                     <span
                                                         className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                                                        Breeding Center
+                                                        foodQuantity
                                                     </span>
                                                 </div>
                                             </th>
+                                            <th scope="col" className="px-6 py-3 text-left">
+                                                <div className="flex items-center gap-x-2">
+                                                    <span
+                                                        className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
+                                                        ...
+                                                    </span>
+                                                </div>
+                                            </th>
+
                                             <th scope="col" className="px-6 py-3 text-right"/>
                                         </tr>
                                         </thead>
                                         <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                                        {buildings.map((building) => (
-                                            <tr key={building.id}>
+                                        {blocks.map((block) => (
+                                            <tr key={block.id}>
                                                 <td className="h-px w-px whitespace-nowrap">
                                                     <div className="pl-6 py-3">
-                                                        <label
-                                                            htmlFor="hs-at-with-checkboxes-1"
-                                                            className="flex"
-                                                        >
-                                                            <input
-                                                                type="checkbox"
-                                                                className="shrink-0 border-gray-200 rounded text-blue-600 pointer-events-none focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-                                                                id="hs-at-with-checkboxes-1"
-                                                            />
+                                                        <label htmlFor={"checkbox-" + block.id}
+                                                               className="flex">
+                                                            <input id={"checkbox-" + block.id}
+                                                                   type="checkbox"
+                                                                   className="shrink-0 border-gray-200 rounded text-blue-600 pointer-events-none focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"/>
                                                             <span className="sr-only">Checkbox</span>
                                                         </label>
                                                     </div>
@@ -189,17 +194,17 @@ const Buildings = () => {
                                                 <td className="h-px w-px whitespace-nowrap">
                                                     <div className="px-6 py-3">
                                                         <span className="text-sm text-gray-600 dark:text-gray-400">
-                                                            {building.id}
+                                                            {block.id}
                                                         </span>
                                                     </div>
                                                 </td>
                                                 <td className="h-px w-px whitespace-nowrap">
                                                     <div className="px-6 py-3">
                                                         <div className="flex items-center gap-x-2">
-                                                            <div className="grow">
+                                                            <div class-Name="grow">
                                                                 <span
                                                                     className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {building.name}
+                                                                    {block.dailyMortality}
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -211,7 +216,7 @@ const Buildings = () => {
                                                             <div className="grow">
                                                                 <span
                                                                     className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {building.nature}
+                                                                    {block.dailyGasCylinder}
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -223,7 +228,7 @@ const Buildings = () => {
                                                             <div className="grow">
                                                                 <span
                                                                     className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {building.humidityRate}
+                                                                    {block.weightFirstWeek}
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -235,7 +240,7 @@ const Buildings = () => {
                                                             <div className="grow">
                                                                 <span
                                                                     className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {building.surface}
+                                                                    {block.weightEveryFeeding}
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -247,7 +252,7 @@ const Buildings = () => {
                                                             <div className="grow">
                                                                 <span
                                                                     className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {building.temperature}
+                                                                    {block.weightByTheEnd}
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -259,7 +264,7 @@ const Buildings = () => {
                                                             <div className="grow">
                                                                 <span
                                                                     className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {building.state}
+                                                                    {block.foodNature}
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -271,7 +276,7 @@ const Buildings = () => {
                                                             <div className="grow">
                                                                 <span
                                                                     className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {building.breedingCenterId}
+                                                                    {block.foodQuantity}
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -317,7 +322,7 @@ const Buildings = () => {
                                                                     </a>
                                                                 </div>
                                                                 <div className="py-2 first:pt-0 last:pb-0">
-                                                                    <a onClick={() => (building.id && deleteBuilding(building.id))}
+                                                                    <a onClick={() => (block.id && deleteBlock(block.id))}
                                                                        className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-red-600 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-red-500 dark:hover:bg-gray-700"
                                                                     >
                                                                         Delete
@@ -338,7 +343,7 @@ const Buildings = () => {
                                         <div>
                                             <p className="text-sm text-gray-600 dark:text-gray-400">
                                             <span className="font-semibold text-gray-800 dark:text-gray-200">
-                                                {buildings.length}
+                                                {blocks.length}
                                             </span>{" "}
                                                 results
                                             </p>
@@ -396,4 +401,4 @@ const Buildings = () => {
     );
 }
 
-export default Buildings;
+export default Blocks;

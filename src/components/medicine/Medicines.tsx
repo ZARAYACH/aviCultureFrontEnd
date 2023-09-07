@@ -1,45 +1,41 @@
-import React, {useState, useEffect, Fragment} from "react";
-import {Link} from 'react-router-dom';
+import React, {Fragment, useEffect, useState} from "react";
+import {useAxios} from "../../configuration/AxiosConfiguration";
+import {Medicine} from "./Medicine";
+import AddCenterModal from "../Breeding/centers/AddCenterModal";
 
-import axios from "axios";
-// interface for the block object
-import Block from './Block';
-import {useAxios} from "../../../configuration/AxiosConfiguration";
-import AddBlockModal from "./AddBlockModal";
-
-function Blocks() {
-    const [blocks, setBlocks] = useState<Block[]>([]); // Provide the type annotation
+const Medicines = () => {
+    const [Medicines, setMedicines] = useState<Medicine[]>([]);
     const {axiosInstance} = useAxios();
-    const [isAddBlockModalOpen, setIsAddBlockModalOpen] = useState(false);
-    const toggleAddBlockModal = () => {
-        setIsAddBlockModalOpen(!isAddBlockModalOpen);
+    const [isAddCenterModalOpen, setIsAddCenterModalOpen] = useState(false);
+    const toggleAddBuildingModal = () => {
+        setIsAddCenterModalOpen(!isAddCenterModalOpen);
     };
-
     useEffect(() => {
         axiosInstance
-            .get(process.env.REACT_APP_API_PREFIX + "/breeding-blocks")
+            .get(process.env.REACT_APP_API_PREFIX + "/breeding-Medicines")
             .then((response) => {
-                setBlocks(response.data);
+                setMedicines(response.data);
             })
             .catch((error) => {
                 console.error("Error fetching data :", error);
             });
     }, []);
 
-    const deleteBlock = (blockId: number) => {
+    const deleteMedicine = (medicineId: string) => {
         axiosInstance
-            .delete(process.env.REACT_APP_API_PREFIX + "/breeding-blocks/" + blockId + "/delete")
+            .delete(process.env.REACT_APP_API_PREFIX + "/breeding-Medicines/" + medicineId + "/delete")
             .then((response) => {
-                setBlocks(blocks.filter((block, index) => block.id != blockId))
+                setMedicines(Medicines.filter((medicine, index) => medicine.id !== medicineId))
             })
             .catch((error) => {
                 console.error("Error fetching data :", error);
             });
     }
-    // @ts-ignore
     return (
         <Fragment>
-            {(isAddBlockModalOpen && <AddBlockModal toggleModal={toggleAddBlockModal} setBlocks={setBlocks}/>)}
+            {/*{(isAddCenterModalOpen &&*/}
+            {/*    <AddCenterModal toggleModal={toggleAddBuildingModal} setMedicines={setMedicines}/>)}*/}
+
             <div className="content-wrapper">
                 {/* Table Section */}
                 <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
@@ -53,7 +49,7 @@ function Blocks() {
                                         className="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-b border-gray-200 dark:border-gray-700">
                                         <div>
                                             <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
-                                                Blocks
+                                                Medicines
                                             </h2>
                                         </div>
                                         <div>
@@ -62,9 +58,9 @@ function Blocks() {
                                                    href="#">
                                                     View all
                                                 </a>
-                                                <button
-                                                    className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                                                    onClick={toggleAddBlockModal}>
+                                                <button onClick={toggleAddBuildingModal}
+                                                        className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                                                >
                                                     <svg
                                                         className="w-3 h-3"
                                                         xmlns="http://www.w3.org/2000/svg"
@@ -90,14 +86,12 @@ function Blocks() {
                                         <tr>
                                             <th scope="col" className="pl-6 py-3 text-left">
                                                 <label
-                                                    htmlFor="hs-at-with-checkboxes-main"
+                                                    htmlFor="all"
                                                     className="flex"
                                                 >
-                                                    <input
+                                                    <input id="all"
                                                         type="checkbox"
-                                                        className="shrink-0 border-gray-200 rounded text-blue-600 pointer-events-none focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-                                                        id="hs-at-with-checkboxes-main"
-                                                    />
+                                                        className="shrink-0 border-gray-200 rounded text-blue-600 pointer-events-none focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"/>
                                                     <span className="sr-only">Checkbox</span>
                                                 </label>
                                             </th>
@@ -113,7 +107,7 @@ function Blocks() {
                                                 <div className="flex items-center gap-x-2">
                                                     <span
                                                         className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                                                        dailyMortality
+                                                        Name
                                                     </span>
                                                 </div>
                                             </th>
@@ -121,7 +115,7 @@ function Blocks() {
                                                 <div className="flex items-center gap-x-2">
                                                     <span
                                                         className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                                                        dailyGasCylinder
+                                                        Description
                                                     </span>
                                                 </div>
                                             </th>
@@ -129,7 +123,7 @@ function Blocks() {
                                                 <div className="flex items-center gap-x-2">
                                                     <span
                                                         className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                                                        weightFirstWeek
+                                                        Storage building
                                                     </span>
                                                 </div>
                                             </th>
@@ -137,7 +131,7 @@ function Blocks() {
                                                 <div className="flex items-center gap-x-2">
                                                     <span
                                                         className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                                                        weightEveryFeeding
+                                                        Unitary price
                                                     </span>
                                                 </div>
                                             </th>
@@ -145,7 +139,7 @@ function Blocks() {
                                                 <div className="flex items-center gap-x-2">
                                                     <span
                                                         className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                                                        weightByTheEnd
+                                                        Quantity
                                                     </span>
                                                 </div>
                                             </th>
@@ -153,7 +147,7 @@ function Blocks() {
                                                 <div className="flex items-center gap-x-2">
                                                     <span
                                                         className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                                                        foodNature
+                                                        Is A Vaccine?
                                                     </span>
                                                 </div>
                                             </th>
@@ -161,35 +155,24 @@ function Blocks() {
                                                 <div className="flex items-center gap-x-2">
                                                     <span
                                                         className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                                                        foodQuantity
+                                                        Is A Vaccine ?
                                                     </span>
                                                 </div>
                                             </th>
-                                            <th scope="col" className="px-6 py-3 text-left">
-                                                <div className="flex items-center gap-x-2">
-                                                    <span
-                                                        className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                                                        ...
-                                                    </span>
-                                                </div>
-                                            </th>
-
                                             <th scope="col" className="px-6 py-3 text-right"/>
                                         </tr>
                                         </thead>
                                         <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                                        {blocks.map((block) => (
-                                            <tr key={block.id}>
+                                        {Medicines.map(medicine => (
+                                            <tr key={medicine.id}>
                                                 <td className="h-px w-px whitespace-nowrap">
                                                     <div className="pl-6 py-3">
-                                                        <label
-                                                            htmlFor="hs-at-with-checkboxes-1"
+                                                        <label htmlFor={medicine.id}
                                                             className="flex"
                                                         >
-                                                            <input
+                                                            <input id={medicine.id}
                                                                 type="checkbox"
                                                                 className="shrink-0 border-gray-200 rounded text-blue-600 pointer-events-none focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-                                                                id="hs-at-with-checkboxes-1"
                                                             />
                                                             <span className="sr-only">Checkbox</span>
                                                         </label>
@@ -198,7 +181,7 @@ function Blocks() {
                                                 <td className="h-px w-px whitespace-nowrap">
                                                     <div className="px-6 py-3">
                                                         <span className="text-sm text-gray-600 dark:text-gray-400">
-                                                            {block.id}
+                                                            {medicine.id}
                                                         </span>
                                                     </div>
                                                 </td>
@@ -208,7 +191,7 @@ function Blocks() {
                                                             <div className="grow">
                                                                 <span
                                                                     className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {block.dailyMortality}
+                                                                    {medicine.name}
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -220,7 +203,7 @@ function Blocks() {
                                                             <div className="grow">
                                                                 <span
                                                                     className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {block.dailyGasCylinder}
+                                                                    {medicine.description}
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -232,7 +215,7 @@ function Blocks() {
                                                             <div className="grow">
                                                                 <span
                                                                     className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {block.weightFirstWeek}
+                                                                    {medicine.storageBuilding?.name}
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -244,7 +227,7 @@ function Blocks() {
                                                             <div className="grow">
                                                                 <span
                                                                     className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {block.weightEveryFeeding}
+                                                                    {medicine.unitaryPrice}
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -256,7 +239,7 @@ function Blocks() {
                                                             <div className="grow">
                                                                 <span
                                                                     className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {block.weightByTheEnd}
+                                                                    {medicine.quantity}
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -268,19 +251,7 @@ function Blocks() {
                                                             <div className="grow">
                                                                 <span
                                                                     className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {block.foodNature}
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td className="h-px w-px whitespace-nowrap">
-                                                    <div className="px-6 py-3">
-                                                        <div className="flex items-center gap-x-2">
-                                                            <div className="grow">
-                                                                <span
-                                                                    className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {block.foodQuantity}
+                                                                    {medicine.isVaccine}
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -326,7 +297,7 @@ function Blocks() {
                                                                     </a>
                                                                 </div>
                                                                 <div className="py-2 first:pt-0 last:pb-0">
-                                                                    <a onClick={() => (block.id && deleteBlock(block.id))}
+                                                                    <a onClick={() => (medicine.id && deleteMedicine(medicine.id))}
                                                                        className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-red-600 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-red-500 dark:hover:bg-gray-700"
                                                                     >
                                                                         Delete
@@ -340,14 +311,12 @@ function Blocks() {
                                         ))}
                                         </tbody>
                                     </table>
-                                    {/* End Table */}
-                                    {/* Footer */}
                                     <div
                                         className="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-t border-gray-200 dark:border-gray-700">
                                         <div>
                                             <p className="text-sm text-gray-600 dark:text-gray-400">
                                             <span className="font-semibold text-gray-800 dark:text-gray-200">
-                                                {blocks.length}
+                                                {Medicines.length}
                                             </span>{" "}
                                                 results
                                             </p>
@@ -405,4 +374,4 @@ function Blocks() {
     );
 }
 
-export default Blocks;
+export default Medicines;
