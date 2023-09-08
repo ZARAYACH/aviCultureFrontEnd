@@ -42,7 +42,7 @@ function AddCenterModal({toggleModal, setCenters}: AddCenterModalProps) {
 
     return (
         <Fragment>
-            <div className="fixed inset-0 flex items-start justify-center z-[1039]  ">
+            <div className="absolute inset-0 flex items-start justify-center z-[1039]  ">
                 <div className="fixed inset-0 flex items-start justify-center z-[1039] backdrop-blur-sm"
                      onClick={toggleModal}></div>
                 <div

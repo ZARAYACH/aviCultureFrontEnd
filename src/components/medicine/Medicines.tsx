@@ -1,18 +1,19 @@
 import React, {Fragment, useEffect, useState} from "react";
 import {useAxios} from "../../configuration/AxiosConfiguration";
-import {Medicine} from "./Medicine";
+import Medicine from "./Medicine";
 import AddCenterModal from "../Breeding/centers/AddCenterModal";
+import AddMedicineModal from "./AddMedicineModal";
 
 const Medicines = () => {
-    const [Medicines, setMedicines] = useState<Medicine[]>([]);
+    const [medicines, setMedicines] = useState<Medicine[]>([]);
     const {axiosInstance} = useAxios();
-    const [isAddCenterModalOpen, setIsAddCenterModalOpen] = useState(false);
+    const [isAddMedicineModalOpen, setIsAddMedicineModalOpen] = useState(false);
     const toggleAddBuildingModal = () => {
-        setIsAddCenterModalOpen(!isAddCenterModalOpen);
+        setIsAddMedicineModalOpen(!isAddMedicineModalOpen);
     };
     useEffect(() => {
         axiosInstance
-            .get(process.env.REACT_APP_API_PREFIX + "/breeding-Medicines")
+            .get(process.env.REACT_APP_API_PREFIX + "/products/medicines")
             .then((response) => {
                 setMedicines(response.data);
             })
@@ -20,12 +21,12 @@ const Medicines = () => {
                 console.error("Error fetching data :", error);
             });
     }, []);
-
+    console.log(medicines)
     const deleteMedicine = (medicineId: string) => {
         axiosInstance
-            .delete(process.env.REACT_APP_API_PREFIX + "/breeding-Medicines/" + medicineId + "/delete")
+            .delete(process.env.REACT_APP_API_PREFIX + "/products/medicines/" + medicineId + "/delete")
             .then((response) => {
-                setMedicines(Medicines.filter((medicine, index) => medicine.id !== medicineId))
+                setMedicines(medicines.filter((medicine, index) => medicine.id !== medicineId))
             })
             .catch((error) => {
                 console.error("Error fetching data :", error);
@@ -33,8 +34,8 @@ const Medicines = () => {
     }
     return (
         <Fragment>
-            {/*{(isAddCenterModalOpen &&*/}
-            {/*    <AddCenterModal toggleModal={toggleAddBuildingModal} setMedicines={setMedicines}/>)}*/}
+            {(isAddMedicineModalOpen &&
+                <AddMedicineModal toggleModal={toggleAddBuildingModal} setMedicines={setMedicines}/>)}
 
             <div className="content-wrapper">
                 {/* Table Section */}
@@ -155,7 +156,7 @@ const Medicines = () => {
                                                 <div className="flex items-center gap-x-2">
                                                     <span
                                                         className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                                                        Is A Vaccine ?
+                                                        ...
                                                     </span>
                                                 </div>
                                             </th>
@@ -163,7 +164,7 @@ const Medicines = () => {
                                         </tr>
                                         </thead>
                                         <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                                        {Medicines.map(medicine => (
+                                        {medicines.map(medicine => (
                                             <tr key={medicine.id}>
                                                 <td className="h-px w-px whitespace-nowrap">
                                                     <div className="pl-6 py-3">
@@ -251,7 +252,7 @@ const Medicines = () => {
                                                             <div className="grow">
                                                                 <span
                                                                     className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {medicine.isVaccine}
+                                                                    {medicine.isVaccine ? 'true' : 'false'}
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -316,7 +317,7 @@ const Medicines = () => {
                                         <div>
                                             <p className="text-sm text-gray-600 dark:text-gray-400">
                                             <span className="font-semibold text-gray-800 dark:text-gray-200">
-                                                {Medicines.length}
+                                                {medicines.length}
                                             </span>{" "}
                                                 results
                                             </p>

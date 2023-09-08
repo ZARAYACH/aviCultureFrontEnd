@@ -63,7 +63,7 @@ function AddBlockModal({toggleModal, setBlocks}: AddBlockModalProps) {
 
 
     return (
-        <div className="fixed inset-0 flex items-start justify-center z-[1039]  ">
+        <div className="absolute inset-0 flex items-start justify-center z-[1039]  ">
             <div className="fixed inset-0 flex items-start justify-center z-[1039] backdrop-blur-sm"
                  onClick={toggleModal}></div>
             <div
