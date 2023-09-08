@@ -6,5 +6,4 @@ export interface Product {
     storageBuilding : Building | undefined
     unitaryPrice : number | undefined,
     quantity : number | undefined,
-
 }

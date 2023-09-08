@@ -15,6 +15,7 @@ import Buildings from "./components/Breeding/buildings/Buildings";
 import NotFound from "./components/NotFound";
 import Diseases from "./components/health/Diseases";
 import Medicines from "./components/health/Medicines";
+import ProductStock from "./components/product/ProductStock";
 
 library.add(fas);
 
@@ -30,13 +31,13 @@ export default function App() {
             <Header/>
             <SideNavBar/>
             <Routes>
-                <Route path={''} element={<Home/>}></Route>
-                <Route path='centers' element={<Centers/>}></Route>
-                <Route path='buildings' element={<Buildings/>}></Route>
-                <Route path='blocks' element={<Blocks/>}></Route>
-                <Route path='medicines' element={<Medicines/>}></Route>
-                <Route path='diseases' element={<Diseases/>}></Route>
-
+                <Route path={''} element={<Home/>}/>
+                <Route path='centers' element={<Centers/>}/>
+                <Route path='buildings' element={<Buildings/>}/>
+                <Route path='blocks' element={<Blocks/>}/>
+                <Route path='medicines' element={<Medicines/>}/>
+                <Route path='diseases' element={<Diseases/>}/>
+                <Route path='products/*' element={<ProductStock/>}></Route>
                 <Route path="*" element={<NotFound/>}/>
             </Routes>
             <Footer/>

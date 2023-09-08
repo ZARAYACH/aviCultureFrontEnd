@@ -335,7 +335,6 @@ function Home() {
                                                     <small className="badge badge-danger"><i
                                                         className="far fa-clock"/> 2
                                                         mins</small>
-                                                    {/* General tools such as edit or delete*/}
                                                     <div className="tools">
                                                         <i className="fas fa-edit"/>
                                                         <i className="fas fa-trash-o"/>
@@ -433,26 +432,20 @@ function Home() {
                                                 </li>
                                             </ul>
                                         </div>
-                                        {/* /.card-body */}
                                         <div className="card-footer clearfix">
                                             <button type="button" className="btn btn-primary float-right"><i
                                                 className="fas fa-plus"/> Add item
                                             </button>
                                         </div>
                                     </div>
-                                    {/* /.card */}
                                 </section>
-                                {/* /.Left col */}
-                                {/* right col (We are only adding the ID to make the widgets sortable)*/}
                                 <section className="col-lg-5 connectedSortable">
-                                    {/* Map card */}
                                     <div className="card bg-gradient-primary">
                                         <div className="card-header border-0">
                                             <h3 className="card-title">
                                                 <i className="fas fa-map-marker-alt mr-1"/>
                                                 Visitors
                                             </h3>
-                                            {/* card tools */}
                                             <div className="card-tools">
                                                 <button type="button" className="btn btn-primary btn-sm daterange"
                                                         title="Date range">
@@ -463,35 +456,27 @@ function Home() {
                                                     <i className="fas fa-minus"/>
                                                 </button>
                                             </div>
-                                            {/* /.card-tools */}
                                         </div>
                                         <div className="card-body">
                                             <div id="world-map" style={{height: 250, width: '100%'}}/>
                                         </div>
-                                        {/* /.card-body*/}
                                         <div className="card-footer bg-transparent">
                                             <div className="row">
                                                 <div className="col-4 text-center">
                                                     <div id="sparkline-1"/>
                                                     <div className="text-white">Visitors</div>
                                                 </div>
-                                                {/* ./col */}
                                                 <div className="col-4 text-center">
                                                     <div id="sparkline-2"/>
                                                     <div className="text-white">Online</div>
                                                 </div>
-                                                {/* ./col */}
                                                 <div className="col-4 text-center">
                                                     <div id="sparkline-3"/>
                                                     <div className="text-white">Sales</div>
                                                 </div>
-                                                {/* ./col */}
                                             </div>
-                                            {/* /.row */}
                                         </div>
                                     </div>
-                                    {/* /.card */}
-                                    {/* solid sales graph */}
                                     <div className="card bg-gradient-info">
                                         <div className="card-header border-0">
                                             <h3 className="card-title">
@@ -517,7 +502,6 @@ function Home() {
                                                 maxWidth: '100%'
                                             }}/>
                                         </div>
-                                        {/* /.card-body */}
                                         <div className="card-footer bg-transparent">
                                             <div className="row">
                                                 <div className="col-4 text-center">
@@ -526,37 +510,28 @@ function Home() {
                                                            data-fgcolor="#39CCCC"/>
                                                     <div className="text-white">Mail-Orders</div>
                                                 </div>
-                                                {/* ./col */}
                                                 <div className="col-4 text-center">
                                                     <input type="text" className="knob" data-readonly="true"
                                                            defaultValue={50} data-width={60} data-height={60}
                                                            data-fgcolor="#39CCCC"/>
                                                     <div className="text-white">Online</div>
                                                 </div>
-                                                {/* ./col */}
                                                 <div className="col-4 text-center">
                                                     <input type="text" className="knob" data-readonly="true"
                                                            defaultValue={30} data-width={60} data-height={60}
                                                            data-fgcolor="#39CCCC"/>
                                                     <div className="text-white">In-Store</div>
                                                 </div>
-                                                {/* ./col */}
                                             </div>
-                                            {/* /.row */}
                                         </div>
-                                        {/* /.card-footer */}
                                     </div>
-                                    {/* /.card */}
-                                    {/* Calendar */}
                                     <div className="card bg-gradient-success">
                                         <div className="card-header border-0">
                                             <h3 className="card-title">
                                                 <i className="far fa-calendar-alt"/>
                                                 Calendar
                                             </h3>
-                                            {/* tools card */}
                                             <div className="card-tools">
-                                                {/* button with a dropdown */}
                                                 <div className="btn-group">
                                                     <button type="button"
                                                             className="btn btn-success btn-sm dropdown-toggle"
@@ -579,25 +554,15 @@ function Home() {
                                                     <i className="fas fa-times"/>
                                                 </button>
                                             </div>
-                                            {/* /. tools */}
                                         </div>
-                                        {/* /.card-header */}
                                         <div className="card-body pt-0">
-                                            {/*The calendar */}
                                             <div id="calendar" style={{width: '100%'}}/>
                                         </div>
-                                        {/* /.card-body */}
                                     </div>
-                                    {/* /.card */}
                                 </section>
-                                {/* right col */}
                             </div>
-                            {/* /.row (main row) */}
                         </div>
-                        {/* /.container-fluid */}
                     </section>
-                    {/* /.content */}
-
                 </div>
             </div>
         </Fragment>
