@@ -4,6 +4,10 @@ import Medicine from "./Medicine";
 import Building from "../Breeding/buildings/Building";
 import {useAxios} from "../../configuration/AxiosConfiguration";
 import {log} from "console";
+import {MultiSelect, Option} from "react-multi-select-component";
+import Diseases from "./Diseases";
+import Disease from "./Disease";
+import {randomInt} from "crypto";
 
 interface AddMedicineMedicineProps {
     toggleModal: () => void,
@@ -12,7 +16,9 @@ interface AddMedicineMedicineProps {
 
 function AddMedicineModal({toggleModal, setMedicines}: AddMedicineMedicineProps) {
     const [buildings, setBuildings] = useState<Building[]>([]);
+    const [diseases, setDiseases] = useState<Disease[]>([]);
     const {axiosInstance} = useAxios();
+    const [selectedDiseases, setSelectedDiseases] = useState<Option[]>([]);
     const [medicine, setNewMedicine] = useState<Medicine>({
         id: undefined,
         name: undefined,
@@ -24,7 +30,6 @@ function AddMedicineModal({toggleModal, setMedicines}: AddMedicineMedicineProps)
         diseaseIds: []
     });
 
-    // Fetch Medicines data when the component mounts
     useEffect(() => {
         axiosInstance
             .get(process.env.REACT_APP_API_PREFIX + "/breeding-buildings", {params: {nature: "STORAGE"}})
@@ -34,17 +39,25 @@ function AddMedicineModal({toggleModal, setMedicines}: AddMedicineMedicineProps)
             .catch((error) => {
                 console.error("Error fetching data: ", error);
             });
+        axiosInstance.get(process.env.REACT_APP_API_PREFIX + "/diseases")
+            .then(value => setDiseases(value.data))
+            .catch(reason => console.error(reason))
     }, []);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const {name, value, type} = e.target;
-        console.log({name, value, type})
         setNewMedicine((prevMedicine) => ({
             ...prevMedicine,
             [name]: type === 'number' ? (value !== '' ? parseFloat(value) : null) : value,
             [name]: name === 'isVaccine' ? (value == 'true') : name === 'storageBuilding' ? buildings.find(building => building.id == parseInt(value)) : value,
         }));
     };
+    useEffect(() => {
+        setNewMedicine(prevState => ({
+            ...prevState,
+            diseaseIds: selectedDiseases.map(option => option.value)
+        }))
+    }, [selectedDiseases])
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -65,13 +78,9 @@ function AddMedicineModal({toggleModal, setMedicines}: AddMedicineMedicineProps)
         <div className="absolute inset-0 flex items-start justify-center z-[1039]  ">
             <div className="fixed inset-0 flex items-start justify-center z-[1039] backdrop-blur-sm"
                  onClick={toggleModal}></div>
-            <div
-                className="modal-container bg-white w-11/12 md:max-w-2xl mx-auto rounded shadow-lg shadow-black overflow-y-auto mt-5 align-items-lg-start">
+            <div>
                 <div
-                    className="modal-close absolute top-0 right-0 cursor-pointer flex flex-col items-start  mt-4 mr-4 text-white text-sm z-50">
-                    <span className="text-xl">×</span>
-                </div>
-
+                    className="modal-container relative bg-white w-11/12 md:max-w-2xl mx-auto rounded shadow-lg shadow-black overflow-y-auto mt-5 align-items-lg-start"></div>
                 <div className="modal-content py-4 text-left px-6 border-0 z-[1040]">
                     <div className=" mx-auto ">
                         <div className="text-center mb-3">
@@ -141,8 +150,8 @@ function AddMedicineModal({toggleModal, setMedicines}: AddMedicineMedicineProps)
                                         </div>
                                         <div>
                                             <label
-                                                className="Medicine text-sm text-gray-700 font-medium dark:text-white">Food
-                                                Nature</label>
+                                                className="Medicine text-sm text-gray-700 font-medium dark:text-white">Is
+                                                a vaccine ?</label>
                                             <select placeholder="Is a vaccine ?"
                                                     name="isVaccine"
                                                     onChange={handleChange}
@@ -150,6 +159,20 @@ function AddMedicineModal({toggleModal, setMedicines}: AddMedicineMedicineProps)
                                                 <option key={0} value='false'>false</option>
                                                 <option key={1} value='true'>true</option>
                                             </select>
+                                        </div>
+                                    </div>
+                                    <div className="grid grid-cols-1 sm:grid-cols-1 gap-4 lg:gap-6">
+                                        <div>
+                                            <label
+                                                className="Disease text-sm text-gray-700 font-medium dark:text-white">Medicines </label>
+                                            <MultiSelect options={diseases.map(value => {
+                                                return {
+                                                    value: value.id ? value.id : '',
+                                                    label: value.name ? value.name : '',
+                                                    key : value.id ? 'option-' + value.id : 'random'
+                                                }
+                                            })} value={selectedDiseases} onChange={setSelectedDiseases}
+                                                         labelledBy={"medicinesSelect"}/>
                                         </div>
                                     </div>
                                 </div>

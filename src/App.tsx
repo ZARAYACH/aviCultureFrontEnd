@@ -5,7 +5,6 @@ import {fas} from "@fortawesome/free-solid-svg-icons";
 import "./App.css";
 import Login from "./components/login/Login";
 import NavBar from "./components/navBar/NavBar";
-//import Home from './components/home/Home';
 import Blocks from "./components/Breeding/Block/Blocks";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -14,7 +13,8 @@ import SideNavBar from "./components/SideNavBar";
 import Centers from "./components/Breeding/centers/Centers";
 import Buildings from "./components/Breeding/buildings/Buildings";
 import NotFound from "./components/NotFound";
-import Medicines from "./components/medicine/Medicines";
+import Diseases from "./components/health/Diseases";
+import Medicines from "./components/health/Medicines";
 
 library.add(fas);
 
@@ -30,12 +30,12 @@ export default function App() {
             <Header/>
             <SideNavBar/>
             <Routes>
-                <Route path={""} element={<Home/>}></Route>
-                <Route path="centers" element={<Centers/>}></Route>
-
-                <Route path="buildings" element={<Buildings/>}></Route>
-                <Route path="blocks" element={<Blocks/>}></Route>
-                <Route path="medicines" element={<Medicines/>}></Route>
+                <Route path={''} element={<Home/>}></Route>
+                <Route path='centers' element={<Centers/>}></Route>
+                <Route path='buildings' element={<Buildings/>}></Route>
+                <Route path='blocks' element={<Blocks/>}></Route>
+                <Route path='medicines' element={<Medicines/>}></Route>
+                <Route path='diseases' element={<Diseases/>}></Route>
 
                 <Route path="*" element={<NotFound/>}/>
             </Routes>

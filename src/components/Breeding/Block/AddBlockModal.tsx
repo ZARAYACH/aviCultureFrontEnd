@@ -68,11 +68,6 @@ function AddBlockModal({toggleModal, setBlocks}: AddBlockModalProps) {
                  onClick={toggleModal}></div>
             <div
                 className="modal-container bg-white w-11/12 md:max-w-2xl mx-auto rounded shadow-lg shadow-black overflow-y-auto mt-5 align-items-lg-start">
-                <div
-                    className="modal-close absolute top-0 right-0 cursor-pointer flex flex-col items-start  mt-4 mr-4 text-white text-sm z-50">
-                    <span className="text-xl">×</span>
-                </div>
-
                 <div className="modal-content py-4 text-left px-6 border-0 z-[1040]">
                     <div className=" mx-auto ">
                         <div className="text-center mb-3">

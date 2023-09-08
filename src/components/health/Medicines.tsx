@@ -3,12 +3,15 @@ import {useAxios} from "../../configuration/AxiosConfiguration";
 import Medicine from "./Medicine";
 import AddCenterModal from "../Breeding/centers/AddCenterModal";
 import AddMedicineModal from "./AddMedicineModal";
+import diseases from "./Diseases";
+import Disease from "./Disease";
 
 const Medicines = () => {
     const [medicines, setMedicines] = useState<Medicine[]>([]);
+    const [diseases, setDiseases] = useState<Disease[]>([]);
     const {axiosInstance} = useAxios();
     const [isAddMedicineModalOpen, setIsAddMedicineModalOpen] = useState(false);
-    const toggleAddBuildingModal = () => {
+    const toggleAddMedicineModal = () => {
         setIsAddMedicineModalOpen(!isAddMedicineModalOpen);
     };
     useEffect(() => {
@@ -18,10 +21,22 @@ const Medicines = () => {
                 setMedicines(response.data);
             })
             .catch((error) => {
-                console.error("Error fetching data :", error);
+                console.error("Eirror fetching data :", error);
             });
     }, []);
-    console.log(medicines)
+
+    useEffect(() => {
+        axiosInstance
+            .get(process.env.REACT_APP_API_PREFIX + "/diseases")
+            .then((response) => {
+                setDiseases(response.data);
+            })
+            .catch((error) => {
+                console.error("Error fetching data :", error);
+            });
+    }, [medicines]);
+
+
     const deleteMedicine = (medicineId: string) => {
         axiosInstance
             .delete(process.env.REACT_APP_API_PREFIX + "/products/medicines/" + medicineId + "/delete")
@@ -35,7 +50,7 @@ const Medicines = () => {
     return (
         <Fragment>
             {(isAddMedicineModalOpen &&
-                <AddMedicineModal toggleModal={toggleAddBuildingModal} setMedicines={setMedicines}/>)}
+                <AddMedicineModal toggleModal={toggleAddMedicineModal} setMedicines={setMedicines}/>)}
 
             <div className="content-wrapper">
                 {/* Table Section */}
@@ -59,7 +74,7 @@ const Medicines = () => {
                                                    href="#">
                                                     View all
                                                 </a>
-                                                <button onClick={toggleAddBuildingModal}
+                                                <button onClick={toggleAddMedicineModal}
                                                         className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                                                 >
                                                     <svg
@@ -91,19 +106,12 @@ const Medicines = () => {
                                                     className="flex"
                                                 >
                                                     <input id="all"
-                                                        type="checkbox"
-                                                        className="shrink-0 border-gray-200 rounded text-blue-600 pointer-events-none focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"/>
+                                                           type="checkbox"
+                                                           className="shrink-0 border-gray-200 rounded text-blue-600 pointer-events-none focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"/>
                                                     <span className="sr-only">Checkbox</span>
                                                 </label>
                                             </th>
-                                            <th scope="col" className="px-6 py-3 text-left">
-                                                <div className="flex items-center gap-x-2">
-                                                    <span
-                                                        className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                                                        ID
-                                                    </span>
-                                                </div>
-                                            </th>
+
                                             <th scope="col" className="px-6 py-3 text-left">
                                                 <div className="flex items-center gap-x-2">
                                                     <span
@@ -156,6 +164,15 @@ const Medicines = () => {
                                                 <div className="flex items-center gap-x-2">
                                                     <span
                                                         className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
+                                                        Diseases List
+                                                    </span>
+                                                </div>
+                                            </th>
+
+                                            <th scope="col" className="px-6 py-3 text-left">
+                                                <div className="flex items-center gap-x-2">
+                                                    <span
+                                                        className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
                                                         ...
                                                     </span>
                                                 </div>
@@ -169,21 +186,14 @@ const Medicines = () => {
                                                 <td className="h-px w-px whitespace-nowrap">
                                                     <div className="pl-6 py-3">
                                                         <label htmlFor={medicine.id}
-                                                            className="flex"
+                                                               className="flex"
                                                         >
                                                             <input id={medicine.id}
-                                                                type="checkbox"
-                                                                className="shrink-0 border-gray-200 rounded text-blue-600 pointer-events-none focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                                                   type="checkbox"
+                                                                   className="shrink-0 border-gray-200 rounded text-blue-600 pointer-events-none focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                                             />
                                                             <span className="sr-only">Checkbox</span>
                                                         </label>
-                                                    </div>
-                                                </td>
-                                                <td className="h-px w-px whitespace-nowrap">
-                                                    <div className="px-6 py-3">
-                                                        <span className="text-sm text-gray-600 dark:text-gray-400">
-                                                            {medicine.id}
-                                                        </span>
                                                     </div>
                                                 </td>
                                                 <td className="h-px w-px whitespace-nowrap">
@@ -258,6 +268,24 @@ const Medicines = () => {
                                                         </div>
                                                     </div>
                                                 </td>
+                                                <td className="h-px w-px whitespace-nowrap">
+                                                    <div className="px-6 py-3">
+                                                        <div className="flex items-center gap-x-2">
+                                                            <div className="grow">
+                                                                <span
+                                                                    className="text-sm text-gray-600 dark:text-gray-400">
+                                                                    {medicine.diseaseIds?.map(diseaseId => {
+                                                                        return <span
+                                                                            className="inline-flex items-center rounded-md border-2 border-muted-1 bg-stone-200	 px-2 py-1 text-sm font-bold text-heading shadow-sm mr-1">
+                                                                        {diseases.find(disease => disease.id == diseaseId)?.name}
+                                                                        </span>;
+                                                                    })}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+
                                                 <td className="h-px w-px whitespace-nowrap">
                                                     <div className="px-6 py-1.5">
                                                         <div

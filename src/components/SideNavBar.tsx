@@ -123,17 +123,16 @@ const SideNavBar = () => {
                 </a>
                 <ul className="nav nav-treeview">
                   <li className="nav-item">
-                    <Link to="Medicines" className="nav-link">
+                    <Link to="medicines" className="nav-link">
                       <i className="far fa-circle nav-icon" />
-                      <p>Medicine</p>
+                      <p>Medicines</p>
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link to="pages/layout/top-nav-sidebar.html"
-                      className="nav-link"
-                    >
+                    <Link to="diseases"
+                      className="nav-link">
                       <i className="far fa-circle nav-icon" />
-                      <p>Top Navigation + Sidebar</p>
+                      <p>Diseases</p>
                     </Link>
                   </li>
                   <li className="nav-item">
