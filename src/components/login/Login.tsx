@@ -22,6 +22,10 @@ function Login() {
     };
 
     if (payload && payload.sub && payload.roles.length) {
+        console.log(payload);
+        console.log(payload.sub);
+        console.log(payload.roles.length);
+
         return <Navigate to="/dashboard"/>;
     }
     const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {

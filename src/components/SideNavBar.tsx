@@ -130,6 +130,31 @@ const SideNavBar = () => {
                                     </li>
                                 </ul>
                             </li>
+                            <li className="nav-item menu-open">
+                                <a href="" className="nav-link active">
+                                    <i className="nav-icon fas fa-tachometer-alt"/>
+                                    <p>
+                                    Transportation Management
+                                        <i className="right fas fa-angle-left"/>
+                                    </p>
+                                </a>
+                                <ul className="nav nav-treeview">
+                                    <li className="nav-item">
+                                        <Link className="nav-link active" to="vehicles">
+                                            <i className="far fa-circle nav-icon"/>
+                                            <p>vehicle</p>
+                                        </Link>
+
+                                    </li>
+                                    <li className="nav-item">
+                                        <Link to={"vehicles_intervention"} className="nav-link">
+                                            <i className="far fa-circle nav-icon"/>
+                                            <p>vehicle-intervention</p>
+                                        </Link>
+                                    </li>
+
+                                </ul>
+                            </li>
                             <li className="nav-header">PRODUCTS & TRANSACTIONS</li>
                             <li className="nav-item menu-open">
                                 <Link to="products" className="nav-link">

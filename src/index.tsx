@@ -22,7 +22,7 @@ root.render(
             <AuthProvider>
                 <Routes>
                     <Route path="/" element={<Navigate to="/login"/>}/>
-                    <Route path="" element={<ProtectedRoute requiredRoles={["ROLE_MANAGER"]}/>}>
+                    <Route path="" element={<ProtectedRoute requiredRoles={["ROLE_OPERATOR"]}/>}>
                         <Route path="dashboard/*" element={<App/>}></Route>
                     </Route>
                     <Route path="/login" element={<Login/>}/>
