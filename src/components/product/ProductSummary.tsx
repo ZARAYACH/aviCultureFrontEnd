@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect } from "react";
 
 import { useState } from "react";
-import { Product } from "./Product";
+import Product  from "./modal/Product";
 import { useAxios } from "../../configuration/AxiosConfiguration";
 
 const ProductSummary = () => {
@@ -22,7 +22,7 @@ const ProductSummary = () => {
   const deleteproduct = (id: string) => {
     axiosInstance
       .delete(
-        process.env.REACT_APP_API_PREFIX + "/products/Product/" + id + "/delete"
+        process.env.REACT_APP_API_PREFIX + "/products/delete",{params : {productIds : id}}
       )
       .then((response) => {
         setProducts(products.filter((product, index) => product.id !== id));

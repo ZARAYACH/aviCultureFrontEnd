@@ -60,13 +60,6 @@ const ProductStock = () => {
         <div className="flex ml-4 ">
           <div className="flex bg-gray-200 rounded-lg transition p-1 dark:bg-gray-700 dark:hover:bg-gray-600 mt-4 ">
             <nav className="flex space-x-2" aria-label="Tabs" role="tablist">
-              <Link
-                to=""
-                className="hs-tab-active:bg-white hs-tab-active:text-gray-700 hs-tab-active:dark:bg-gray-800 hs-tab-active:dark:text-gray-400 dark:hs-tab-active:bg-gray-800 py-3 px-4 inline-flex items-center gap-2 bg-transparent text-sm text-gray-500 hover:bg-gray-900 font-medium rounded-md dark:text-gray-400 dark:hover:text-white active"
-                role="tab"
-              >
-                All Products
-              </Link>
               {products.map((product, index) => (
                 <Link
                   key={index}
