@@ -7,7 +7,7 @@ function Header() {
             {/* Navbar */}
             <nav className="main-header navbar navbar-expand navbar-white navbar-light">
                 {/* Left navbar links */}
-                <ul className="navbar-nav">
+                <ul className="navbar-nav items-center">
                     <li className="nav-item">
                         <a className="nav-link" data-widget="pushmenu" href="#" role="button"><i className="fas fa-bars" /></a>
                     </li>

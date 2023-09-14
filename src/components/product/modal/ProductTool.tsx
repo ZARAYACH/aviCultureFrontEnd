@@ -5,5 +5,5 @@ import FoodCategory from "./FoodCategory";
 import ToolCategory from "./ToolCategory";
 export default interface ProductTool extends Product{
     usedFor : string | undefined,
-    toolCategory : ToolCategory | undefined
+    toolCategorie : ToolCategory | undefined
 }
