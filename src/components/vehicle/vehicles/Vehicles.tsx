@@ -1,23 +1,22 @@
-import React, { useState, useEffect, Fragment } from "react";
-import { Link } from 'react-router-dom';
+import React, {useState, useEffect, Fragment} from "react";
+import {Link, useNavigate} from 'react-router-dom';
 
-import axios from "axios";
-// interface for the vehicle object
-import Vehicle from './interfaces';
-import { useAxios } from "../../../configuration/AxiosConfiguration";
+import {Vehicle} from './interfaces';
+import {useAxios} from "../../../configuration/AxiosConfiguration";
 import AddVehicles from "./AddVehicles";
 
 export default function Vehicles() {
     const [vehicles, setVehicles] = useState<Vehicle[]>([]); // Provide the type annotation
-    const { axiosInstance } = useAxios();
+    const {axiosInstance} = useAxios();
     const [isAddVehicle, setIsAddVehicleOpen] = useState(false);
+    const navigate = useNavigate();
     const toggleAddVehicles = () => {
         setIsAddVehicleOpen(!isAddVehicle);
     };
 
     useEffect(() => {
         axiosInstance
-            .get(process.env.REACT_APP_API_PREFIX + "/api/v1/vehicles")
+            .get(process.env.REACT_APP_API_PREFIX + "/vehicles")
             .then((response) => {
                 setVehicles(response.data);
                 console.log(response.data);
@@ -37,7 +36,9 @@ export default function Vehicles() {
                 console.error("Error fetching data :", error);
             });
     }
-    // @ts-ignore
+    const handleVehicleRowClick = (vehicleId: number) => {
+        navigate(vehicleId + '');
+    }
     return (
         <Fragment>
             {(isAddVehicle && <AddVehicles toggleModal={toggleAddVehicles} setVehicle={setVehicles}/>)}
@@ -60,7 +61,7 @@ export default function Vehicles() {
                                         <div>
                                             <div className="inline-flex gap-x-2">
                                                 <a className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
-                                                    href="#">
+                                                   href="#">
                                                     View all
                                                 </a>
                                                 <button
@@ -88,242 +89,255 @@ export default function Vehicles() {
                                     </div>
                                     <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                         <thead>
-                                            <tr>
-                                                <th scope="col" className="pl-6 py-3 text-left">
-                                                    <label
-                                                        htmlFor="hs-at-with-checkboxes-main"
-                                                        className="flex"
-                                                    >
-                                                        <input
-                                                            type="checkbox"
-                                                            className="shrink-0 border-gray-200 rounded text-blue-600 pointer-events-none focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-                                                            id="hs-at-with-checkboxes-main"
-                                                        />
-                                                        <span className="sr-only">Checkbox</span>
-                                                    </label>
-                                                </th>
-                                                <th scope="col" className="px-6 py-3 text-left">
-                                                    <div className="flex items-center gap-x-2">
+                                        <tr>
+                                            <th scope="col" className="pl-6 py-3 text-left">
+                                                <label
+                                                    htmlFor="hs-at-with-checkboxes-main"
+                                                    className="flex"
+                                                >
+                                                    <input
+                                                        type="checkbox"
+                                                        className="shrink-0 border-gray-200 rounded text-blue-600 pointer-events-none focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                                        id="hs-at-with-checkboxes-main"
+                                                    />
+                                                    <span className="sr-only">Checkbox</span>
+                                                </label>
+                                            </th>
+                                            <th scope="col" className="px-6 py-3 text-left">
+                                                <div className="flex items-center gap-x-2">
                                                         <span
                                                             className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
                                                             ID
                                                         </span>
-                                                    </div>
-                                                </th>
-                                                <th scope="col" className="px-6 py-3 text-left">
-                                                    <div className="flex items-center gap-x-2">
+                                                </div>
+                                            </th>
+                                            <th scope="col" className="px-6 py-3 text-left">
+                                                <div className="flex items-center gap-x-2">
                                                         <span
                                                             className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
                                                             type
                                                         </span>
-                                                    </div>
-                                                </th>
-                                                <th scope="col" className="px-6 py-3 text-left">
-                                                    <div className="flex items-center gap-x-2">
+                                                </div>
+                                            </th>
+                                            <th scope="col" className="px-6 py-3 text-left">
+                                                <div className="flex items-center gap-x-2">
                                                         <span
                                                             className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
                                                             marque
                                                         </span>
-                                                    </div>
-                                                </th>
-                                                <th scope="col" className="px-6 py-3 text-left">
-                                                    <div className="flex items-center gap-x-2">
+                                                </div>
+                                            </th>
+                                            <th scope="col" className="px-6 py-3 text-left">
+                                                <div className="flex items-center gap-x-2">
                                                         <span
                                                             className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
                                                             module
                                                         </span>
-                                                    </div>
-                                                </th>
-                                                <th scope="col" className="px-6 py-3 text-left">
-                                                    <div className="flex items-center gap-x-2">
+                                                </div>
+                                            </th>
+                                            <th scope="col" className="px-6 py-3 text-left">
+                                                <div className="flex items-center gap-x-2">
                                                         <span
                                                             className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
                                                             licence_plate
                                                         </span>
-                                                    </div>
-                                                </th>
-                                                <th scope="col" className="px-6 py-3 text-left">
-                                                    <div className="flex items-center gap-x-2">
+                                                </div>
+                                            </th>
+                                            <th scope="col" className="px-6 py-3 text-left">
+                                                <div className="flex items-center gap-x-2">
                                                         <span
                                                             className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
                                                             first_rolling_date
                                                         </span>
-                                                    </div>
-                                                </th>
-                                                <th scope="col" className="px-6 py-3 text-left">
-                                                    <div className="flex items-center gap-x-2">
+                                                </div>
+                                            </th>
+                                            <th scope="col" className="px-6 py-3 text-left">
+                                                <div className="flex items-center gap-x-2">
                                                         <span
                                                             className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
                                                             Drivers
                                                         </span>
-                                                    </div>
-                                                </th>
-                                                <th scope="col" className="px-6 py-3 text-left">
-                                                    <div className="flex items-center gap-x-2">
+                                                </div>
+                                            </th>
+                                            <th scope="col" className="px-6 py-3 text-left">
+                                                <div className="flex items-center gap-x-2">
                                                         <span
                                                             className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
                                                             documents
                                                         </span>
-                                                    </div>
-                                                </th>
-                                                <th scope="col" className="px-6 py-3 text-left">
-                                                    <div className="flex items-center gap-x-2">
+                                                </div>
+                                            </th>
+                                            <th scope="col" className="px-6 py-3 text-left">
+                                                <div className="flex items-center gap-x-2">
                                                         <span
                                                             className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
                                                             ...
                                                         </span>
-                                                    </div>
-                                                </th>
+                                                </div>
+                                            </th>
 
-                                                <th scope="col" className="px-6 py-3 text-right" />
-                                            </tr>
+                                            <th scope="col" className="px-6 py-3 text-right"/>
+                                        </tr>
                                         </thead>
                                         <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                                            {vehicles.map((vehicle) => (
-                                                <tr key={vehicle.id}>
-                                                    <td className="h-px w-px whitespace-nowrap">
-                                                        <div className="pl-6 py-3">
-                                                            <label htmlFor={"checkbox-" + vehicle.id}
-                                                                className="flex">
-                                                                <input id={"checkbox-" + vehicle.id}
-                                                                    type="checkbox"
-                                                                    className="shrink-0 border-gray-200 rounded text-blue-600 pointer-events-none focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800" />
-                                                                <span className="sr-only">Checkbox</span>
-                                                            </label>
-                                                        </div>
-                                                    </td>
-                                                    <td className="h-px w-px whitespace-nowrap">
-                                                        <div className="px-6 py-3">
+                                        {vehicles.map((vehicle) => (
+                                            <tr key={vehicle.id} className='hover:bg-gray-100 cursor-pointer'>
+                                                <td className="h-px w-px whitespace-nowrap">
+                                                    <div className="pl-6 py-3">
+                                                        <label htmlFor={"checkbox-" + vehicle.id}
+                                                               className="flex">
+                                                            <input id={"checkbox-" + vehicle.id}
+                                                                   type="checkbox"
+                                                                   className="shrink-0 border-gray-200 rounded text-blue-600 pointer-events-none focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"/>
+                                                            <span className="sr-only">Checkbox</span>
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td onClick={() => handleVehicleRowClick(vehicle.id ? vehicle.id : 0)}
+                                                    className="h-px w-px whitespace-nowrap">
+                                                    <div className="px-6 py-3">
                                                             <span className="text-sm text-gray-600 dark:text-gray-400">
                                                                 {vehicle.id}
                                                             </span>
-                                                        </div>
-                                                    </td>
-                                                    <td className="h-px w-px whitespace-nowrap">
-                                                        <div className="px-6 py-3">
-                                                            <div className="flex items-center gap-x-2">
-                                                                <div class-Name="grow">
+                                                    </div>
+                                                </td>
+                                                <td className="h-px w-px whitespace-nowrap" onClick={() => handleVehicleRowClick(vehicle.id ? vehicle.id : 0)}>
+                                                    <div className="px-6 py-3">
+                                                        <div className="flex items-center gap-x-2">
+                                                            <div class-Name="grow">
                                                                     <span
                                                                         className="text-sm text-gray-600 dark:text-gray-400">
                                                                         {vehicle.type}
                                                                     </span>
-                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </td>
-                                                    <td className="h-px w-px whitespace-nowrap">
-                                                        <div className="px-6 py-3">
-                                                            <div className="flex items-center gap-x-2">
-                                                                <div className="grow">
+                                                    </div>
+                                                </td>
+                                                <td className="h-px w-px whitespace-nowrap" onClick={() => handleVehicleRowClick(vehicle.id ? vehicle.id : 0)}>
+                                                    <div className="px-6 py-3">
+                                                        <div className="flex items-center gap-x-2">
+                                                            <div className="grow">
                                                                     <span
                                                                         className="text-sm text-gray-600 dark:text-gray-400">
                                                                         {vehicle.marque}
                                                                     </span>
-                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </td>
-                                                    <td className="h-px w-px whitespace-nowrap">
-                                                        <div className="px-6 py-3">
-                                                            <div className="flex items-center gap-x-2">
-                                                                <div className="grow">
+                                                    </div>
+                                                </td>
+                                                <td className="h-px w-px whitespace-nowrap" onClick={() => handleVehicleRowClick(vehicle.id ? vehicle.id : 0)}>
+                                                    <div className="px-6 py-3">
+                                                        <div className="flex items-center gap-x-2">
+                                                            <div className="grow">
                                                                     <span
                                                                         className="text-sm text-gray-600 dark:text-gray-400">
                                                                         {vehicle.module}
                                                                     </span>
-                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </td>
-                                                    <td className="h-px w-px whitespace-nowrap">
-                                                        <div className="px-6 py-3">
-                                                            <div className="flex items-center gap-x-2">
-                                                                <div className="grow">
+                                                    </div>
+                                                </td>
+                                                <td className="h-px w-px whitespace-nowrap" onClick={() => handleVehicleRowClick(vehicle.id ? vehicle.id : 0)}>
+                                                    <div className="px-6 py-3">
+                                                        <div className="flex items-center gap-x-2">
+                                                            <div className="grow">
                                                                     <span
                                                                         className="text-sm text-gray-600 dark:text-gray-400">
                                                                         {vehicle.licencePlate}
                                                                     </span>
-                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </td>
-                                                    <td className="h-px w-px whitespace-nowrap">
-                                                        <div className="px-6 py-3">
-                                                            <div className="flex items-center gap-x-2">
-                                                                <div className="grow">
+                                                    </div>
+                                                </td>
+                                                <td className="h-px w-px whitespace-nowrap" onClick={() => handleVehicleRowClick(vehicle.id ? vehicle.id : 0)}>
+                                                    <div className="px-6 py-3">
+                                                        <div className="flex items-center gap-x-2">
+                                                            <div className="grow">
                                                                     <span
                                                                         className="text-sm text-gray-600 dark:text-gray-400">
                                                                         {vehicle.firstRollingDate}
                                                                     </span>
-                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </td>
+                                                    </div>
+                                                </td>
 
-                                                    <td className="h-px w-px whitespace-nowrap">
-                                                        <div className="px-6 py-3">
-                                                            <div className="flex items-center gap-x-2">
-                                                                <div className="grow">
+                                                <td className="h-px w-px whitespace-nowrap" onClick={() => handleVehicleRowClick(vehicle.id ? vehicle.id : 0)}>
+                                                    <div className="px-6 py-3">
+                                                        <div className="flex items-center gap-x-2">
+                                                            <div className="grow">
                                                                     <span
                                                                         className="text-sm text-gray-600 dark:text-gray-400">
                                                                         {/*vehicle.documents*/}
                                                                     </span>
-                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </td>
-                                                    <td className="h-px w-px whitespace-nowrap">
-                                                        <div className="px-6 py-1.5">
+                                                    </div>
+                                                </td>
+                                                <td className="h-px w-px whitespace-nowrap" onClick={() => handleVehicleRowClick(vehicle.id ? vehicle.id : 0)}>
+                                                    <div className="px-6 py-3">
+                                                        <div className="flex items-center gap-x-2">
+                                                            <div className="grow">
+                                                                    <span
+                                                                        className="text-sm text-gray-600 dark:text-gray-400">
+                                                                        {/*vehicle.drivers*/}
+                                                                    </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td className="h-px w-px whitespace-nowrap">
+                                                    <div className="px-6 py-1.5">
+                                                        <div
+                                                            className="hs-dropdown relative inline-vehicle [--placement:bottom-right]">
+                                                            <button
+                                                                id="hs-table-dropdown-1"
+                                                                type="button"
+                                                                className="hs-dropdown-toggle py-1.5 px-2 inline-flex justify-center items-center gap-2 rounded-md text-gray-700 align-middle focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
+                                                            >
+                                                                <svg
+                                                                    className="w-4 h-4"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    width={16}
+                                                                    height={16}
+                                                                    fill="currentColor"
+                                                                    viewBox="0 0 16 16"
+                                                                >
+                                                                    <path
+                                                                        d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                                                                </svg>
+                                                            </button>
                                                             <div
-                                                                className="hs-dropdown relative inline-vehicle [--placement:bottom-right]">
-                                                                <button
-                                                                    id="hs-table-dropdown-1"
-                                                                    type="button"
-                                                                    className="hs-dropdown-toggle py-1.5 px-2 inline-flex justify-center items-center gap-2 rounded-md text-gray-700 align-middle focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
-                                                                >
-                                                                    <svg
-                                                                        className="w-4 h-4"
-                                                                        xmlns="http://www.w3.org/2000/svg"
-                                                                        width={16}
-                                                                        height={16}
-                                                                        fill="currentColor"
-                                                                        viewBox="0 0 16 16"
+                                                                className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden mt-2 divide-y divide-gray-200 min-w-[10rem] z-10 bg-white shadow-2xl rounded-lg p-2 mt-2 dark:divide-gray-700 dark:bg-gray-800 dark:border dark:border-gray-700"
+                                                                aria-labelledby="hs-table-dropdown-1"
+                                                            >
+                                                                <div className="py-2 first:pt-0 last:pb-0">
+                                                                    <a
+                                                                        className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+                                                                        href=""
                                                                     >
-                                                                        <path
-                                                                            d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
-                                                                    </svg>
-                                                                </button>
-                                                                <div
-                                                                    className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden mt-2 divide-y divide-gray-200 min-w-[10rem] z-10 bg-white shadow-2xl rounded-lg p-2 mt-2 dark:divide-gray-700 dark:bg-gray-800 dark:border dark:border-gray-700"
-                                                                    aria-labelledby="hs-table-dropdown-1"
-                                                                >
-                                                                    <div className="py-2 first:pt-0 last:pb-0">
-                                                                        <a
-                                                                            className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                                                                            href=""
-                                                                        >
-                                                                            Edit
-                                                                        </a>
-                                                                        <a
-                                                                            className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                                                                            href=""
-                                                                        >
-                                                                            Disable
-                                                                        </a>
-                                                                    </div>
-                                                                    <div className="py-2 first:pt-0 last:pb-0">
-                                                                        <a onClick={() => (vehicle.id && deleteVehicle(vehicle.id))}
-                                                                            className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-red-600 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-red-500 dark:hover:bg-gray-700"
-                                                                        >
-                                                                            Delete
-                                                                        </a>
-                                                                    </div>
+                                                                        Edit
+                                                                    </a>
+                                                                    <a
+                                                                        className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+                                                                        href=""
+                                                                    >
+                                                                        Disable
+                                                                    </a>
+                                                                </div>
+                                                                <div className="py-2 first:pt-0 last:pb-0">
+                                                                    <a onClick={() => (vehicle.id && deleteVehicle(vehicle.id))}
+                                                                       className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-red-600 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-red-500 dark:hover:bg-gray-700"
+                                                                    >
+                                                                        Delete
+                                                                    </a>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </td>
-                                                </tr>
-                                            ))}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))}
                                         </tbody>
                                     </table>
                                     {/* End Table */}

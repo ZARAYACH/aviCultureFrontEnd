@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useAxios} from "../../../configuration/AxiosConfiguration";
-import {useNavigate} from "react-router-dom";
-import Vehicle from './interfaces';
-
+import {Vehicle} from "./interfaces";
 
 interface AddVehiclesProps {
     toggleModal: () => void,
@@ -34,10 +32,9 @@ function AddVehicles({toggleModal, setVehicle}: AddVehiclesProps) {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-
         // Make a POST request to your API using Axios
         axiosInstance
-            .post(process.env.REACT_APP_API_PREFIX + '/api/v1/vehicles/add', vehicle)
+            .post(process.env.REACT_APP_API_PREFIX + '/vehicles/add', vehicle)
             .then((response) => {
                 setVehicle(prevState => [...prevState, response.data as Vehicle])
                 toggleModal()

@@ -77,16 +77,16 @@ const SideNavBar = () => {
                                 </Link>
                             </li>
                             <li className="nav-item menu-open">
-                                <a href="" className="nav-link active">
-                                    <i className="nav-icon fas fa-tachometer-alt"/>
+                                <a href="" className="nav-link ">
+                                    <i className="nav-icon fas fa-egg"/>
                                     <p>
                                         Breeding
                                         <i className="right fas fa-angle-left"/>
                                     </p>
                                 </a>
-                                <ul className="nav nav-treeview">
+                                <ul className="nav nav-treeview ml-2">
                                     <li className="nav-item">
-                                        <Link className="nav-link active" to="centers">
+                                        <Link className="nav-link " to="centers">
                                             <i className="far fa-circle nav-icon"/>
                                             <p>Centers</p>
                                         </Link>
@@ -94,13 +94,13 @@ const SideNavBar = () => {
                                     </li>
                                     <li className="nav-item">
                                         <Link to={"buildings"} className="nav-link">
-                                            <i className="far fa-circle nav-icon"/>
+                                            <i className="fas fa-building nav-icon"/>
                                             <p>Buildings</p>
                                         </Link>
                                     </li>
                                     <li className="nav-item">
                                         <Link to={"blocks"} className="nav-link">
-                                            <i className="far fa-circle nav-icon"/>
+                                            <i className="fas fa-circle nav-icon"/>
                                             <p>Blocks</p>
                                         </Link>
                                     </li>
@@ -108,49 +108,43 @@ const SideNavBar = () => {
                             </li>
                             <li className="nav-item">
                                 <a href="#" className="nav-link">
-                                    <i className="nav-icon fas fa-copy"/>
+                                    <i className="nav-icon fas fa-clinic-medical"/>
                                     <p>
                                         Health
                                         <i className="fas fa-angle-left right"/>
                                     </p>
                                 </a>
-                                <ul className="nav nav-treeview">
+                                <ul className="nav nav-treeview ml-2">
                                     <li className="nav-item">
                                         <Link to="medicines" className="nav-link">
-                                            <i className="far fa-circle nav-icon"/>
+                                            <i className="fas fa-briefcase-medical nav-icon"/>
                                             <p>Medicines</p>
                                         </Link>
                                     </li>
                                     <li className="nav-item">
                                         <Link to="diseases"
                                               className="nav-link">
-                                            <i className="far fa-circle nav-icon"/>
+                                            <i className="fas fa-disease nav-icon"/>
                                             <p>Diseases</p>
                                         </Link>
                                     </li>
                                 </ul>
                             </li>
                             <li className="nav-item menu-open">
-                                <a href="" className="nav-link active">
-                                    <i className="nav-icon fas fa-tachometer-alt"/>
+                                <a href="" className="nav-link ">
+                                    <i className="nav-icon fas fa-car-side"/>
                                     <p>
                                         Transportation Management
                                         <i className="right fas fa-angle-left"/>
                                     </p>
                                 </a>
-                                <ul className="nav nav-treeview">
+                                <ul className="nav nav-treeview ml-2">
                                     <li className="nav-item">
-                                        <Link className="nav-link active" to="vehicles">
-                                            <i className="far fa-circle nav-icon"/>
+                                        <Link className="nav-link " to="vehicles">
+                                            <i className="fas fa-car nav-icon"/>
                                             <p>vehicle</p>
                                         </Link>
 
-                                    </li>
-                                    <li className="nav-item">
-                                        <Link to={"vehicles_intervention"} className="nav-link">
-                                            <i className="far fa-circle nav-icon"/>
-                                            <p>vehicle-intervention</p>
-                                        </Link>
                                     </li>
 
                                 </ul>

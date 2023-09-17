@@ -18,6 +18,7 @@ import Vehicles from "./components/vehicle/vehicles/Vehicles";
 import Transactions from "./components/transactions/Transactions";
 import AddTransaction from "./components/transactions/AddTransaction";
 import CounterParties from "./components/transactions/CounterParties";
+import VehicleInterventions from "./components/vehicle/interventions/vehicleInterventions";
 
 library.add(fas);
 
@@ -40,7 +41,10 @@ export default function App() {
                 <Route path='medicines' element={<Medicines/>}/>
                 <Route path='diseases' element={<Diseases/>}/>
                 <Route path='products/*' element={<ProductStock/>}></Route>
-                <Route path='vehicles' element={<Vehicles/>}/>
+                <Route path='vehicles/*'>
+                    <Route path='' element={<Vehicles/>}/>
+                    <Route path=':vehicleId' element={<VehicleInterventions />}/>
+                </Route>
                 <Route path='transactions/*'>
                     <Route path='add' element={<AddTransaction/>}></Route>
                     <Route path=':transactionId' element={<AddTransaction/>}></Route>

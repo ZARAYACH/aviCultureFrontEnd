@@ -1,58 +1,43 @@
 import React, {Fragment, useEffect, useState} from "react";
-import {useAxios} from "../../configuration/AxiosConfiguration";
-import {Transaction, TransactionType} from "./Transaction";
-import {Link, useNavigate} from "react-router-dom";
-import Product from "../product/modal/Product";
+import {useAxios} from "../../../configuration/AxiosConfiguration";
+import {VehicleIntervention} from "../vehicles/interfaces";
+import {useNavigate, useParams} from "react-router-dom";
+import AddVehicleInterventionModal from "./AddVehicleInterventionsModal";
 
-const Transactions = () => {
-    const [transactions, setTransactions] = useState<Transaction[]>([]);
-    const [products, setProducts] = useState<Product[]>([]);
+const VehicleInterventions = () => {
+    const [vehicleInterventions, setVehicleInterventions] = useState<VehicleIntervention[]>([]);
     const {axiosInstance} = useAxios();
+    const {vehicleId} = useParams();
     const navigate = useNavigate();
-
+    const [isAddVehicleInterventionModalOpen, setIsAddVehicleInterventionModalOpen] = useState(false);
+    const toggleAddVehicleInterventionModal = () => {
+        setIsAddVehicleInterventionModalOpen(!isAddVehicleInterventionModalOpen);
+    };
     useEffect(() => {
         axiosInstance
-            .get(process.env.REACT_APP_API_PREFIX + "/transactions")
+            .get(process.env.REACT_APP_API_PREFIX + '/vehicles/' + vehicleId + '/interventions')
             .then((response) => {
-                setTransactions(response.data);
+                setVehicleInterventions(response.data);
             })
             .catch((error) => {
-                console.error("Error fetching data :", error);
+                navigate('/notFound')
             });
     }, []);
-    useEffect(() => {
-        axiosInstance
-            .get(process.env.REACT_APP_API_PREFIX + "/products")
-            .then((response) => {
-                setProducts(response.data);
-            })
-            .catch((error) => {
-                console.error("Error fetching data: ", error);
-            });
-    }, [])
 
-    const deleteTransactions = (id: string) => {
+    const deleteVehicleIntervention = (vehicleInterventionId: number) => {
         axiosInstance
-            .delete(process.env.REACT_APP_API_PREFIX + "/transactions/" + id + "/delete")
+            .delete(process.env.REACT_APP_API_PREFIX + '/vehicles/' + vehicleId + '/interventions/' + vehicleInterventionId + "/delete")
             .then((response) => {
-                setTransactions(transactions.filter((transaction => transaction.id !== id)))
+                setVehicleInterventions(vehicleInterventions.filter((vehicleIntervention => vehicleIntervention.id !== vehicleInterventionId)))
             }).catch((error) => {
             console.error("Error fetching data :", error);
         });
     }
-    const handleRowClick = (transactionId: string) => {
-        navigate(transactionId)
-    }
-    const calculateTotal = (transaction: Transaction) => {
-        let total = 0;
-        transaction.transactionProductsDetails.forEach(value => {
-            const price = products.find(product => product.id === value.productId)?.unitaryPrice;
-            total += price ? price * (value?.quantity ? value?.quantity : 1) : 0
-        })
-        return total;
-    }
     return (
         <Fragment>
+            {(isAddVehicleInterventionModalOpen &&
+                <AddVehicleInterventionModal toggleModal={toggleAddVehicleInterventionModal} setVehicleInterventions={setVehicleInterventions} vehicleId={vehicleId ? parseFloat(vehicleId) : 0}/>)}
+
             <div className="content-wrapper">
                 <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
                     <div className="flex flex-col">
@@ -64,7 +49,7 @@ const Transactions = () => {
                                         className="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-b border-gray-200 dark:border-gray-700">
                                         <div>
                                             <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
-                                                transactions
+                                                Vehicle Interventions
                                             </h2>
                                         </div>
                                         <div>
@@ -73,8 +58,8 @@ const Transactions = () => {
                                                    href="#">
                                                     View all
                                                 </a>
-                                                <Link to={'add'}
-                                                      className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
+                                                <button onClick={toggleAddVehicleInterventionModal}
+                                                        className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
                                                     <svg className="w-3 h-3"
                                                          xmlns="http://www.w3.org/2000/svg"
                                                          width={16}
@@ -88,7 +73,7 @@ const Transactions = () => {
                                                             strokeLinecap="round"/>
                                                     </svg>
                                                     Create
-                                                </Link>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -118,7 +103,7 @@ const Transactions = () => {
                                                 <div className="flex items-center gap-x-2">
                                                     <span
                                                         className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                                                        Type
+                                                        Nature
                                                     </span>
                                                 </div>
                                             </th>
@@ -126,7 +111,7 @@ const Transactions = () => {
                                                 <div className="flex items-center gap-x-2">
                                                     <span
                                                         className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                                                      Counter Party
+                                                        Description
                                                     </span>
                                                 </div>
                                             </th>
@@ -134,7 +119,7 @@ const Transactions = () => {
                                                 <div className="flex items-center gap-x-2">
                                                     <span
                                                         className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                                                        Total Amount
+                                                        kilometerage
                                                     </span>
                                                 </div>
                                             </th>
@@ -142,7 +127,23 @@ const Transactions = () => {
                                                 <div className="flex items-center gap-x-2">
                                                     <span
                                                         className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                                                        Date
+                                                        date
+                                                    </span>
+                                                </div>
+                                            </th>
+                                            <th scope="col" className="px-6 py-3 text-left">
+                                                <div className="flex items-center gap-x-2">
+                                                    <span
+                                                        className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
+                                                        price
+                                                    </span>
+                                                </div>
+                                            </th>
+                                            <th scope="col" className="px-6 py-3 text-left">
+                                                <div className="flex items-center gap-x-2">
+                                                    <span
+                                                        className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
+                                                        mechanic Name
                                                     </span>
                                                 </div>
                                             </th>
@@ -158,76 +159,94 @@ const Transactions = () => {
                                         </tr>
                                         </thead>
                                         <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                                        {transactions.map((transaction, index) => (
-                                            <tr key={index}
-                                                className='hover:bg-gray-100 cursor-pointer'>
+                                        {vehicleInterventions.map(vehicleIntervention => (
+                                            <tr key={vehicleIntervention.id} className='hover:accent-gray-100'>
                                                 <td className="h-px w-px whitespace-nowrap">
                                                     <div className="pl-6 py-3">
-                                                        <label htmlFor={"checkbox-" + transaction.id}
+                                                        <label htmlFor={"checkbox-" + vehicleIntervention.id}
                                                                className="flex"
                                                         >
-                                                            <input id={"checkbox-" + transaction.id}
+                                                            <input id={"checkbox-" + vehicleIntervention.id}
                                                                    type="checkbox"
                                                                    className="shrink-0 border-gray-200 rounded text-blue-600 pointer-events-none focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"/>
                                                             <span className="sr-only">Checkbox</span>
                                                         </label>
                                                     </div>
                                                 </td>
-                                                <td onClick={() => handleRowClick(transaction.id ? transaction.id : '')}
-                                                    className="h-px w-px whitespace-nowrap">
+                                                <td className="h-px w-px whitespace-nowrap">
                                                     <div className="px-6 py-3">
                                                         <span className="text-sm text-gray-600 dark:text-gray-400">
-                                                            {transaction.id}
+                                                            {vehicleIntervention.id}
                                                         </span>
                                                     </div>
                                                 </td>
-                                                <td onClick={() => handleRowClick(transaction.id ? transaction.id : '')}
-                                                    className="h-px w-px whitespace-nowrap">
+                                                <td className="h-px w-px whitespace-nowrap">
                                                     <div className="px-6 py-3">
                                                         <div className="flex items-center gap-x-2">
                                                             <div className="grow">
                                                                 <span
                                                                     className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {transaction.type}
+                                                                    {vehicleIntervention.nature}
                                                                 </span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td onClick={() => handleRowClick(transaction.id ? transaction.id : '')}
-                                                    className="h-px w-px whitespace-nowrap">
+                                                <td className="h-px w-px whitespace-nowrap">
                                                     <div className="px-6 py-3">
                                                         <div className="flex items-center gap-x-2">
                                                             <div className="grow">
                                                                 <span
                                                                     className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {transaction?.counterParty?.name}
+                                                                    {vehicleIntervention.description}
                                                                 </span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td onClick={() => handleRowClick(transaction.id ? transaction.id : '')}
-                                                    className="h-px w-px whitespace-nowrap">
+                                                <td className="h-px w-px whitespace-nowrap">
                                                     <div className="px-6 py-3">
                                                         <div className="flex items-center gap-x-2">
                                                             <div className="grow">
                                                                 <span
                                                                     className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {calculateTotal(transaction) + ' MAD'}
+                                                                    {vehicleIntervention.kilometerage}
                                                                 </span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td onClick={() => handleRowClick(transaction.id ? transaction.id : '')}
-                                                    className="h-px w-px whitespace-nowrap">
+                                                <td className="h-px w-px whitespace-nowrap">
                                                     <div className="px-6 py-3">
                                                         <div className="flex items-center gap-x-2">
                                                             <div className="grow">
                                                                 <span
                                                                     className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {transaction?.timeStamp ? new Date(transaction?.timeStamp).toLocaleDateString() : ''}
+                                                                    {vehicleIntervention.date ? new Date(vehicleIntervention?.date).toLocaleDateString(): ''}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td className="h-px w-px whitespace-nowrap">
+                                                    <div className="px-6 py-3">
+                                                        <div className="flex items-center gap-x-2">
+                                                            <div className="grow">
+                                                                <span
+                                                                    className="text-sm text-gray-600 dark:text-gray-400">
+                                                                    {vehicleIntervention.price}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td className="h-px w-px whitespace-nowrap">
+                                                    <div className="px-6 py-3">
+                                                        <div className="flex items-center gap-x-2">
+                                                            <div className="grow">
+                                                                <span
+                                                                    className="text-sm text-gray-600 dark:text-gray-400">
+                                                                    {vehicleIntervention.mechanicName}
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -270,7 +289,7 @@ const Transactions = () => {
                                                                     </a>
                                                                 </div>
                                                                 <div className="py-2 first:pt-0 last:pb-0">
-                                                                    <a onClick={() => (transaction.id && deleteTransactions(transaction.id))}
+                                                                    <a onClick={() => (vehicleIntervention.id && deleteVehicleIntervention(vehicleIntervention.id))}
                                                                        className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-red-600 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-red-500 dark:hover:bg-gray-700">
                                                                         Delete
                                                                     </a>
@@ -288,7 +307,7 @@ const Transactions = () => {
                                         <div>
                                             <p className="text-sm text-gray-600 dark:text-gray-400">
                                             <span className="font-semibold text-gray-800 dark:text-gray-200">
-                                                {transactions.length}
+                                                {vehicleInterventions.length}
                                             </span>{" "}
                                                 results
                                             </p>
@@ -333,4 +352,4 @@ const Transactions = () => {
     );
 }
 
-export default Transactions;
+export default VehicleInterventions;
