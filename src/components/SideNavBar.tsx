@@ -168,6 +168,13 @@ const SideNavBar = () => {
                                     <p>Counter Parties</p>
                                 </Link>
                             </li>
+                            <li className="nav-header">PERSONNEL MANAGEMENT</li>
+                            <li className="nav-item menu-open">
+                                <Link to="personnels" className="nav-link">
+                                    <i className="nav-icon fas fa-users"></i>
+                                    <p>Personnel's</p>
+                                </Link>
+                            </li>
                         </ul>
                     </nav>
                 </div>

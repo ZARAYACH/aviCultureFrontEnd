@@ -19,6 +19,7 @@ import Transactions from "./components/transactions/Transactions";
 import AddTransaction from "./components/transactions/AddTransaction";
 import CounterParties from "./components/transactions/CounterParties";
 import VehicleInterventions from "./components/vehicle/interventions/vehicleInterventions";
+import Personnels from "./components/personnels/Personnels";
 
 library.add(fas);
 
@@ -51,6 +52,7 @@ export default function App() {
                     <Route path='*' element={<Transactions/>}/>
                 </Route>
                 <Route path='counter-parties' element={<CounterParties />} />
+                <Route path='personnels' element={<Personnels />} />
 
 
                 <Route path="*" element={<NotFound/>}/>
