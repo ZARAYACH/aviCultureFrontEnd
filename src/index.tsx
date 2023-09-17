@@ -17,21 +17,19 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-    <React.StrictMode>
-        <BrowserRouter>
-            <AuthProvider>
-                <Routes>
-                    <Route path="/" element={<Navigate to="/login"/>}/>
-                    <Route path="" element={<ProtectedRoute requiredRoles={["ROLE_OPERATOR"]}/>}>
-                        <Route path="dashboard/*" element={<App/>}></Route>
-                    </Route>
-                    <Route path="/login" element={<Login/>}/>
-                    <Route path="/logout" element={<Logout/>}/>
-                    <Route path="*" element={<NotFound/>}/>
-                </Routes>
-            </AuthProvider>
-        </BrowserRouter>
-    </React.StrictMode>
+    <BrowserRouter>
+        <AuthProvider>
+            <Routes>
+                <Route path="/" element={<Navigate to="/login"/>}/>
+                <Route path="" element={<ProtectedRoute requiredRoles={["ROLE_OPERATOR"]}/>}>
+                    <Route path="dashboard/*" element={<App/>}></Route>
+                </Route>
+                <Route path="/login" element={<Login/>}/>
+                <Route path="/logout" element={<Logout/>}/>
+                <Route path="*" element={<NotFound/>}/>
+            </Routes>
+        </AuthProvider>
+    </BrowserRouter>
 );
 
 // If you want to start measuring performance in your app, pass a function

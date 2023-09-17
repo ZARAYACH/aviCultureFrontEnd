@@ -158,8 +158,14 @@ const SideNavBar = () => {
                             <li className="nav-header">PRODUCTS & TRANSACTIONS</li>
                             <li className="nav-item menu-open">
                                 <Link to="products" className="nav-link">
-                                    <i className="nav-icon fas fa-tachometer-alt"/>
+                                    <i className="nav-icon fas fa-warehouse"/>
                                     <p>Products Stock</p>
+                                </Link>
+                            </li>
+                            <li className="nav-item menu-open">
+                                <Link to="transactions" className="nav-link">
+                                    <i className="nav-icon fas fa-dollar-sign"></i>
+                                    <p>Transactions</p>
                                 </Link>
                             </li>
                         </ul>

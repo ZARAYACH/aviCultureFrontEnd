@@ -17,6 +17,8 @@ import Diseases from "./components/health/Diseases";
 import Medicines from "./components/health/Medicines";
 import ProductStock from "./components/product/ProductStock";
 import Vehicles from "./components/vehicle/vehicles/Vehicles";
+import Transactions from "./components/transactions/Transactions";
+import AddTransaction from "./components/transactions/AddTransaction";
 
 library.add(fas);
 
@@ -40,6 +42,11 @@ export default function App() {
                 <Route path='diseases' element={<Diseases/>}/>
                 <Route path='products/*' element={<ProductStock/>}></Route>
                 <Route path='vehicles' element={<Vehicles/>}/>
+                <Route path='transactions/*'>
+                    <Route path='add' element={<AddTransaction />}></Route>
+                    <Route path=':transactionId' element={<AddTransaction />}></Route>
+                    <Route path='*' element={<Transactions />} />
+                </Route>
                 <Route path="*" element={<NotFound/>}/>
             </Routes>
             <Footer/>
