@@ -3,57 +3,46 @@ import {useAxios} from "../../configuration/AxiosConfiguration";
 import {Transaction, TransactionType} from "./Transaction";
 import {Link, useNavigate} from "react-router-dom";
 import Product from "../product/modal/Product";
+import {CounterParty} from "./CounterParty";
+import {counter} from "@fortawesome/fontawesome-svg-core";
+import AddCounterPartyModal from "./AddCounterPartyModal";
 
-const Transactions = () => {
-    const [transactions, setTransactions] = useState<Transaction[]>([]);
-    const [products, setProducts] = useState<Product[]>([]);
+const CounterParties = () => {
+    const [counterParties, setCounterParties] = useState<CounterParty[]>([]);
     const {axiosInstance} = useAxios();
     const navigate = useNavigate();
-
-    useEffect(() => {
+    const [isAddCounterPartyModalOpen, setIsAddCounterPartyModalOpen] = useState(false);
+    const toggleAddCounterPartyModal = () => {
+        setIsAddCounterPartyModalOpen(!isAddCounterPartyModalOpen);
+    };    useEffect(() => {
         axiosInstance
-            .get(process.env.REACT_APP_API_PREFIX + "/transactions")
+            .get(process.env.REACT_APP_API_PREFIX + "/counter-parties")
             .then((response) => {
-                setTransactions(response.data);
+                setCounterParties(response.data);
             })
             .catch((error) => {
                 console.error("Error fetching data :", error);
             });
     }, []);
-    useEffect(() => {
+    const deleteCounterParties = (id: number) => {
         axiosInstance
-            .get(process.env.REACT_APP_API_PREFIX + "/products")
+            .delete(process.env.REACT_APP_API_PREFIX + "/counter-parties/" + id + "/delete")
             .then((response) => {
-                setProducts(response.data);
-            })
-            .catch((error) => {
-                console.error("Error fetching data: ", error);
-            });
-    }, [])
-
-    const deleteTransactions = (id: string) => {
-        axiosInstance
-            .delete(process.env.REACT_APP_API_PREFIX + "/transactions/" + id + "/delete")
-            .then((response) => {
-                setTransactions(transactions.filter((transaction => transaction.id !== id)))
+                setCounterParties(counterParties.filter((counterParty => counterParty.id !== id)))
             }).catch((error) => {
             console.error("Error fetching data :", error);
         });
     }
-    const handleRowClick = (transactionId: string) => {
-        navigate(transactionId)
+    const handleRowClick = (transactionId: number) => {
+        // navigate(transactionId)
     }
-    const calculateTotal = (transaction: Transaction) => {
-        let total = 0;
-        transaction.transactionProductsDetails.forEach(value => {
-            const price = products.find(product => product.id === value.productId)?.unitaryPrice;
-            total += price ? price * (value?.quantity ? value?.quantity : 1) : 0
-        })
-        return total;
-    }
+
     return (
-        <Fragment>
-            <div className="content-wrapper">
+            <Fragment>
+                {(isAddCounterPartyModalOpen &&
+                    <AddCounterPartyModal toggleModal={toggleAddCounterPartyModal} setCounterParties={setCounterParties}/>)}
+
+                <div className="content-wrapper">
                 <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
                     <div className="flex flex-col">
                         <div className="-m-1.5 overflow-x-auto">
@@ -64,7 +53,7 @@ const Transactions = () => {
                                         className="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-b border-gray-200 dark:border-gray-700">
                                         <div>
                                             <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
-                                                transactions
+                                                CounterParties
                                             </h2>
                                         </div>
                                         <div>
@@ -73,8 +62,7 @@ const Transactions = () => {
                                                    href="#">
                                                     View all
                                                 </a>
-                                                <Link to={'add'}
-                                                      className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
+                                                <button onClick={toggleAddCounterPartyModal} className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
                                                     <svg className="w-3 h-3"
                                                          xmlns="http://www.w3.org/2000/svg"
                                                          width={16}
@@ -88,7 +76,7 @@ const Transactions = () => {
                                                             strokeLinecap="round"/>
                                                     </svg>
                                                     Create
-                                                </Link>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -118,6 +106,30 @@ const Transactions = () => {
                                                 <div className="flex items-center gap-x-2">
                                                     <span
                                                         className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
+                                                        name
+                                                    </span>
+                                                </div>
+                                            </th>
+                                            <th scope="col" className="px-6 py-3 text-left">
+                                                <div className="flex items-center gap-x-2">
+                                                    <span
+                                                        className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
+                                                      emailAddress
+                                                    </span>
+                                                </div>
+                                            </th>
+                                            <th scope="col" className="px-6 py-3 text-left">
+                                                <div className="flex items-center gap-x-2">
+                                                    <span
+                                                        className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
+                                                        Phone Number
+                                                    </span>
+                                                </div>
+                                            </th>
+                                            <th scope="col" className="px-6 py-3 text-left">
+                                                <div className="flex items-center gap-x-2">
+                                                    <span
+                                                        className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
                                                         Type
                                                     </span>
                                                 </div>
@@ -126,23 +138,16 @@ const Transactions = () => {
                                                 <div className="flex items-center gap-x-2">
                                                     <span
                                                         className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                                                      Counter Party
+                                                        Address
                                                     </span>
                                                 </div>
                                             </th>
+
                                             <th scope="col" className="px-6 py-3 text-left">
                                                 <div className="flex items-center gap-x-2">
                                                     <span
                                                         className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                                                        Total Amount
-                                                    </span>
-                                                </div>
-                                            </th>
-                                            <th scope="col" className="px-6 py-3 text-left">
-                                                <div className="flex items-center gap-x-2">
-                                                    <span
-                                                        className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                                                        Date
+                                                        Supply Types
                                                     </span>
                                                 </div>
                                             </th>
@@ -158,72 +163,97 @@ const Transactions = () => {
                                         </tr>
                                         </thead>
                                         <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                                        {transactions.map((transaction, index) => (
-                                            <tr key={index}
+                                        {counterParties.map((counterParty, index) => (
+                                            <tr onClick={() => handleRowClick(counterParty.id ? counterParty.id : 0)}
+                                                key={index}
                                                 className='hover:bg-gray-100 cursor-pointer'>
-                                                <td  className="h-px w-px whitespace-nowrap">
+                                                <td className="h-px w-px whitespace-nowrap">
                                                     <div className="pl-6 py-3">
-                                                        <label htmlFor={"checkbox-" + transaction.id}
+                                                        <label htmlFor={"checkbox-" + counterParty.id}
                                                                className="flex"
                                                         >
-                                                            <input id={"checkbox-" + transaction.id}
+                                                            <input id={"checkbox-" + counterParty.id}
                                                                    type="checkbox"
                                                                    className="shrink-0 border-gray-200 rounded text-blue-600 pointer-events-none focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"/>
                                                             <span className="sr-only">Checkbox</span>
                                                         </label>
                                                     </div>
                                                 </td>
-                                                <td onClick={() => handleRowClick(transaction.id ? transaction.id : '')} className="h-px w-px whitespace-nowrap">
+                                                <td className="h-px w-px whitespace-nowrap">
                                                     <div className="px-6 py-3">
                                                         <span className="text-sm text-gray-600 dark:text-gray-400">
-                                                            {transaction.id}
+                                                            {counterParty.id}
                                                         </span>
                                                     </div>
                                                 </td>
-                                                <td onClick={() => handleRowClick(transaction.id ? transaction.id : '')} className="h-px w-px whitespace-nowrap">
+                                                <td className="h-px w-px whitespace-nowrap">
                                                     <div className="px-6 py-3">
                                                         <div className="flex items-center gap-x-2">
                                                             <div className="grow">
                                                                 <span
                                                                     className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {transaction.type}
+                                                                    {counterParty.name}
                                                                 </span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td onClick={() => handleRowClick(transaction.id ? transaction.id : '')} className="h-px w-px whitespace-nowrap">
+                                                <td className="h-px w-px whitespace-nowrap">
                                                     <div className="px-6 py-3">
                                                         <div className="flex items-center gap-x-2">
                                                             <div className="grow">
                                                                 <span
                                                                     className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {transaction?.counterParty?.name}
+                                                                    {counterParty.emailAddress}
                                                                 </span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td onClick={() => handleRowClick(transaction.id ? transaction.id : '')} className="h-px w-px whitespace-nowrap">
+                                                <td className="h-px w-px whitespace-nowrap">
                                                     <div className="px-6 py-3">
                                                         <div className="flex items-center gap-x-2">
                                                             <div className="grow">
                                                                 <span
                                                                     className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {calculateTotal(transaction) + ' MAD'}
+                                                                    {counterParty.phoneNumber}                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td className="h-px w-px whitespace-nowrap">
+                                                    <div className="px-6 py-3">
+                                                        <div className="flex items-center gap-x-2">
+                                                            <div className="grow">
+                                                                <span
+                                                                    className="text-sm text-gray-600 dark:text-gray-400">
+                                                                    {counterParty.type}
                                                                 </span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td onClick={() => handleRowClick(transaction.id ? transaction.id : '')} className="h-px w-px whitespace-nowrap">
+                                                <td className="h-px w-px whitespace-nowrap">
                                                     <div className="px-6 py-3">
                                                         <div className="flex items-center gap-x-2">
                                                             <div className="grow">
                                                                 <span
                                                                     className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {transaction?.timeStamp?.toLocaleTimeString()}
+                                                                    {counterParty.address}
                                                                 </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td className="h-px w-px whitespace-nowrap">
+                                                    <div className="px-6 py-3">
+                                                        <div className="flex items-center gap-x-2">
+                                                            <div className="grow">
+                                                                {counterParty.suppliesType?.map(type => {
+                                                                    return <span
+                                                                        className="inline-flex items-center rounded-md border-2 border-muted-1 bg-stone-200	 px-2 py-1 text-sm font-bold text-heading shadow-sm mr-1">
+                                                                        {type}</span>;
+                                                                })}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -265,7 +295,7 @@ const Transactions = () => {
                                                                     </a>
                                                                 </div>
                                                                 <div className="py-2 first:pt-0 last:pb-0">
-                                                                    <a onClick={() => (transaction.id && deleteTransactions(transaction.id))}
+                                                                    <a onClick={() => (counterParty.id && deleteCounterParties(counterParty.id))}
                                                                        className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-red-600 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-red-500 dark:hover:bg-gray-700">
                                                                         Delete
                                                                     </a>
@@ -283,7 +313,7 @@ const Transactions = () => {
                                         <div>
                                             <p className="text-sm text-gray-600 dark:text-gray-400">
                                             <span className="font-semibold text-gray-800 dark:text-gray-200">
-                                                {transactions.length}
+                                                {counterParties.length}
                                             </span>{" "}
                                                 results
                                             </p>
@@ -328,4 +358,4 @@ const Transactions = () => {
     );
 }
 
-export default Transactions;
+export default CounterParties;

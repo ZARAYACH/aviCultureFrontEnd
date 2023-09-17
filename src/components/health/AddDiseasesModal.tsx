@@ -1,12 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {useNavigate} from "react-router-dom";
 import Disease from "./Disease";
-import Building from "../Breeding/buildings/Building";
 import {useAxios} from "../../configuration/AxiosConfiguration";
-import {log} from "console";
 import Medicine from "./Medicine";
-import {MultiSelect, Option} from "react-multi-select-component";
-import diseases from "./Diseases";
 
 
 interface AddDiseaseProps {

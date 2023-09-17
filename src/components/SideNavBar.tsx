@@ -134,7 +134,7 @@ const SideNavBar = () => {
                                 <a href="" className="nav-link active">
                                     <i className="nav-icon fas fa-tachometer-alt"/>
                                     <p>
-                                    Transportation Management
+                                        Transportation Management
                                         <i className="right fas fa-angle-left"/>
                                     </p>
                                 </a>
@@ -166,6 +166,12 @@ const SideNavBar = () => {
                                 <Link to="transactions" className="nav-link">
                                     <i className="nav-icon fas fa-dollar-sign"></i>
                                     <p>Transactions</p>
+                                </Link>
+                            </li>
+                            <li className="nav-item menu-open">
+                                <Link to="counter-parties" className="nav-link">
+                                    <i className="nav-icon fas fa-cash-register"></i>
+                                    <p>Counter Parties</p>
                                 </Link>
                             </li>
                         </ul>

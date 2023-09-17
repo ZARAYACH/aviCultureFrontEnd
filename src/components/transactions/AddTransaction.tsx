@@ -32,7 +32,7 @@ function AddTransaction() {
                     setNewTransaction(response.data)
                     setTransactionProductDetails((response.data as Transaction).transactionProductsDetails)
                 }).catch((error) => {
-                return <NotFound />
+                navigate('notFound')
             });
         }
     },[transactionId])

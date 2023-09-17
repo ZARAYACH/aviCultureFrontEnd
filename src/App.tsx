@@ -3,8 +3,6 @@ import {Navigate, Route, Routes} from "react-router-dom";
 import {library} from "@fortawesome/fontawesome-svg-core";
 import {fas} from "@fortawesome/free-solid-svg-icons";
 import "./App.css";
-import Login from "./components/login/Login";
-import NavBar from "./components/navBar/NavBar";
 import Blocks from "./components/Breeding/Block/Blocks";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -19,6 +17,7 @@ import ProductStock from "./components/product/ProductStock";
 import Vehicles from "./components/vehicle/vehicles/Vehicles";
 import Transactions from "./components/transactions/Transactions";
 import AddTransaction from "./components/transactions/AddTransaction";
+import CounterParties from "./components/transactions/CounterParties";
 
 library.add(fas);
 
@@ -43,10 +42,13 @@ export default function App() {
                 <Route path='products/*' element={<ProductStock/>}></Route>
                 <Route path='vehicles' element={<Vehicles/>}/>
                 <Route path='transactions/*'>
-                    <Route path='add' element={<AddTransaction />}></Route>
-                    <Route path=':transactionId' element={<AddTransaction />}></Route>
-                    <Route path='*' element={<Transactions />} />
+                    <Route path='add' element={<AddTransaction/>}></Route>
+                    <Route path=':transactionId' element={<AddTransaction/>}></Route>
+                    <Route path='*' element={<Transactions/>}/>
                 </Route>
+                <Route path='counter-parties' element={<CounterParties />} />
+
+
                 <Route path="*" element={<NotFound/>}/>
             </Routes>
             <Footer/>
