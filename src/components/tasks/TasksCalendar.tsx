@@ -27,9 +27,9 @@ const TasksCalendar = () => {
             .then(response => response.data as MedicationTask[])
             .then(medicationTasks => medicationTasks.map(medicationTask => {
                 return {
-                    title: "Medication Task Of block with id " + medicationTask.block.id + " from disease " + medicationTask.disease.name,
-                    start: new Date(medicationTask.date),
-                    end: new Date(new Date(medicationTask.date).setTime(new Date(medicationTask.date).getTime() + (60 * 60 * 1000))),
+                    title: "Medication Task Of block with id " + medicationTask?.block?.id + " from disease " + medicationTask?.disease?.name,
+                    start: medicationTask?.date ? new Date(medicationTask.date) : new Date(),
+                    end: medicationTask?.date ? new Date(new Date(medicationTask.date).setTime(new Date(medicationTask.date).getTime() + (60 * 60 * 1000))) : new Date(),
                     allDay: false
                 } as CalendarEvent
             })).then(value => setEvents(prevState => [...prevState, ...value]))
@@ -39,9 +39,9 @@ const TasksCalendar = () => {
             .then(response => response.data as BulbsReplacementTask[])
             .then(bulbsReplacementTasks => bulbsReplacementTasks.map(bulbsReplacementTask => {
                 return {
-                    title: "Bulbs Replacements Task for building with name " + bulbsReplacementTask.building.name ,
-                    start: new Date(bulbsReplacementTask.date),
-                    end: new Date(new Date(bulbsReplacementTask.date).setTime(new Date(bulbsReplacementTask.date).getTime() + (60 * 60 * 1000))),
+                    title: "Bulbs Replacements Task for building with name " + bulbsReplacementTask?.building?.name,
+                    start: bulbsReplacementTask?.date ? new Date(bulbsReplacementTask?.date) : new Date(),
+                    end: bulbsReplacementTask?.date ? new Date(new Date(bulbsReplacementTask?.date).setTime(new Date(bulbsReplacementTask?.date).getTime() + (60 * 60 * 1000))) : new Date(),
                     allDay: false
                 } as CalendarEvent
             })).then(value => setEvents(prevState => [...prevState, ...value]))
@@ -51,9 +51,9 @@ const TasksCalendar = () => {
             .then(response => response.data as VaccinationTask[])
             .then(vaccinationTasks => vaccinationTasks.map(vaccinationTask => {
                 return {
-                    title: "Vaccination Task Of block with id " + vaccinationTask.block.id + " from disease " + vaccinationTask.disease.name,
-                    start: new Date(vaccinationTask.date),
-                    end: new Date(new Date(vaccinationTask.date).setTime(new Date(vaccinationTask.date).getTime() + (60 * 60 * 1000))),
+                    title: "Vaccination Task Of block with id " + vaccinationTask?.block?.id + " from disease " + vaccinationTask?.disease?.name,
+                    start: vaccinationTask?.date ? new Date(vaccinationTask.date) : new Date(),
+                    end: vaccinationTask.date ? new Date(new Date(vaccinationTask.date).setTime(new Date(vaccinationTask.date).getTime() + (60 * 60 * 1000))) : new Date(),
                     allDay: false
                 } as CalendarEvent
             })).then(value => setEvents(prevState => [...prevState, ...value]))
@@ -71,7 +71,7 @@ const TasksCalendar = () => {
                           events={events}
                           endAccessor="end"
                           onSelectSlot={(slotInfo) => {
-                            navigate('add', {state : slotInfo})
+                              navigate('add', {state: slotInfo})
                           }}
                           style={{height: 500}}/>
             </div>

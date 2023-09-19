@@ -88,7 +88,7 @@ const SideNavBar = () => {
                                     <p>Dashboard</p>
                                 </Link>
                             </li>
-                            <li className="nav-item menu-open">
+                            <li className="nav-item ">
                                 <a href="" className="nav-link ">
                                     <i className="nav-icon fas fa-egg"/>
                                     <p>
@@ -142,7 +142,7 @@ const SideNavBar = () => {
                                     </li>
                                 </ul>
                             </li>
-                            <li className="nav-item menu-open">
+                            <li className="nav-item ">
                                 <a href="" className="nav-link ">
                                     <i className="nav-icon fas fa-car-side"/>
                                     <p>
@@ -162,33 +162,33 @@ const SideNavBar = () => {
                                 </ul>
                             </li>
                             <li className="nav-header">PRODUCTS & TRANSACTIONS</li>
-                            <li className="nav-item menu-open">
+                            <li className="nav-item">
                                 <Link to="products" className="nav-link">
                                     <i className="nav-icon fas fa-warehouse"/>
                                     <p>Products Stock</p>
                                 </Link>
                             </li>
-                            <li className="nav-item menu-open">
+                            <li className="nav-item">
                                 <Link to="transactions" className="nav-link">
                                     <i className="nav-icon fas fa-dollar-sign"></i>
                                     <p>Transactions</p>
                                 </Link>
                             </li>
-                            <li className="nav-item menu-open">
+                            <li className="nav-item">
                                 <Link to="counter-parties" className="nav-link">
                                     <i className="nav-icon fas fa-cash-register"></i>
                                     <p>Counter Parties</p>
                                 </Link>
                             </li>
                             <li className="nav-header">PERSONNEL MANAGEMENT</li>
-                            <li className="nav-item menu-open">
+                            <li className="nav-item ">
                                 <Link to="personnels" className="nav-link">
                                     <i className="nav-icon fas fa-users"></i>
                                     <p>Personnel's</p>
                                 </Link>
                             </li>
                             <li className="nav-header">TASKS & CALENDARS</li>
-                            <li className="nav-item menu-open">
+                            <li className="nav-item ">
                                 <Link to="tasks" className="nav-link">
                                     <i className="nav-icon fas fa-calendar-alt"></i>
                                     <p>Calandar</p>

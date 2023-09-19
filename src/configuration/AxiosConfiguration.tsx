@@ -35,7 +35,7 @@ export const useAxios = () => {
                 originalRequest.retried = true;
                 return instance(originalRequest);
             }
-            navigate("/login");
+            // navigate("/login");
             return error;
         }
     );
