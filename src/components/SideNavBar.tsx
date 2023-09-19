@@ -88,36 +88,39 @@ const SideNavBar = () => {
                                     <p>Dashboard</p>
                                 </Link>
                             </li>
-                            <li className="nav-item ">
-                                <a href="" className="nav-link ">
-                                    <i className="nav-icon fas fa-egg"/>
-                                    <p>
-                                        Breeding
-                                        <i className="right fas fa-angle-left"/>
-                                    </p>
-                                </a>
-                                <ul className="nav nav-treeview ml-2">
-                                    <li className="nav-item">
-                                        <Link className="nav-link " to="centers">
-                                            <i className="far fa-circle nav-icon"/>
-                                            <p>Centers</p>
-                                        </Link>
+                            {auth.payload?.roles.includes("ROLE_OPERATOR") || auth.payload?.roles.includes("ROLE_MANAGER") ?
+                                <li className="nav-item ">
+                                    <a href="" className="nav-link ">
+                                        <i className="nav-icon fas fa-egg"/>
+                                        <p>
+                                            Breeding
+                                            <i className="right fas fa-angle-left"/>
+                                        </p>
+                                    </a>
+                                    <ul className="nav nav-treeview ml-2">
+                                        <li className="nav-item">
+                                            <Link className="nav-link " to="centers">
+                                                <i className="far fa-circle nav-icon"/>
+                                                <p>Centers</p>
+                                            </Link>
 
-                                    </li>
-                                    <li className="nav-item">
-                                        <Link to={"buildings"} className="nav-link">
-                                            <i className="fas fa-building nav-icon"/>
-                                            <p>Buildings</p>
-                                        </Link>
-                                    </li>
-                                    <li className="nav-item">
-                                        <Link to={"blocks"} className="nav-link">
-                                            <i className="fas fa-circle nav-icon"/>
-                                            <p>Blocks</p>
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </li>
+                                        </li>
+                                        <li className="nav-item">
+                                            <Link to={"buildings"} className="nav-link">
+                                                <i className="fas fa-building nav-icon"/>
+                                                <p>Buildings</p>
+                                            </Link>
+                                        </li>
+                                        <li className="nav-item">
+                                            <Link to={"blocks"} className="nav-link">
+                                                <i className="fas fa-circle nav-icon"/>
+                                                <p>Blocks</p>
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                </li> : ''
+                            }
+
                             <li className="nav-item">
                                 <a href="#" className="nav-link">
                                     <i className="nav-icon fas fa-clinic-medical"/>

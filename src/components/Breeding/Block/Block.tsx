@@ -1,3 +1,5 @@
+import Building from "../buildings/Building";
+
 export default interface Block {
     id: number | undefined;
     dailyMortality: number | undefined;
@@ -7,5 +9,5 @@ export default interface Block {
     weightByTheEnd: number | undefined;
     foodNature: string | undefined;
     foodQuantity: number | undefined;
-    buildingId: number | undefined;
+    building: Building | undefined;
 }

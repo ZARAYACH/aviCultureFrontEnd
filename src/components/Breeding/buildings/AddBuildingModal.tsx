@@ -6,7 +6,7 @@ import Building from "./Building";
 
 interface AddBuildingModalProps {
     toggleModal: () => void,
-    setBuildings :  React.Dispatch<React.SetStateAction<Building[]>>
+    setBuildings: React.Dispatch<React.SetStateAction<Building[]>>
 }
 
 function AddBuildingModal({toggleModal, setBuildings}: AddBuildingModalProps) {
@@ -19,7 +19,7 @@ function AddBuildingModal({toggleModal, setBuildings}: AddBuildingModalProps) {
         nature: "BREEDING",
         state: "FREE",
         surface: undefined,
-        breedingCenterId: undefined,
+        breedingCenter: undefined,
         temperature: undefined,
         humidityRate: undefined
     });
@@ -38,11 +38,10 @@ function AddBuildingModal({toggleModal, setBuildings}: AddBuildingModalProps) {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const {name, value, type} = e.target;
-
         setNewBuilding((prevBlock) => ({
             ...prevBlock,
             [name]: type === 'number' ? (value !== '' ? parseFloat(value) : null) : value,
-            [name]: name === 'centerId' ? parseInt(value) : value,
+            [name]: name === 'breedingCenter' ? centers.find(center => center.id === parseInt(value)) : value,
         }));
     };
 
@@ -52,9 +51,11 @@ function AddBuildingModal({toggleModal, setBuildings}: AddBuildingModalProps) {
         axiosInstance
             .post(process.env.REACT_APP_API_PREFIX + '/breeding-buildings/add', building)
             .then((response) => {
-                setBuildings((prevCenters) => [...prevCenters, response.data as Building]);
-            }).then(value => toggleModal())
-            .catch((error) => {
+                if (response.data){
+                    setBuildings((prevCenters) => [...prevCenters, response.data as Building]);
+                    toggleModal()
+                }
+            }).catch((error) => {
                 console.error('Failed to add block', error);
             });
     };
@@ -73,7 +74,7 @@ function AddBuildingModal({toggleModal, setBuildings}: AddBuildingModalProps) {
                     </div>
 
                     <div className="modal-content py-4 text-left px-6 border-0 z-[1040]">
-                        <div className=" mx-auto ">
+                        <div className=" mx-auto w-full ">
                             <div className="text-center mb-3">
                                 <h1 className="text-3xl font-bold text-gray-800 sm:text-4xl dark:text-white">
                                     Add new Building
@@ -129,15 +130,15 @@ function AddBuildingModal({toggleModal, setBuildings}: AddBuildingModalProps) {
                                                        className="customInput py-2 px-3 block w-full border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"/>
                                             </div>
                                             <div>
-                                            <label
-                                                className="block text-sm text-gray-700 font-medium dark:text-white">Temperature</label>
-                                            <input placeholder="Enter building humidity rate"
-                                                   name="temperature"
-                                                   value={building.temperature ? building.humidityRate : ''}
-                                                   onChange={handleChange}
-                                                   type="number"
-                                                   className="customInput py-2 px-3 block w-full border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"/>
-                                        </div>
+                                                <label
+                                                    className="block text-sm text-gray-700 font-medium dark:text-white">Temperature</label>
+                                                <input placeholder="Enter building humidity rate"
+                                                       name="temperature"
+                                                       value={building.temperature ? building.humidityRate : ''}
+                                                       onChange={handleChange}
+                                                       type="number"
+                                                       className="customInput py-2 px-3 block w-full border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"/>
+                                            </div>
                                         </div>
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
                                             <div>
@@ -159,10 +160,11 @@ function AddBuildingModal({toggleModal, setBuildings}: AddBuildingModalProps) {
                                                     className="block text-sm text-gray-700 font-medium dark:text-white"> Breeding
                                                     Center</label>
                                                 <select placeholder="Enter the food Nature"
-                                                        name="breedingCenterId"
-                                                        value={building.breedingCenterId}
+                                                        name="breedingCenter"
+                                                        value={building.breedingCenter?.id}
                                                         onChange={handleChange}
                                                         className="customInput py-2 px-3 block w-full border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400">
+                                                    <option value={undefined}></option>
                                                     {centers.map(value => (
                                                         <option value={value.id}>{value.name}</option>))}
                                                 </select>

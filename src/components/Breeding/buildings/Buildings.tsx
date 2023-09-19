@@ -169,16 +169,16 @@ const Buildings = () => {
                                         </tr>
                                         </thead>
                                         <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                                        {buildings.map((building) => (
+                                        {buildings.map((building, index) => (
                                             <tr key={building.id}>
                                                 <td className="h-px w-px whitespace-nowrap">
                                                     <div className="pl-6 py-3">
-                                                        <label htmlFor={"checkbox-" + building.id}
+                                                        <label htmlFor={"checkbox-" + index}
                                                             className="flex">
                                                             <input
                                                                 type="checkbox"
                                                                 className="shrink-0 border-gray-200 rounded text-blue-600 pointer-events-none focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-                                                                id={"checkbox-" + building.id}
+                                                                id={"checkbox-" + index}
                                                             />
                                                             <span className="sr-only">Checkbox</span>
                                                         </label>
@@ -187,7 +187,7 @@ const Buildings = () => {
                                                 <td className="h-px w-px whitespace-nowrap">
                                                     <div className="px-6 py-3">
                                                         <span className="text-sm text-gray-600 dark:text-gray-400">
-                                                            {building.id}
+                                                            {building?.id}
                                                         </span>
                                                     </div>
                                                 </td>
@@ -197,7 +197,7 @@ const Buildings = () => {
                                                             <div className="grow">
                                                                 <span
                                                                     className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {building.name}
+                                                                    {building?.name}
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -209,7 +209,7 @@ const Buildings = () => {
                                                             <div className="grow">
                                                                 <span
                                                                     className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {building.nature}
+                                                                    {building?.nature}
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -221,7 +221,7 @@ const Buildings = () => {
                                                             <div className="grow">
                                                                 <span
                                                                     className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {building.humidityRate}
+                                                                    {building?.humidityRate}
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -233,7 +233,7 @@ const Buildings = () => {
                                                             <div className="grow">
                                                                 <span
                                                                     className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {building.surface}
+                                                                    {building?.surface}
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -245,7 +245,7 @@ const Buildings = () => {
                                                             <div className="grow">
                                                                 <span
                                                                     className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {building.temperature}
+                                                                    {building?.temperature}
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -257,7 +257,7 @@ const Buildings = () => {
                                                             <div className="grow">
                                                                 <span
                                                                     className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {building.state}
+                                                                    {building?.state}
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -269,7 +269,7 @@ const Buildings = () => {
                                                             <div className="grow">
                                                                 <span
                                                                     className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {building.breedingCenterId}
+                                                                    {building?.breedingCenter?.name}
                                                                 </span>
                                                             </div>
                                                         </div>

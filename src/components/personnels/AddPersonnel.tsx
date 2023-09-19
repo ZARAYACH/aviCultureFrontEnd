@@ -70,8 +70,10 @@ const AddPersonnel = ({toggleModal, setPersonnels}: AddPersonnelProps) => {
         axiosInstance
             .post(process.env.REACT_APP_API_PREFIX + '/users/add', user)
             .then((response) => {
-                setPersonnels(prevState => [...prevState, response.data as User])
-                toggleModal()
+                if (response.data){
+                    setPersonnels(prevState => [...prevState, response.data as User])
+                    toggleModal()
+                }
             }).catch((error) => {
             console.error('Failed to add user', error);
         });
@@ -217,6 +219,7 @@ const AddPersonnel = ({toggleModal, setPersonnels}: AddPersonnelProps) => {
                                         <label
                                             className="block text-sm text-gray-700 font-medium dark:text-white">Salary</label>
                                         <input name="salary"
+                                               type="number"
                                                placeholder="Entre salary"
                                                onChange={handleChange}
                                                className="customInput py-2 px-3 pr-9 block w-full border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"/>

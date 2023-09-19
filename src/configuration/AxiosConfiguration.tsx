@@ -30,6 +30,11 @@ export const useAxios = () => {
             if (error.response?.status === 401) {
                 await refreshAccessToken(setAccessToken, instance);
             }
+            if (error.response?.status === 403) {
+                navigate("/forbidden");
+            }
+
+
 
             if (!originalRequest.retried) {
                 originalRequest.retried = true;

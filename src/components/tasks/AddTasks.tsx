@@ -58,41 +58,6 @@ function AddTasks() {
     }, []);
 
     const {axiosInstance} = useAxios();
-    const navigate = useNavigate();
-    const [building, setNewBuilding] = useState<Building>({
-        id: undefined,
-        name: undefined,
-        nature: "BREEDING",
-        state: "FREE",
-        surface: undefined,
-        breedingCenterId: undefined,
-        temperature: undefined,
-        humidityRate: undefined
-    });
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-        const {name, value, type} = e.target;
-
-        setNewBuilding((prevBlock) => ({
-            ...prevBlock,
-            [name]: type === 'number' ? (value !== '' ? parseFloat(value) : null) : value,
-            [name]: name === 'centerId' ? parseInt(value) : value,
-        }));
-    };
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-
-        axiosInstance
-            .post(process.env.REACT_APP_API_PREFIX + '/breeding-buildings/add', building)
-            .then((response) => {
-                setBuildings((prevCenters) => [...prevCenters, response.data as Building]);
-            }).then()
-            .catch((error) => {
-                console.error('Failed to add block', error);
-            });
-    };
-    console.log(selectedType)
 
     return (
         <Fragment>

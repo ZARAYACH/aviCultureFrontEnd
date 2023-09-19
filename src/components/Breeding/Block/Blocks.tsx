@@ -178,13 +178,13 @@ function Blocks() {
                                         </tr>
                                         </thead>
                                         <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                                        {blocks.map((block) => (
+                                        {blocks.map((block, index) => (
                                             <tr key={block.id}>
                                                 <td className="h-px w-px whitespace-nowrap">
                                                     <div className="pl-6 py-3">
-                                                        <label htmlFor={"checkbox-" + block.id}
+                                                        <label htmlFor={"checkbox-" + index}
                                                                className="flex">
-                                                            <input id={"checkbox-" + block.id}
+                                                            <input id={"checkbox-" + index}
                                                                    type="checkbox"
                                                                    className="shrink-0 border-gray-200 rounded text-blue-600 pointer-events-none focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"/>
                                                             <span className="sr-only">Checkbox</span>
@@ -194,7 +194,7 @@ function Blocks() {
                                                 <td className="h-px w-px whitespace-nowrap">
                                                     <div className="px-6 py-3">
                                                         <span className="text-sm text-gray-600 dark:text-gray-400">
-                                                            {block.id}
+                                                            {block?.id}
                                                         </span>
                                                     </div>
                                                 </td>
@@ -204,7 +204,7 @@ function Blocks() {
                                                             <div class-Name="grow">
                                                                 <span
                                                                     className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {block.dailyMortality}
+                                                                    {block?.dailyMortality}
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -216,7 +216,7 @@ function Blocks() {
                                                             <div className="grow">
                                                                 <span
                                                                     className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {block.dailyGasCylinder}
+                                                                    {block?.dailyGasCylinder}
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -228,7 +228,7 @@ function Blocks() {
                                                             <div className="grow">
                                                                 <span
                                                                     className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {block.weightFirstWeek}
+                                                                    {block?.weightFirstWeek}
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -240,7 +240,7 @@ function Blocks() {
                                                             <div className="grow">
                                                                 <span
                                                                     className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {block.weightEveryFeeding}
+                                                                    {block?.weightEveryFeeding}
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -252,7 +252,7 @@ function Blocks() {
                                                             <div className="grow">
                                                                 <span
                                                                     className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {block.weightByTheEnd}
+                                                                    {block?.weightByTheEnd}
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -264,7 +264,7 @@ function Blocks() {
                                                             <div className="grow">
                                                                 <span
                                                                     className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {block.foodNature}
+                                                                    {block?.foodNature}
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -276,7 +276,7 @@ function Blocks() {
                                                             <div className="grow">
                                                                 <span
                                                                     className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {block.foodQuantity}
+                                                                    {block?.foodQuantity}
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -322,7 +322,7 @@ function Blocks() {
                                                                     </a>
                                                                 </div>
                                                                 <div className="py-2 first:pt-0 last:pb-0">
-                                                                    <a onClick={() => (block.id && deleteBlock(block.id))}
+                                                                    <a onClick={() => (block?.id && deleteBlock(block.id))}
                                                                        className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-red-600 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-red-500 dark:hover:bg-gray-700"
                                                                     >
                                                                         Delete

@@ -122,13 +122,13 @@ const Centers = () => {
                                         </thead>
                                         <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                                         {centers.map(( center) => (
-                                            <tr key={center.id}>
+                                            <tr key={center?.id}>
                                                 <td className="h-px w-px whitespace-nowrap">
                                                     <div className="pl-6 py-3">
-                                                        <label htmlFor={"checkbox-"+ center.id}
+                                                        <label htmlFor={"checkbox-"+ center?.id}
                                                             className="flex">
                                                             <input
-                                                                id={"checkbox-"+ center.id}
+                                                                id={"checkbox-"+ center?.id}
                                                                 type="checkbox"
                                                                 className="shrink-0 border-gray-200 rounded text-blue-600 pointer-events-none focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                                             />
@@ -139,7 +139,7 @@ const Centers = () => {
                                                 <td className="h-px w-px whitespace-nowrap">
                                                     <div className="px-6 py-3">
                                                         <span className="text-sm text-gray-600 dark:text-gray-400">
-                                                            {center.id}
+                                                            {center?.id}
                                                         </span>
                                                     </div>
                                                 </td>
@@ -149,7 +149,7 @@ const Centers = () => {
                                                             <div className="grow">
                                                                 <span
                                                                     className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {center.name}
+                                                                    {center?.name}
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -161,7 +161,7 @@ const Centers = () => {
                                                             <div className="grow">
                                                                 <span
                                                                     className="text-sm text-gray-600 dark:text-gray-400">
-                                                                    {center.address}
+                                                                    {center?.address}
                                                                 </span>
                                                             </div>
                                                         </div>
