@@ -189,9 +189,9 @@ const SideNavBar = () => {
                             </li>
                             <li className="nav-header">TASKS & CALENDARS</li>
                             <li className="nav-item menu-open">
-                                <Link to="tasks/medication" className="nav-link">
-                                    <i className="nav-icon fas fa-users"></i>
-                                    <p>Medication</p>
+                                <Link to="tasks" className="nav-link">
+                                    <i className="nav-icon fas fa-calendar-alt"></i>
+                                    <p>Calandar</p>
                                 </Link>
                             </li>
                         </ul>
