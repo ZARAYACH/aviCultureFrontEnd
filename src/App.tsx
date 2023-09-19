@@ -20,6 +20,10 @@ import AddTransaction from "./components/transactions/AddTransaction";
 import CounterParties from "./components/transactions/CounterParties";
 import VehicleInterventions from "./components/vehicle/interventions/vehicleInterventions";
 import Personnels from "./components/personnels/Personnels";
+import MedicationTask from "./components/tasks/TasksCalendar";
+import "react-big-calendar/lib/css/react-big-calendar.css"
+import TasksCalendar from "./components/tasks/TasksCalendar";
+import AddTasks from "./components/tasks/AddTasks";
 
 library.add(fas);
 
@@ -52,7 +56,11 @@ export default function App() {
                     <Route path='*' element={<Transactions/>}/>
                 </Route>
                 <Route path='counter-parties' element={<CounterParties />} />
-                <Route path='personnels' element={<Personnels />} />
+                <Route path='tasks/*'>
+                    <Route path={""} element={<TasksCalendar />}></Route>
+                    <Route path={"add"} element={<AddTasks />}></Route>
+
+                </Route>
 
 
                 <Route path="*" element={<NotFound/>}/>

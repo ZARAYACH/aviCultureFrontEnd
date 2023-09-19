@@ -1,4 +1,4 @@
-export default interface Block {
+export default interface Building {
     id: number | undefined;
     name: string | undefined;
     nature : string | undefined;
