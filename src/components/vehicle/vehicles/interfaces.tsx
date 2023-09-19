@@ -8,10 +8,6 @@ export interface VehicleIntervention {
   mechanicName : string | undefined,
   vehicleId : number | undefined
 }
-export interface User {
-  // Define properties of the User interface if not already defined elsewhere
-}
-
 export interface Document {
   // Define properties of the Document interface if not already defined elsewhere
 }

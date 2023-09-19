@@ -1,21 +1,27 @@
 export default interface User {
-    id: number,
-    cin: string,
-    firstName: string,
-    lastName: string,
-    email: string,
-    password: string,
-    gender: Gender,
-    roles: { id: number, role: string }[],
-    birthDate: Date,
-    isActive: boolean,
-    isLoggedIn: boolean,
-    phoneNumber: string,
-    imagePath: string,
-    salary: number,
-    functionName: string
+    id: number | undefined,
+    cin: string | undefined,
+    firstName: string | undefined,
+    lastName: string | undefined,
+    email: string | undefined,
+    password: string | undefined,
+    gender: Gender | undefined,
+    roles: Role[],
+    birthDate: Date | undefined,
+    isActive: boolean | undefined,
+    isLoggedIn?: boolean | undefined,
+    phoneNumber: string | undefined,
+    imagePath: string | undefined,
+    salary: number | undefined,
+    functionName: string | undefined,
+    isDriver: boolean | undefined
 }
 
 export enum Gender {
     MALE = 'MALE', FEMALE = 'FEMALE'
+}
+
+export interface Role {
+    id: number,
+    name: string
 }

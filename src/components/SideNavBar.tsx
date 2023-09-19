@@ -1,15 +1,16 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 
 import {Link, Route, Routes, useNavigate} from "react-router-dom";
 import logo from "../images/AviLogo.png";
 import {useAuth} from "../provider/AuthProvider";
 import {useAxios} from "../configuration/AxiosConfiguration";
+import User from "./personnels/User";
 
 const SideNavBar = () => {
     const navigate = useNavigate();
     const auth = useAuth();
     const {axiosInstance} = useAxios();
-
+    const [user, setUser] = useState<User | undefined>(undefined);
     const handleLogout = async () => {
         try {
             await axiosInstance
@@ -20,6 +21,17 @@ const SideNavBar = () => {
             console.error("Error during logout:", error);
         }
     };
+
+    useEffect(() => {
+        try {
+            axiosInstance
+                .get(process.env.REACT_APP_API_PREFIX + "/users/info")
+                .then((response) => setUser(response.data as User))
+        } catch (error) {
+            console.error("Error during logout:", error);
+        }
+    }, [])
+
     return (
         <div>
             <aside className="main-sidebar sidebar-dark-primary elevation-4">
@@ -47,10 +59,10 @@ const SideNavBar = () => {
                                         <a href="/" className="flex justify-start nav-link">
                                             <img
                                                 src="dist/img/user2-160x160.jpg"
-                                                className="nav-icon img-circle m-0"
+                                                className="nav-icon img-circle mr-2"
                                                 alt="User Image"
                                             />
-                                            Alexander Pierce
+                                            {user?.firstName ? user?.firstName + ' ' + (user?.lastName ? user?.lastName : '') : user?.email}
                                             <i className="right fas fa-angle-left"/>
                                         </a>
                                         <ul className="nav nav-treeview">

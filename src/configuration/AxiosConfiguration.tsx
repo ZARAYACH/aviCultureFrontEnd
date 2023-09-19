@@ -2,6 +2,7 @@ import axios, {AxiosError, AxiosRequestConfig, AxiosResponse} from "axios";
 import {refreshAccessToken, useAuth} from "../provider/AuthProvider";
 import {useEffect, useState} from "react";
 import {log} from "console";
+import {useNavigate} from "react-router-dom";
 
 const apiUrl = process.env.REACT_APP_API_URL as string;
 
@@ -11,6 +12,7 @@ interface CustomAxiosResponse extends AxiosRequestConfig {
 
 export const useAxios = () => {
     const {setAccessToken} = useAuth();
+    const navigate = useNavigate();
 
     const instance = axios.create({
         baseURL: apiUrl,
@@ -33,8 +35,10 @@ export const useAxios = () => {
                 originalRequest.retried = true;
                 return instance(originalRequest);
             }
-            return Promise.reject(error);
+            navigate("/login");
+            return error;
         }
     );
     return {axiosInstance: instance};
 };
+

@@ -26,6 +26,7 @@ function AddVehicleInterventionModal({toggleModal, setVehicleInterventions, vehi
     useEffect(() => {
         setNewVehicleIntervention(prevState => ({
             ...prevState,
+
         }))
     }, [selectedTypes])
 
