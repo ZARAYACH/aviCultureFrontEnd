@@ -1,13 +1,16 @@
 import React, {Fragment, useEffect, useState} from "react";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 import {useAxios} from "../../../configuration/AxiosConfiguration";
 import Center from "./center";
 import AddCenterModal from "./AddCenterModal";
+import {RoleValues} from "../../personnels/User";
+import {useAuth} from "../../../provider/AuthProvider";
 
 const Centers = () => {
     const [centers, setCenters] = useState<Center[]>([]); // Provide the type annotation
     const {axiosInstance} = useAxios();
     const [isAddCenterModalOpen, setIsAddCenterModalOpen] = useState(false);
+    const auth = useAuth();
     const toggleAddBuildingModal = () => {
         setIsAddCenterModalOpen(!isAddCenterModalOpen);
     };
@@ -26,7 +29,7 @@ const Centers = () => {
         axiosInstance
             .delete(process.env.REACT_APP_API_PREFIX + "/breeding-centers/" + blockId + "/delete")
             .then((response) => {
-                setCenters(centers.filter( (center, index) => center.id != blockId ))
+                setCenters(centers.filter((center, index) => center.id != blockId))
             })
             .catch((error) => {
                 console.error("Error fetching data :", error);
@@ -58,26 +61,27 @@ const Centers = () => {
                                                    href="#">
                                                     View all
                                                 </a>
-                                                <button onClick={toggleAddBuildingModal}
-                                                    className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
-                                                >
-                                                    <svg
-                                                        className="w-3 h-3"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        width={16}
-                                                        height={16}
-                                                        viewBox="0 0 16 16"
-                                                        fill="none"
+                                                {auth.payload?.roles.includes(RoleValues.ROLE_MANAGER) ?
+                                                    <button onClick={toggleAddBuildingModal}
+                                                            className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                                                     >
-                                                        <path
-                                                            d="M2.63452 7.50001L13.6345 7.5M8.13452 13V2"
-                                                            stroke="currentColor"
-                                                            strokeWidth={2}
-                                                            strokeLinecap="round"
-                                                        />
-                                                    </svg>
-                                                    Create
-                                                </button>
+                                                        <svg
+                                                            className="w-3 h-3"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            width={16}
+                                                            height={16}
+                                                            viewBox="0 0 16 16"
+                                                            fill="none"
+                                                        >
+                                                            <path
+                                                                d="M2.63452 7.50001L13.6345 7.5M8.13452 13V2"
+                                                                stroke="currentColor"
+                                                                strokeWidth={2}
+                                                                strokeLinecap="round"
+                                                            />
+                                                        </svg>
+                                                        Create
+                                                    </button> : ''}
                                             </div>
                                         </div>
                                     </div>
@@ -86,10 +90,10 @@ const Centers = () => {
                                         <tr>
                                             <th scope="col" className="pl-6 py-3 text-left">
                                                 <label htmlFor="all"
-                                                    className="flex">
+                                                       className="flex">
                                                     <input type="checkbox"
-                                                        className="shrink-0 border-gray-200 rounded text-blue-600 pointer-events-none focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-                                                        id="all"/>
+                                                           className="shrink-0 border-gray-200 rounded text-blue-600 pointer-events-none focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                                           id="all"/>
                                                     <span className="sr-only">Checkbox</span>
                                                 </label>
                                             </th>
@@ -121,14 +125,14 @@ const Centers = () => {
                                         </tr>
                                         </thead>
                                         <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                                        {centers.map(( center) => (
+                                        {centers.map((center) => (
                                             <tr key={center?.id}>
                                                 <td className="h-px w-px whitespace-nowrap">
                                                     <div className="pl-6 py-3">
-                                                        <label htmlFor={"checkbox-"+ center?.id}
-                                                            className="flex">
+                                                        <label htmlFor={"checkbox-" + center?.id}
+                                                               className="flex">
                                                             <input
-                                                                id={"checkbox-"+ center?.id}
+                                                                id={"checkbox-" + center?.id}
                                                                 type="checkbox"
                                                                 className="shrink-0 border-gray-200 rounded text-blue-600 pointer-events-none focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
                                                             />
@@ -188,16 +192,17 @@ const Centers = () => {
                                                                         d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
                                                                 </svg>
                                                             </button>
-                                                            <div className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden mt-2 divide-y divide-gray-200 min-w-[10rem] z-10 bg-white shadow-2xl rounded-lg p-2 mt-2 dark:divide-gray-700 dark:bg-gray-800 dark:border dark:border-gray-700"
+                                                            <div
+                                                                className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden mt-2 divide-y divide-gray-200 min-w-[10rem] z-10 bg-white shadow-2xl rounded-lg p-2 mt-2 dark:divide-gray-700 dark:bg-gray-800 dark:border dark:border-gray-700"
                                                                 aria-labelledby="hs-table-dropdown-1">
                                                                 <div className="py-2 first:pt-0 last:pb-0">
                                                                     <a className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                                                                        href="">Edit</a>
+                                                                       href="">Edit</a>
                                                                     <a className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                                                                        href="">Disable</a>
+                                                                       href="">Disable</a>
                                                                 </div>
                                                                 <div className="py-2 first:pt-0 last:pb-0">
-                                                                    <a onClick={() =>(center.id && deleteCenter(center.id))}
+                                                                    <a onClick={() => (center.id && deleteCenter(center.id))}
                                                                        className="flex items-center gap-x-3 py-2 px-3 rounded-md text-sm text-red-600 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-red-500 dark:hover:bg-gray-700"
                                                                     >
                                                                         Delete

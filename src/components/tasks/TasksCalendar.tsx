@@ -24,7 +24,12 @@ const TasksCalendar = () => {
     useEffect(() => {
         axiosInstance
             .get(process.env.REACT_APP_API_PREFIX + "/medication-tasks")
-            .then(response => response.data as MedicationTask[])
+            .then(response => {
+                if (response.data){
+                    return  response.data as MedicationTask[]
+                }
+                return [];
+            })
             .then(medicationTasks => medicationTasks.map(medicationTask => {
                 return {
                     title: "Medication Task Of block with id " + medicationTask?.block?.id + " from disease " + medicationTask?.disease?.name,
@@ -36,19 +41,28 @@ const TasksCalendar = () => {
 
         axiosInstance
             .get(process.env.REACT_APP_API_PREFIX + "/bulbs-replacement-tasks")
-            .then(response => response.data as BulbsReplacementTask[])
-            .then(bulbsReplacementTasks => bulbsReplacementTasks.map(bulbsReplacementTask => {
-                return {
-                    title: "Bulbs Replacements Task for building with name " + bulbsReplacementTask?.building?.name,
-                    start: bulbsReplacementTask?.date ? new Date(bulbsReplacementTask?.date) : new Date(),
-                    end: bulbsReplacementTask?.date ? new Date(new Date(bulbsReplacementTask?.date).setTime(new Date(bulbsReplacementTask?.date).getTime() + (60 * 60 * 1000))) : new Date(),
-                    allDay: false
-                } as CalendarEvent
-            })).then(value => setEvents(prevState => [...prevState, ...value]))
+            .then(response => {
+                if (response.data) {
+                    return response.data as BulbsReplacementTask[];
+                }
+                return [];
+            }).then(bulbsReplacementTasks => bulbsReplacementTasks.map(bulbsReplacementTask => {
+            return {
+                title: "Bulbs Replacements Task for building with name " + bulbsReplacementTask?.building?.name,
+                start: bulbsReplacementTask?.date ? new Date(bulbsReplacementTask?.date) : new Date(),
+                end: bulbsReplacementTask?.date ? new Date(new Date(bulbsReplacementTask?.date).setTime(new Date(bulbsReplacementTask?.date).getTime() + (60 * 60 * 1000))) : new Date(),
+                allDay: false
+            } as CalendarEvent
+        })).then(value => setEvents(prevState => [...prevState, ...value]))
 
         axiosInstance
             .get(process.env.REACT_APP_API_PREFIX + "/vaccination-tasks")
-            .then(response => response.data as VaccinationTask[])
+            .then(response => {
+                if (response.data) {
+                    return response.data as VaccinationTask[];
+                }
+                return []
+            })
             .then(vaccinationTasks => vaccinationTasks.map(vaccinationTask => {
                 return {
                     title: "Vaccination Task Of block with id " + vaccinationTask?.block?.id + " from disease " + vaccinationTask?.disease?.name,

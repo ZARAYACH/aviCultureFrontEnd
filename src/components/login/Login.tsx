@@ -79,7 +79,6 @@ function Login() {
                                     className="text-blue-600 decoration-2 hover:underline font-medium"
                                     href="#"
                                 >
-                                    Sign up here
                                 </a>
                             </p>
                         </div>
@@ -142,7 +141,6 @@ function Login() {
                                                 className="text-sm text-blue-600 decoration-2 hover:underline font-medium"
                                                 href="#"
                                             >
-                                                Forgot password?
                                             </a>
                                         </div>
                                         <div className="relative">

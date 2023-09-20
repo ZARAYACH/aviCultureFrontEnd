@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from "react";
+import React, {Fragment, useEffect, useState} from "react";
 
 import {Link, Route, Routes, useNavigate} from "react-router-dom";
 import logo from "../images/AviLogo.png";
 import {useAuth} from "../provider/AuthProvider";
 import {useAxios} from "../configuration/AxiosConfiguration";
-import User from "./personnels/User";
+import User, {RoleValues} from "./personnels/User";
 
 const SideNavBar = () => {
     const navigate = useNavigate();
@@ -88,7 +88,7 @@ const SideNavBar = () => {
                                     <p>Dashboard</p>
                                 </Link>
                             </li>
-                            {auth.payload?.roles.includes("ROLE_OPERATOR") || auth.payload?.roles.includes("ROLE_MANAGER") ?
+                            {(auth.payload?.roles.includes("ROLE_OPERATOR") || auth.payload?.roles.includes("ROLE_MANAGER")) ?
                                 <li className="nav-item ">
                                     <a href="" className="nav-link ">
                                         <i className="nav-icon fas fa-egg"/>
@@ -111,40 +111,42 @@ const SideNavBar = () => {
                                                 <p>Buildings</p>
                                             </Link>
                                         </li>
-                                        <li className="nav-item">
-                                            <Link to={"blocks"} className="nav-link">
-                                                <i className="fas fa-circle nav-icon"/>
-                                                <p>Blocks</p>
-                                            </Link>
-                                        </li>
+                                        {auth.payload?.roles.includes(RoleValues.ROLE_MANAGER) ?
+                                            <li className="nav-item">
+                                                <Link to={"blocks"} className="nav-link">
+                                                    <i className="fas fa-circle nav-icon"/>
+                                                    <p>Blocks</p>
+                                                </Link>
+                                            </li> : ''}
+
                                     </ul>
                                 </li> : ''
                             }
-
-                            <li className="nav-item">
-                                <a href="#" className="nav-link">
-                                    <i className="nav-icon fas fa-clinic-medical"/>
-                                    <p>
-                                        Health
-                                        <i className="fas fa-angle-left right"/>
-                                    </p>
-                                </a>
-                                <ul className="nav nav-treeview ml-2">
-                                    <li className="nav-item">
-                                        <Link to="medicines" className="nav-link">
-                                            <i className="fas fa-briefcase-medical nav-icon"/>
-                                            <p>Medicines</p>
-                                        </Link>
-                                    </li>
-                                    <li className="nav-item">
-                                        <Link to="diseases"
-                                              className="nav-link">
-                                            <i className="fas fa-disease nav-icon"/>
-                                            <p>Diseases</p>
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </li>
+                            {(auth.payload?.roles.includes(RoleValues.ROLE_MANAGER) || auth.payload?.roles.includes(RoleValues.ROLE_ADMINISTRATOR)) &&
+                                <li className="nav-item">
+                                    <a href="#" className="nav-link">
+                                        <i className="nav-icon fas fa-clinic-medical"/>
+                                        <p>
+                                            Health
+                                            <i className="fas fa-angle-left right"/>
+                                        </p>
+                                    </a>
+                                    <ul className="nav nav-treeview ml-2">
+                                        <li className="nav-item">
+                                            <Link to="medicines" className="nav-link">
+                                                <i className="fas fa-briefcase-medical nav-icon"/>
+                                                <p>Medicines</p>
+                                            </Link>
+                                        </li>
+                                        <li className="nav-item">
+                                            <Link to="diseases"
+                                                  className="nav-link">
+                                                <i className="fas fa-disease nav-icon"/>
+                                                <p>Diseases</p>
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                </li>}
                             <li className="nav-item ">
                                 <a href="" className="nav-link ">
                                     <i className="nav-icon fas fa-car-side"/>
@@ -164,32 +166,40 @@ const SideNavBar = () => {
 
                                 </ul>
                             </li>
-                            <li className="nav-header">PRODUCTS & TRANSACTIONS</li>
-                            <li className="nav-item">
-                                <Link to="products" className="nav-link">
-                                    <i className="nav-icon fas fa-warehouse"/>
-                                    <p>Products Stock</p>
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link to="transactions" className="nav-link">
-                                    <i className="nav-icon fas fa-dollar-sign"></i>
-                                    <p>Transactions</p>
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link to="counter-parties" className="nav-link">
-                                    <i className="nav-icon fas fa-cash-register"></i>
-                                    <p>Counter Parties</p>
-                                </Link>
-                            </li>
-                            <li className="nav-header">PERSONNEL MANAGEMENT</li>
-                            <li className="nav-item ">
-                                <Link to="personnels" className="nav-link">
-                                    <i className="nav-icon fas fa-users"></i>
-                                    <p>Personnel's</p>
-                                </Link>
-                            </li>
+                            {(auth.payload?.roles.includes(RoleValues.ROLE_MANAGER) || auth.payload?.roles.includes(RoleValues.ROLE_ADMINISTRATOR)) &&
+                                <Fragment>
+                                    <li className="nav-header">PRODUCTS & TRANSACTIONS</li>
+                                    <li className="nav-item">
+                                        <Link to="products" className="nav-link">
+                                            <i className="nav-icon fas fa-warehouse"/>
+                                            <p>Products Stock</p>
+                                        </Link>
+                                    </li>
+                                    <li className="nav-item">
+                                        <Link to="transactions" className="nav-link">
+                                            <i className="nav-icon fas fa-dollar-sign"></i>
+                                            <p>Transactions</p>
+                                        </Link>
+                                    </li>
+                                    {(auth.payload?.roles.includes(RoleValues.ROLE_MANAGER) || auth.payload?.roles.includes(RoleValues.ROLE_DIRECTOR ))&&
+                                        <li className="nav-item">
+                                            <Link to="counter-parties" className="nav-link">
+                                                <i className="nav-icon fas fa-cash-register"></i>
+                                                <p>Counter Parties</p>
+                                            </Link>
+                                        </li>}
+                                </Fragment>
+                            }
+                            {(auth.payload?.roles.includes(RoleValues.ROLE_MANAGER) || auth.payload?.roles.includes(RoleValues.ROLE_ADMINISTRATOR))&&
+                                <Fragment>
+                                    <li className="nav-header">PERSONNEL MANAGEMENT</li>
+                                    <li className="nav-item ">
+                                        <Link to="personnels" className="nav-link">
+                                            <i className="nav-icon fas fa-users"></i>
+                                            <p>Personnel's</p>
+                                        </Link>
+                                    </li>
+                                </Fragment>}
                             <li className="nav-header">TASKS & CALENDARS</li>
                             <li className="nav-item ">
                                 <Link to="tasks" className="nav-link">

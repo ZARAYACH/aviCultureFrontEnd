@@ -25,3 +25,11 @@ export interface Role {
     id: number,
     name: string
 }
+
+export enum RoleValues {
+    ROLE_OPERATOR = 'ROLE_OPERATOR',
+    ROLE_MANAGER = 'ROLE_MANAGER',
+    ROLE_DIRECTOR = 'ROLE_DIRECTOR',
+    ROLE_ADMINISTRATOR = 'ROLE_ADMINISTRATOR'
+
+}
