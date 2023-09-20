@@ -21,7 +21,7 @@ function AddBlockModal({toggleModal, setBlocks}: AddBlockModalProps) {
         weightByTheEnd: undefined,
         foodNature: undefined,
         foodQuantity: undefined,
-        buildingId: undefined,
+        building: undefined,
     });
 
     // Fetch blocks data when the component mounts
@@ -42,7 +42,7 @@ function AddBlockModal({toggleModal, setBlocks}: AddBlockModalProps) {
         setNewBlock((prevBlock) => ({
             ...prevBlock,
             [name]: type === 'number' ? (value !== '' ? parseFloat(value) : null) : value,
-            [name]: name === 'buildingId' ? parseInt(value) : value, // Parse the value as an integer for 'buildingId'
+            [name]: name === 'building' ? buildings.find(bilding => bilding.id === parseInt(value)) : value, // Parse the value as an integer for 'buildingId'
 
         }));
     };
@@ -160,10 +160,11 @@ function AddBlockModal({toggleModal, setBlocks}: AddBlockModalProps) {
                                             <label
                                                 className="block text-sm text-gray-700 font-medium dark:text-white">Buildings</label>
                                             <select
-                                                name="buildingId"
-                                                value={block.buildingId !== null ? block.buildingId : ''}
+                                                name="building"
+                                                value={block.building ? block.building.id : ''}
                                                 onChange={handleChange}
                                                 className="customInput py-2 px-3 pr-9 block w-full border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400">
+                                                <option value={undefined}></option>
                                                 {buildings.map((building) => (
                                                     <option key={building.id}
                                                             value={building.id}>({building.id}) {building.name}</option>

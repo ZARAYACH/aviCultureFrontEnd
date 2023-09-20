@@ -66,8 +66,11 @@ function AddMedicineModal({toggleModal, setMedicines}: AddMedicineMedicineProps)
         axiosInstance
             .post(process.env.REACT_APP_API_PREFIX + '/products/medicines/add', medicine)
             .then((response) => {
-                setMedicines(prevState => [...prevState, response.data as Medicine])
-                toggleModal()
+                if (response.data){
+                    setMedicines(prevState => [...prevState, response.data as Medicine])
+                    toggleModal()
+
+                }
             }).catch((error) => {
             console.error('Failed to add Medicine', error);
         });

@@ -17,7 +17,9 @@ const Personnels = () => {
         axiosInstance
             .get(process.env.REACT_APP_API_PREFIX + "/users")
             .then((response) => {
-                setPersonnels(response.data);
+                if (response.data){
+                    setPersonnels(response.data);
+                }
             })
             .catch((error) => {
                 console.error("Error fetching Prersonnels data :", error);
@@ -219,7 +221,7 @@ const Personnels = () => {
                                         </tr>
                                         </thead>
                                         <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                                        {personnels.map((user) => (
+                                        {personnels?.map((user) => (
                                             <tr key={user.id} className='hover:bg-gray-100 cursor-pointer'>
                                                 <td className="h-px w-px whitespace-nowrap">
                                                     <div className="pl-6 py-3">

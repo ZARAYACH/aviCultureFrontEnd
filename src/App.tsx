@@ -61,7 +61,7 @@ export default function App() {
                     <Route path={"add"} element={<AddTasks />}></Route>
 
                 </Route>
-
+                <Route path={'personnels'} element={<Personnels />}></Route>
 
                 <Route path="*" element={<NotFound/>}/>
             </Routes>

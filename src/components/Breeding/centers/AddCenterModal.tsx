@@ -29,7 +29,7 @@ function AddCenterModal({toggleModal, setCenters}: AddCenterModalProps) {
         e.preventDefault();
 
         axiosInstance
-            .post(process.env.REACT_APP_API_PREFIX + '/breeding-Centers/add', center)
+            .post(process.env.REACT_APP_API_PREFIX + '/breeding-centers/add', center)
             .then((response) => {
                 setCenters((prevCenters) => [...prevCenters, response.data as Center]);
                 toggleModal();
@@ -53,7 +53,7 @@ function AddCenterModal({toggleModal, setCenters}: AddCenterModalProps) {
                     </div>
 
                     <div className="modal-content py-4 text-left px-6 border-0 z-[1040]">
-                        <div className=" mx-auto ">
+                        <div className=" w-full ">
                             <div className="text-center mb-3">
                                 <h1 className="text-3xl font-bold text-gray-800 sm:text-4xl dark:text-white">
                                     Add new Center
@@ -62,7 +62,7 @@ function AddCenterModal({toggleModal, setCenters}: AddCenterModalProps) {
                             <div className="mt-10  border-t-gray-600">
                                 <div className="w-full">
                                     <div className="grid gap-4 lg:gap-6">
-                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
+                                        <div className="grid grid-cols-1 sm:grid-cols-1 gap-4 lg:gap-6">
                                             <div>
                                                 <label
                                                     className="block text-sm text-gray-700 font-medium dark:text-white">Name</label>
@@ -73,18 +73,17 @@ function AddCenterModal({toggleModal, setCenters}: AddCenterModalProps) {
                                                        type="text"
                                                        className="customInput py-2 px-3 block w-full border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"/>
                                             </div>
+                                        </div>
+                                        <div className="grid grid-cols-1 sm:grid-cols-1 gap-4 lg:gap-6">
                                             <div>
                                                 <label
-                                                    className="block text-sm text-gray-700 font-medium dark:text-white">Center
-                                                    nature</label>
-                                                <select placeholder="Enter Center nature"
-                                                        name="nature"
-                                                        value={center.address ? center.address : ''}
-                                                        onChange={handleChange}
-                                                        className="customInput py-2 px-3 block w-full border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400">
-                                                    <option value="BREEDING">Breeding Center</option>
-                                                    <option value="STORAGE">Storage Center</option>
-                                                </select>
+                                                    className="block text-sm text-gray-700 font-medium dark:text-white">Name</label>
+                                                <input placeholder="Enter address "
+                                                       name="address"
+                                                       value={center.address ? center.address : ''}
+                                                       onChange={handleChange}
+                                                       type="text"
+                                                       className="customInput py-2 px-3 block w-full border-gray-200 rounded text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"/>
                                             </div>
                                         </div>
                                     </div>

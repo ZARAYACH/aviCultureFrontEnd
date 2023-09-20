@@ -46,8 +46,11 @@ function AddDiseaseModal({toggleModal, setDiseases}: AddDiseaseProps) {
         axiosInstance
             .post(process.env.REACT_APP_API_PREFIX + '/diseases/add', disease)
             .then((response) => {
-                setDiseases(prevState => [...prevState, response.data as Disease])
-                toggleModal()
+                if (response.data) {
+                    setDiseases(prevState => [...prevState, response.data as Disease])
+                    toggleModal()
+                }
+
             }).catch((error) => {
             console.error('Failed to add Disease', error);
         });
@@ -58,7 +61,8 @@ function AddDiseaseModal({toggleModal, setDiseases}: AddDiseaseProps) {
             <div className="fixed inset-0 flex items-start justify-center z-[1039] backdrop-blur-sm"
                  onClick={toggleModal}></div>
             <div>
-                <div className="modal-container relative bg-white w-11/12 md:max-w-2xl mx-auto rounded shadow-lg shadow-black overflow-y-auto mt-5 align-items-lg-start"></div>
+                <div
+                    className="modal-container relative bg-white w-11/12 md:max-w-2xl mx-auto rounded shadow-lg shadow-black overflow-y-auto mt-5 align-items-lg-start"></div>
                 <div className="modal-content py-4 text-left px-6 border-0 z-[1040]">
                     <div className=" mx-auto ">
                         <div className="text-center mb-3">

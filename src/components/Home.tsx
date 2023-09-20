@@ -139,31 +139,8 @@ function Home() {
                                         <div className="card-body">
                                             <div className="direct-chat-messages">
                                                 <div className="direct-chat-msg">
-                                                    <div className="direct-chat-infos clearfix">
-                                                    <span
-                                                        className="direct-chat-name float-left">Alexander Pierce</span>
-                                                        <span
-                                                            className="direct-chat-timestamp float-right">23 Jan 2:00 pm</span>
-                                                    </div>
-                                                    <img className="direct-chat-img" src="dist/img/user1-128x128.jpg"
-                                                         alt="message user image"/>
-                                                    <div className="direct-chat-text">
-                                                        Is this template really for free? That's unbelievable!
-                                                    </div>
                                                 </div>
-                                                <div className="direct-chat-msg right">
-                                                    <div className="direct-chat-infos clearfix">
-                                                        <span
-                                                            className="direct-chat-name float-right">Sarah Bullock</span>
-                                                        <span
-                                                            className="direct-chat-timestamp float-left">23 Jan 2:05 pm</span>
-                                                    </div>
-                                                    <img className="direct-chat-img" src="dist/img/user3-128x128.jpg"
-                                                         alt="message user image"/>
-                                                    <div className="direct-chat-text">
-                                                        You better believe it!
-                                                    </div>
-                                                </div>
+
                                                 <div className="direct-chat-msg">
                                                     <div className="direct-chat-infos clearfix">
                                                     <span
@@ -174,7 +151,7 @@ function Home() {
                                                     <img className="direct-chat-img" src="dist/img/user1-128x128.jpg"
                                                          alt="message user image"/>
                                                     <div className="direct-chat-text">
-                                                        Working with AdminLTE on a great new app! Wanna join?
+                                                        Working with aviculture on a great new app! Wanna join?
                                                     </div>
                                                 </div>
                                                 <div className="direct-chat-msg right">

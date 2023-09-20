@@ -11,6 +11,7 @@ import Login from "./components/login/Login";
 import AuthProvider from "./provider/AuthProvider";
 import Logout from "./components/Logout";
 import {ProtectedRoute} from "./components/ProtectedRoute";
+import Forbiden from "./components/Forbiden";
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
@@ -21,11 +22,12 @@ root.render(
         <AuthProvider>
             <Routes>
                 <Route path="/" element={<Navigate to="/login"/>}/>
-                <Route path="" element={<ProtectedRoute requiredRoles={["ROLE_OPERATOR"]}/>}>
+                <Route path="" element={<ProtectedRoute requiredRoles={[]}/>}>
                     <Route path="dashboard/*" element={<App/>}></Route>
                 </Route>
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/logout" element={<Logout/>}/>
+                <Route path="/forbidden" element={<Forbiden/>}/>
                 <Route path="*" element={<NotFound/>}/>
             </Routes>
         </AuthProvider>
